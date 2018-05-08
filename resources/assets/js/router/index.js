@@ -29,12 +29,20 @@ const routes = [
 	},
 	{
 		path: '/dashboard',
-		component: dashboard,
+		component: admin,
 		props: true,
 		meta: {
-			auth: true
+			//auth: true
 		},
 		children: [
+			{
+				path: '',
+				name: 'dashboard',
+				meta: {
+					title: 'Overzicht'
+				},
+				component: dashboard
+			}
 		]
 	}
 ];
@@ -43,9 +51,10 @@ const router = new Router({
 	mode: 'history',
 	routes: routes
 });
-
+/*
 router.beforeEach( ( to, from, next ) =>
 {
+
 	if( to && to.matched[0] && to.matched[0].meta.auth || to.meta.auth )
 	{
 		if( store.getters.userLoggedIn )
@@ -57,7 +66,6 @@ router.beforeEach( ( to, from, next ) =>
 	}
 
 	next();
-});
-
+});  */
 
 export default router;

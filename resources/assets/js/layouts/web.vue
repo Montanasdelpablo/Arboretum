@@ -75,6 +75,23 @@
 		{
 			return {
 				drawer: false,
+                items: [
+                    {
+                    	title: 'Home',
+                        icon: 'home',
+                        to: 'index'
+                    },
+                    {
+                    	title: 'Planten',
+                        icon: 'filter_vintage',
+                        to: 'plants'
+                    },
+                    {
+                    	title: 'Aanmelden',
+                        icon: 'person',
+                        to: 'login'
+                    }
+                ]
 			}
 		}
 	}

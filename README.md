@@ -1,21 +1,21 @@
-#Arboretum Eenrum API
+# Arboretum Eenrum API
 
-##Inhoud
+## Inhoud
 
 - [Frameworks](#frameworks)
 - [Installatie](#installatie)
 - [API](#api)
 
-##<a header="frameworks">Frameworks</a>
+## Frameworks<a name="frameworks"></a>
 De gebruikte frameworks voor dit project zijn de volgende:
 
 - [Laravel](https://laravel.com/)
 - [VueJS](https://vuejs.org/)
 - [Vuetify](https://vuetifyjs.com/en/)
 
-##<a header="installatie">Installatie</a>
+## Installatie<a name="installatie"></a>
 
-##<a header="api">API</a>
+## API<a name="api"></a>
 
 Voor de API zijn er de onderstaande routes. 
 Voor elke route wordt beschreven wat de route verwacht te krijgen en wat je terug krijgt. 
