@@ -7,79 +7,120 @@ use Illuminate\Http\Request;
 
 class PriorityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		return response()->json( Priority::all() );
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store( Request $request )
+	{
+		$this->validation( $request );
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Priority  $priority
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Priority $priority)
-    {
-        //
-    }
+		$created = Priority::create( $request->all() );
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Priority  $priority
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Priority $priority)
-    {
-        //
-    }
+		if( $created )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Priority created', $created ], 201 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Priority not created'], 400 );
+		}
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Priority  $priority
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Priority $priority)
-    {
-        //
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Priority  $priority
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show( Priority $priority )
+	{
+		return response()->json( $priority, 200 );
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Priority  $priority
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Priority $priority)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Priority  $priority
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit( Priority $priority )
+	{
+		return response()->json( $priority, 200 );
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Priority  $priority
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update( Request $request, Priority $priority )
+	{
+		$this->validation( $request );
+
+		$updated = $priority->update( $request->all() );
+
+		if( $updated )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Priority updated', $updated ] , 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Priority not updated' ], 400 );
+		}
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Priority  $priority
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy( Priority $priority )
+	{
+		$destroyed = $priority->destroy();
+
+		if( $destroyed )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Priority deleted', $priority ], 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Priority not deleted' ], 400 );
+		}
+	}
+
+	public function search( $search )
+	{
+		$results = Priority::where('name', 'like', '%'.$search.'%')
+			->orWhere('id', $search)
+			->get();
+
+		return response()->json( $results );
+	}
+
+	private function validation( Request $request )
+	{
+		$request->validate([
+			'name' => 'required'
+		]);
+	}
 }

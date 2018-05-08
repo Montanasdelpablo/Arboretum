@@ -14,7 +14,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json( Color::all() );
     }
 
     /**
@@ -33,9 +33,18 @@ class ColorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store( Request $request )
     {
-        //
+    	$this->validation( $request );
+
+        $created = Color::create( $request->all() );
+
+        if( $created )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Color created', $created ], 201 );
+		} else {
+        	return response()->json( [ 'success' => false, 'message' => 'Color not created'], 400 );
+		}
     }
 
     /**
@@ -44,9 +53,9 @@ class ColorController extends Controller
      * @param  \App\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function show(Color $color)
+    public function show( Color $color )
     {
-        //
+        return response()->json( $color, 200 );
     }
 
     /**
@@ -55,9 +64,9 @@ class ColorController extends Controller
      * @param  \App\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function edit(Color $color)
+    public function edit( Color $color )
     {
-        //
+        return response()->json( $color, 200 );
     }
 
     /**
@@ -67,9 +76,18 @@ class ColorController extends Controller
      * @param  \App\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Color $color)
+    public function update( Request $request, Color $color )
     {
-        //
+        $this->validation( $request );
+
+        $updated = $color->update( $request->all() );
+
+        if( $updated )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Color updated', $updated ] , 200 );
+		} else {
+        	return response()->json( [ 'success' => false, 'message' => 'Color not updated' ], 400 );
+		}
     }
 
     /**
@@ -78,8 +96,31 @@ class ColorController extends Controller
      * @param  \App\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Color $color)
+    public function destroy( Color $color )
     {
-        //
+        $destroyed = $color->destroy();
+
+        if( $destroyed )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Color deleted', $color ], 200 );
+		} else {
+        	return response()->json( [ 'success' => false, 'message' => 'Color not deleted' ], 400 );
+		}
     }
+
+    public function search( $search )
+	{
+		$results = Color::where('name', 'like', '%'.$search.'%')
+			->orWhere('id', $search)
+			->get();
+
+		return response()->json( $results );
+	}
+
+	private function validation( Request $request )
+	{
+		$request->validate([
+			'name' => 'required'
+		]);
+	}
 }

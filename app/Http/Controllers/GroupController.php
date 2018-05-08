@@ -7,79 +7,120 @@ use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		return response()->json( Group::all() );
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store( Request $request )
+	{
+		$this->validation( $request );
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Group  $group
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Group $group)
-    {
-        //
-    }
+		$created = Group::create( $request->all() );
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Group  $group
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Group $group)
-    {
-        //
-    }
+		if( $created )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Group created', $created ], 201 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Group not created'], 400 );
+		}
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Group  $group
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Group $group)
-    {
-        //
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Group  $group
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show( Group $group )
+	{
+		return response()->json( $group, 200 );
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Group  $group
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Group $group)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Group  $group
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit( Group $group )
+	{
+		return response()->json( $group, 200 );
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Group  $group
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update( Request $request, Group $group )
+	{
+		$this->validation( $request );
+
+		$updated = $group->update( $request->all() );
+
+		if( $updated )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Group updated', $updated ] , 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Group not updated' ], 400 );
+		}
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Group  $group
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy( Group $group )
+	{
+		$destroyed = $group->destroy();
+
+		if( $destroyed )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Group deleted', $group ], 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Group not deleted' ], 400 );
+		}
+	}
+
+	public function search( $search )
+	{
+		$results = Group::where('name', 'like', '%'.$search.'%')
+			->orWhere('id', $search)
+			->get();
+
+		return response()->json( $results );
+	}
+
+	private function validation( Request $request )
+	{
+		$request->validate([
+			'name' => 'required'
+		]);
+	}
 }

@@ -7,79 +7,120 @@ use Illuminate\Http\Request;
 
 class TreetypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		return response()->json( Treetype::all() );
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store( Request $request )
+	{
+		$this->validation( $request );
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Treetype  $treetype
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Treetype $treetype)
-    {
-        //
-    }
+		$created = Treetype::create( $request->all() );
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Treetype  $treetype
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Treetype $treetype)
-    {
-        //
-    }
+		if( $created )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Treetype created', $created ], 201 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Treetype not created'], 400 );
+		}
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Treetype  $treetype
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Treetype $treetype)
-    {
-        //
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Treetype  $treetype
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show( Treetype $treetype )
+	{
+		return response()->json( $treetype, 200 );
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Treetype  $treetype
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Treetype $treetype)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Treetype  $treetype
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit( Treetype $treetype )
+	{
+		return response()->json( $treetype, 200 );
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Treetype  $treetype
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update( Request $request, Treetype $treetype )
+	{
+		$this->validation( $request );
+
+		$updated = $treetype->update( $request->all() );
+
+		if( $updated )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Treetype updated', $updated ] , 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Treetype not updated' ], 400 );
+		}
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Treetype  $treetype
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy( Treetype $treetype )
+	{
+		$destroyed = $treetype->destroy();
+
+		if( $destroyed )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Treetype deleted', $treetype ], 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Treetype not deleted' ], 400 );
+		}
+	}
+
+	public function search( $search )
+	{
+		$results = Treetype::where('name', 'like', '%'.$search.'%')
+			->orWhere('id', $search)
+			->get();
+
+		return response()->json( $results );
+	}
+
+	private function validation( Request $request )
+	{
+		$request->validate([
+			'name' => 'required'
+		]);
+	}
 }
