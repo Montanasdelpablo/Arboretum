@@ -94,12 +94,14 @@ class SpecieController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Specie  $specie
+	 * @param  \App\Specie $specie
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Specie $specie )
 	{
-		$destroyed = $specie->destroy();
+		$destroyed = $specie->delete();
 
 		if( $destroyed )
 		{

@@ -94,12 +94,14 @@ class TreetypeController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Treetype  $treetype
+	 * @param  \App\Treetype $treetype
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Treetype $treetype )
 	{
-		$destroyed = $treetype->destroy();
+		$destroyed = $treetype->delete();
 
 		if( $destroyed )
 		{

@@ -93,12 +93,14 @@ class PlantController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Plant  $plant
+	 * @param  \App\Plant $plant
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Plant $plant )
 	{
-		$destroyed = $plant->destroy();
+		$destroyed = $plant->delete();
 
 		if( $destroyed )
 		{

@@ -94,12 +94,14 @@ class TypeController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Type  $type
+	 * @param  \App\Type $type
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Type $type )
 	{
-		$destroyed = $type->destroy();
+		$destroyed = $type->delete();
 
 		if( $destroyed )
 		{

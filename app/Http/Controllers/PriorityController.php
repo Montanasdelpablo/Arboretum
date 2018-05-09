@@ -94,12 +94,14 @@ class PriorityController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Priority  $priority
+	 * @param  \App\Priority $priority
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Priority $priority )
 	{
-		$destroyed = $priority->destroy();
+		$destroyed = $priority->delete();
 
 		if( $destroyed )
 		{

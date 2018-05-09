@@ -94,12 +94,14 @@ class CrossingController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Crossing  $crossing
+	 * @param  \App\Crossing $crossing
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Crossing $crossing )
 	{
-		$destroyed = $crossing->destroy();
+		$destroyed = $crossing->delete();
 
 		if( $destroyed )
 		{

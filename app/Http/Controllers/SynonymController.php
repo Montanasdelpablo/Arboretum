@@ -94,12 +94,14 @@ class SynonymController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Synonym  $synonym
+	 * @param  \App\Synonym $synonym
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Synonym $synonym )
 	{
-		$destroyed = $synonym->destroy();
+		$destroyed = $synonym->delete();
 
 		if( $destroyed )
 		{

@@ -36,7 +36,7 @@ Route::post('/months', 'MonthController@store');
 Route::get('/months/{month}/edit', 'MonthController@edit');
 Route::put('/months/{month}', 'MonthController@update');
 Route::get('/months/{search}/search', 'MonthController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/months/{month}', 'MonthController@destroy');
 
 // Plants
 Route::get('/plants', 'PlantController@index');
@@ -44,7 +44,7 @@ Route::post('/plants', 'PlantController@store');
 Route::get('/plants/{plant}/edit', 'PlantController@edit');
 Route::put('/plants/{plant}', 'PlantController@update');
 Route::get('/plants/{search}/search', 'PlantController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/plants/{plant}', 'PlantController@destroy');
 
 // Priorities
 Route::get('/priorities', 'PriorityController@index');
@@ -52,7 +52,7 @@ Route::post('/priorities', 'PriorityController@store');
 Route::get('/priorities/{priority}/edit', 'PriorityController@edit');
 Route::put('/priorities/{priority}', 'PriorityController@update');
 Route::get('/priorities/{search}/search', 'PriorityController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/priorities/{priority}', 'PriorityController@destroy');
 
 // Sexes
 Route::get('/sexes', 'SexController@index');
@@ -60,7 +60,7 @@ Route::post('/sexes', 'SexController@store');
 Route::get('/sexes/{sex}/edit', 'SexController@edit');
 Route::put('/sexes/{sex}', 'SexController@update');
 Route::get('/sexes/{search}/search', 'SexController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/sexes/{sex}', 'SexController@destroy');
 
 // Sizes
 Route::get('/sizes', 'SizeController@index');
@@ -68,7 +68,7 @@ Route::post('/sizes', 'SizeController@store');
 Route::get('/sizes/{size}/edit', 'SizeController@edit');
 Route::put('/sizes/{size}', 'SizeController@update');
 Route::get('/sizes/{search}/search', 'SizeController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/sizes/{size}', 'SizeController@destroy');
 
 // Species
 Route::get('/species', 'SpecieController@index');
@@ -76,7 +76,7 @@ Route::post('/species', 'SpecieController@store');
 Route::get('/species/{specie}/edit', 'SpecieController@edit');
 Route::put('/species/{specie}', 'SpecieController@update');
 Route::get('/species/{search}/search', 'SpecieController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/species/{specie}', 'SpecieController@destroy');
 
 // Suppliers
 Route::get('/suppliers', 'SupplierController@index');
@@ -84,7 +84,7 @@ Route::post('/suppliers', 'SupplierController@store');
 Route::get('/suppliers/{supplier}/edit', 'SupplierController@edit');
 Route::put('/suppliers/{supplier}', 'SupplierController@update');
 Route::get('/suppliers/{search}/search', 'SupplierController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/suppliers/{supplier}', 'SupplierController@destroy');
 
 // Synonyms
 Route::get('/synonyms', 'SynonymController@index');
@@ -92,7 +92,7 @@ Route::post('/synonyms', 'SynonymController@store');
 Route::get('/synonyms/{synonym}/edit', 'SynonymController@edit');
 Route::put('/synonyms/{synonym}', 'SynonymController@update');
 Route::get('/synonyms/{search}/search', 'SynonymController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/synonyms/{synonym}', 'SynonymController@destroy');
 
 // Treetypes
 Route::get('/treetypes', 'TreetypeController@index');
@@ -100,7 +100,7 @@ Route::post('/treetypes', 'TreetypeController@store');
 Route::get('/treetypes/{treetype}/edit', 'TreetypeController@edit');
 Route::put('/treetypes/{treetype}', 'TreetypeController@update');
 Route::get('/treetypes/{search}/search', 'TreetypeController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/treetypes/{treetype}', 'TreetypeController@destroy');
 
 // Types
 Route::get('/types', 'TypeController@index');
@@ -108,7 +108,7 @@ Route::post('/types', 'TypeController@store');
 Route::get('/types/{type}/edit', 'TypeController@edit');
 Route::put('/types/{type}', 'TypeController@update');
 Route::get('/types/{search}/search', 'TypeController@search');
-Route::delete('/colors/{color}', 'ColorController@destroy');
+Route::delete('/types/{type}', 'TypeController@destroy');
 
 // Varieties
 Route::get('/varieties', 'VarietyController@index');

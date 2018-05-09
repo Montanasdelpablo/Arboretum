@@ -94,12 +94,14 @@ class VarietyController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Variety  $variety
+	 * @param  \App\Variety $variety
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Variety $variety )
 	{
-		$destroyed = $variety->destroy();
+		$destroyed = $variety->delete();
 
 		if( $destroyed )
 		{

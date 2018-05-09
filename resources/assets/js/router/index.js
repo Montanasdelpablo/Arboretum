@@ -10,6 +10,8 @@ const admin = () => import('@/layouts/admin');
 const dashboard = () => import('@/pages/admin/index');
 
 const colorIndex = () => import('@/pages/admin/color');
+const monthIndex = () => import('@/pages/admin/month');
+const sizeInde = () => import('@/pages/admin/size');
 
 Vue.use( Router );
 
@@ -53,6 +55,14 @@ const routes = [
 					title: 'Kleuren',
 				},
 				component: colorIndex
+			},
+			{
+				path: 'months',
+				name: 'monthIndex',
+				meta: {
+					title: 'Maanden'
+				},
+				component: monthIndex
 			}
 		]
 	}

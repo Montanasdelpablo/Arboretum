@@ -94,12 +94,14 @@ class WinnerController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Winner  $winner
+	 * @param  \App\Winner $winner
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Winner $winner )
 	{
-		$destroyed = $winner->destroy();
+		$destroyed = $winner->delete();
 
 		if( $destroyed )
 		{

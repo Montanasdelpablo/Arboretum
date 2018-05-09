@@ -94,12 +94,14 @@ class MonthController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Month  $month
+	 * @param  \App\Month $month
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Month $month )
 	{
-		$destroyed = $month->destroy();
+		$destroyed = $month->delete();
 
 		if( $destroyed )
 		{

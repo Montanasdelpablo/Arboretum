@@ -94,12 +94,14 @@ class SupplierController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Supplier  $supplier
+	 * @param  \App\Supplier $supplier
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Supplier $supplier )
 	{
-		$destroyed = $supplier->destroy();
+		$destroyed = $supplier->delete();
 
 		if( $destroyed )
 		{

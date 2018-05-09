@@ -8,6 +8,7 @@ import mutations from './mutations';
 
 // Import modules
 import color from './modules/color';
+import month from './modules/month';
 
 Vue.use( Vuex );
 
@@ -25,5 +26,6 @@ export const store = new Vuex.Store( {
 
 	modules: {
 		color,
+		month,
 	}
 });

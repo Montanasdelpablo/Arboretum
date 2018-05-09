@@ -94,12 +94,14 @@ class SizeController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Size  $size
+	 * @param  \App\Size $size
+	 *
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy( Size $size )
 	{
-		$destroyed = $size->destroy();
+		$destroyed = $size->delete();
 
 		if( $destroyed )
 		{
