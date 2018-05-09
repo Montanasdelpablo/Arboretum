@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Treetype;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TreetypeController extends Controller
 {
@@ -120,7 +121,7 @@ class TreetypeController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'treetypes' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:treetypes',
 		]);
 	}
 }

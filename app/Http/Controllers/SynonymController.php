@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Synonym;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SynonymController extends Controller
 {
@@ -120,7 +121,7 @@ class SynonymController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'synonyms' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:synonyms',
 		]);
 	}
 }

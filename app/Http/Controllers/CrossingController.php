@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Crossing;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CrossingController extends Controller
 {
@@ -120,7 +121,7 @@ class CrossingController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'crossings' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:crossings',
 		]);
 	}
 }

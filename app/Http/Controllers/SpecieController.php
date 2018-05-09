@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Specie;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SpecieController extends Controller
 {
@@ -120,7 +121,7 @@ class SpecieController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'species' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:species',
 		]);
 	}
 }

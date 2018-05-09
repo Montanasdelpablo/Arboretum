@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Variety;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class VarietyController extends Controller
 {
@@ -120,7 +121,7 @@ class VarietyController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'varieties' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:varieties',
 		]);
 	}
 }

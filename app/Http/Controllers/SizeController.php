@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Size;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SizeController extends Controller
 {
@@ -120,7 +121,7 @@ class SizeController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'sizes' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:sizes',
 		]);
 	}
 }

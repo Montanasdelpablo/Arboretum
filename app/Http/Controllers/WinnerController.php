@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Winner;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class WinnerController extends Controller
 {
@@ -120,7 +121,7 @@ class WinnerController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'winners' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:winners',
 		]);
 	}
 }
