@@ -6,6 +6,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => 'auth:api'], function(){
+  // Here come the protected routes
+
+});
+
 // Colors
 Route::get('/colors', 'ColorController@index');
 Route::post('/colors', 'ColorController@create');

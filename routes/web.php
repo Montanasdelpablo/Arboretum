@@ -8,3 +8,6 @@ Route::get('/', function () {
 Route::get( '/{vue?}', function() {
 	return view( 'index' );
 })->where( 'vue', '[\/\w\.-]*' );
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
