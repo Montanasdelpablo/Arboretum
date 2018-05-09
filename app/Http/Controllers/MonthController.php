@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Month;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MonthController extends Controller
 {
@@ -120,7 +121,7 @@ class MonthController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'months' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:months',
 		]);
 	}
 }

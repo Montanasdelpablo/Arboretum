@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Sex;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SexController extends Controller
 {
@@ -120,7 +121,7 @@ class SexController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'sexes' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:sexes',
 		]);
 	}
 }

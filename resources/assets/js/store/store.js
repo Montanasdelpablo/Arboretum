@@ -7,6 +7,7 @@ import actions from './actions';
 import mutations from './mutations';
 
 // Import modules
+import color from './modules/color';
 
 Vue.use( Vuex );
 
@@ -22,5 +23,7 @@ export const store = new Vuex.Store( {
 	mutations,
 	actions,
 
-	modules: {}
+	modules: {
+		color,
+	}
 });

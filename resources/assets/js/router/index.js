@@ -9,6 +9,8 @@ const index = () => import('@/pages/web/index');
 const admin = () => import('@/layouts/admin');
 const dashboard = () => import('@/pages/admin/index');
 
+const colorIndex = () => import('@/pages/admin/color');
+
 Vue.use( Router );
 
 const routes = [
@@ -32,6 +34,7 @@ const routes = [
 		component: admin,
 		props: true,
 		meta: {
+			title: 'Dashboard'
 			//auth: true
 		},
 		children: [
@@ -42,6 +45,14 @@ const routes = [
 					title: 'Overzicht'
 				},
 				component: dashboard
+			},
+			{
+				path: 'colors',
+				name: 'colorIndex',
+				meta: {
+					title: 'Kleuren',
+				},
+				component: colorIndex
 			}
 		]
 	}

@@ -3,7 +3,7 @@
         <v-toolbar color="primary">
             <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
 
-            <v-toolbar-title>Titel</v-toolbar-title>
+            <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
             <v-spacer />
 
@@ -114,15 +114,45 @@
 </template>
 
 <script>
+	import { mapGetters } from 'vuex';
 	export default
 	{
+		metaInfo() {
+			return {
+			    title: this.$route.meta.title
+            }
+        },
+
+        computed: {
+			...mapGetters([
+				'message',
+				'success',
+				'errors',
+				'userProfile'
+			]),
+        },
+
 		methods: {
+			/**
+             * Return the title of the page
+             *
+			 * @returns {*}
+			 */
+			title()
+			{
+                return this.$route.meta.title;
+            },
+
+			/**
+             * Logout user
+			 */
 			logout()
 			{
-				this.$store.commit('userLogout');
-				this.$router.push( { name: 'index' } );
+				this.$store.commit( 'userLogout' );
+                this.$router.push( { name: 'index' } );
 			}
 		},
+
 		data()
 		{
 			return {
@@ -135,72 +165,72 @@
 					},
                     {
                     	title: 'Planten',
-                        to: 'plantsIndex',
+                        to: 'plantIndex',
                         icon: 'filter_vintage'
                     },
                     {
                     	title: 'Kleuren',
-                        to: 'colorsIndex',
+                        to: 'colorIndex',
                         icon: 'colorize'
                     },
                     {
                     	title: 'Kruisingen',
-                        to: 'crossingsIndex',
+                        to: 'crossingIndex',
                         icon: 'close'
                     },
                     {
-                    	title: 'Groupen',
-                        to: 'groupsIndex',
+                    	title: 'Groepen',
+                        to: 'groupIndex',
                         icon: 'group_work'
                     },
                     {
                     	title: 'Maanden',
-                        to: 'monthsIndex',
+                        to: 'monthIndex',
                         icon: 'event'
                     },
                     {
-                    	title: 'Prioriteit',
-                        to: 'prioritiesIndex',
+                    	title: 'Belang',
+                        to: 'priorityIndex',
                         icon: 'priority_high'
                     },
                     {
                     	title: 'Geslachten',
-                        to: 'sexesIndex',
+                        to: 'sexIndex',
                         icon: 'wc'
                     },
                     {
                     	title: 'Groottes',
-                        to: 'sizesIndex',
+                        to: 'sizeIndex',
                         icon: 'fullscreen'
                     },
                     {
                     	title: 'Soorten',
-                        to: 'speciesIndex',
+                        to: 'specieIndex',
                         icon: ''
                     },
                     {
                     	title: 'Leveranciers',
-                        to: 'suppliersIndex',
+                        to: 'supplierIndex',
                         icon: 'local_shipping'
                     },
                     {
                     	title: 'Synoniemen',
-                        to: 'synonymsIndex',
+                        to: 'synonymIndex',
                         icon: ''
                     },
                     {
                     	title: 'Boom type',
-                        to: 'treetypesIndex',
+                        to: 'treetypeIndex',
                         icon: 'nature'
                     },
                     {
                     	title: 'Type',
-                        to: 'typesIndex',
+                        to: 'typeIndex',
                         icon: ''
                     },
                     {
                     	title: 'Variaties',
-                        to: 'varietiesIndex',
+                        to: 'varietyIndex',
                         icon: ''
                     },
                     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Color;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ColorController extends Controller
 {
@@ -90,15 +91,17 @@ class ColorController extends Controller
 		}
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Color  $color
-     * @return \Illuminate\Http\Response
-     */
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Color $color
+	 *
+	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
+	 */
     public function destroy( Color $color )
     {
-        $destroyed = $color->destroy();
+        $destroyed = $color->delete();
 
         if( $destroyed )
 		{
@@ -120,7 +123,7 @@ class ColorController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'colors' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:colors',
 		]);
 	}
 }
