@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { store } from '@/store/store';
 import Router from 'vue-router';
+import size from "@/store/modules/size";
 
 // Define constants for layouts first than pages
 const web = () => import('@/layouts/web');
@@ -11,7 +12,7 @@ const dashboard = () => import('@/pages/admin/index');
 
 const colorIndex = () => import('@/pages/admin/color');
 const monthIndex = () => import('@/pages/admin/month');
-const sizeInde = () => import('@/pages/admin/size');
+const sizeIndex = () => import('@/pages/admin/size');
 
 Vue.use( Router );
 
@@ -63,6 +64,14 @@ const routes = [
 					title: 'Maanden'
 				},
 				component: monthIndex
+			},
+			{
+				path: 'sizes',
+				name: 'sizeIndex',
+				meta: {
+					title: 'Groottes'
+				},
+				component: sizeIndex
 			}
 		]
 	}
