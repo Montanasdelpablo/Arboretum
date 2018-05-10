@@ -42,7 +42,7 @@ class VarietyController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Variety created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Variety created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Variety not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class VarietyController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Variety updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Variety updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Variety not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class VarietyController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Variety deleted', $variety ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Variety deleted', 'result' => $variety ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Variety not deleted' ], 400 );
 		}

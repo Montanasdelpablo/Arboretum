@@ -42,7 +42,7 @@ class PriorityController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Priority created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Priority created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Priority not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class PriorityController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Priority updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Priority updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Priority not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class PriorityController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Priority deleted', $priority ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Priority deleted', 'result' => $priority ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Priority not deleted' ], 400 );
 		}

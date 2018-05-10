@@ -42,7 +42,7 @@ class SynonymController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Synonym created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Synonym created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Synonym not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class SynonymController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Synonym updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Synonym updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Synonym not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class SynonymController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Synonym deleted', $synonym ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Synonym deleted', 'result' => $synonym ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Synonym not deleted' ], 400 );
 		}

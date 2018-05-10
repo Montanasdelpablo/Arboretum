@@ -42,7 +42,7 @@ class CrossingController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Crossing created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Crossing created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Crossing not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class CrossingController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Crossing updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Crossing updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Crossing not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class CrossingController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Crossing deleted', $crossing ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Crossing deleted', 'result' => $crossing ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Crossing not deleted' ], 400 );
 		}

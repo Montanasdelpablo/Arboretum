@@ -42,7 +42,7 @@ class WinnerController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Winner created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Winner created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Winner not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class WinnerController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Winner updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Winner updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Winner not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class WinnerController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Winner deleted', $winner ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Winner deleted', 'result' => $winner ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Winner not deleted' ], 400 );
 		}

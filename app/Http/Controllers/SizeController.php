@@ -42,7 +42,7 @@ class SizeController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Size created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Size created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Size not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class SizeController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Size updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Size updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Size not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class SizeController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Size deleted', $size ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Size deleted', 'result' => $size ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Size not deleted' ], 400 );
 		}

@@ -42,7 +42,7 @@ class SexController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Sex created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Sex created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Sex not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class SexController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Sex updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Sex updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Sex not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class SexController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Sex deleted', $sex ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Sex deleted', 'result' => $sex ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Sex not deleted' ], 400 );
 		}

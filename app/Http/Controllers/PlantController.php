@@ -41,7 +41,7 @@ class PlantController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Plant created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Plant created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Plant not created'], 400 );
 		}
@@ -84,7 +84,7 @@ class PlantController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Plant updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Plant updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Plant not updated' ], 400 );
 		}
@@ -104,7 +104,7 @@ class PlantController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Plant deleted', $plant ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Plant deleted', 'result' => $plant ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Plant not deleted' ], 400 );
 		}

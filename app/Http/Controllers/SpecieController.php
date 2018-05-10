@@ -42,7 +42,7 @@ class SpecieController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Specie created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Specie created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Specie not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class SpecieController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Specie updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Specie updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Specie not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class SpecieController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Specie deleted', $specie ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Specie deleted', 'result' => $specie ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Specie not deleted' ], 400 );
 		}

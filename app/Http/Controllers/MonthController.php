@@ -42,7 +42,7 @@ class MonthController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Month created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Month created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Month not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class MonthController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Month updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Month updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Month not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class MonthController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Month deleted', $month ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Month deleted', 'result' => $month ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Month not deleted' ], 400 );
 		}

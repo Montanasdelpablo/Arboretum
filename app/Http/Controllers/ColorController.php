@@ -42,7 +42,7 @@ class ColorController extends Controller
 
         if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Color created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Color created', 'result' => $created ], 201 );
 		} else {
         	return response()->json( [ 'success' => false, 'message' => 'Color not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class ColorController extends Controller
 
         if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Color updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Color updated', 'result' => $updated ] , 200 );
 		} else {
         	return response()->json( [ 'success' => false, 'message' => 'Color not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class ColorController extends Controller
 
         if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Color deleted', $color ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Color deleted', 'result' => $color ], 200 );
 		} else {
         	return response()->json( [ 'success' => false, 'message' => 'Color not deleted' ], 400 );
 		}

@@ -42,7 +42,7 @@ class TreetypeController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Treetype created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Treetype created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Treetype not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class TreetypeController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Treetype updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Treetype updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Treetype not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class TreetypeController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Treetype deleted', $treetype ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Treetype deleted', 'result' => $treetype ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Treetype not deleted' ], 400 );
 		}

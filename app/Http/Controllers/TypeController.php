@@ -42,7 +42,7 @@ class TypeController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Type created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Type created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Type not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class TypeController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Type updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Type updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Type not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class TypeController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Type deleted', $type ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Type deleted', 'result' => $type ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Type not deleted' ], 400 );
 		}

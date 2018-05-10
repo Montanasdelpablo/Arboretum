@@ -42,7 +42,7 @@ class GroupController extends Controller
 
 		if( $created )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Group created', $created ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Group created', 'result' => $created ], 201 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Group not created'], 400 );
 		}
@@ -85,7 +85,7 @@ class GroupController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Group updated', $updated ] , 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Group updated', 'result' => $updated ] , 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Group not updated' ], 400 );
 		}
@@ -105,7 +105,7 @@ class GroupController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'Group deleted', $group ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'Group deleted', 'result' => $group ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Group not deleted' ], 400 );
 		}
