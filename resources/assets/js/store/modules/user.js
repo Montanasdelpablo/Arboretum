@@ -7,6 +7,7 @@ export default
 	},
 
 	mutations:  {
+
 		/**
 		 * Set all users
 		 *
@@ -59,16 +60,11 @@ export default
  			  },
 				method: 'POST',
 				body: JSON.stringify( data )
- 			}).then( response => response.json() ).then(
- 						response => {
- 						if ( response.errors ) {
- 							context.commit( 'errors', response.errors );
- 						} else {
- 							context.commit( 'errors', []);
- 						}
- 						context.commit( 'message', response.message );
- 						context.commit( 'success', response.success ); }).catch( error => console.error( 'userIndex', error ) );
-     }
+ 			})
+				.then( response => response.json() )
+				.then( response => { context.commit( 'userIndex', response )})
+				.catch( error => console.error( 'userIndex', error ) );
+     },
 
 		 forgotPassword( context, data ){
        return fetch( '/api/forgotPassword', {
@@ -80,16 +76,11 @@ export default
  			  },
 				method: 'POST',
 				body: JSON.stringify( data )
- 			}).then( response => response.json() ).then(
- 						response => {
- 						if ( response.errors ) {
- 							context.commit( 'errors', response.errors );
- 						} else {
- 							context.commit( 'errors', []);
- 						}
- 						context.commit( 'message', response.message );
- 						context.commit( 'success', response.success ); }).catch( error => console.error( 'userIndex', error ) );
-     }
+ 			})
+				.then( response => response.json() )
+				.then( response => { context.commit( 'userIndex', response )})
+				.catch( error => console.error( 'userIndex', error ) );
+     },
 
 		 register( context, data ){
        return fetch( '/api/register', {
@@ -101,16 +92,11 @@ export default
  			  },
 				method: 'POST',
 				body: JSON.stringify( data )
- 			}).then( response => response.json() ).then(
- 						response => {
- 						if ( response.errors ) {
- 							context.commit( 'errors', response.errors );
- 						} else {
- 							context.commit( 'errors', []);
- 						}
- 						context.commit( 'message', response.message );
- 						context.commit( 'success', response.success ); }).catch( error => console.error( 'userIndex', error ) );
-     }
+ 			})
+				.then( response => response.json() )
+				.then( response => { context.commit( 'userIndex', response )})
+				.catch( error => console.error( 'userIndex', error ) );
+     },
 
 		userIndex( context, pagination )
 		{

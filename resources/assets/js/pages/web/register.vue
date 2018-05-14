@@ -6,25 +6,25 @@
             <v-flex xs12 sm6 offset-sm3>
                   <v-form v-model="valid">
                             <v-text-field
-                              v-model="email"
+                              v-model="form.email"
                               :rules="emailRules"
                               :counter="10"
                               label="Email-adres"
                               required
                             ></v-text-field>
                             <v-text-field
-                              v-model="password"
+                              v-model="form.password"
                               :rules="passwordRules"
                               label="Wachtwoord"
                               required
                               invisible
                             ></v-text-field>
                             <v-text-field
-                              v-model="first_name"
+                              v-model="form.firstname"
                               label="Voornaam"
                             ></v-text-field>
                             <v-text-field
-                              v-model="last_name"
+                              v-model="form.lastname"
                               label="Achternaam"
                             ></v-text-field>
 
@@ -47,7 +47,13 @@
 	export default
 	{
 		metaInfo: {
-			title: 'register'
+			title: 'register',
+      form: {
+        email: '',
+        password: '',
+        firstname: '',
+        lastname: '',
+      }
 		},
 		data()
 		{
@@ -57,23 +63,13 @@
 			}
 		},
 		methods: {
-			changeForm( type )
-			{
-				let img = '';
-				switch( type )
-				{
-					case 'flight':
-						img = 'https://images.pexels.com/photos/219014/pexels-photo-219014.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb';
-						break;
-					case 'accommodation':
-						img = 'https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb';
-						break;
-					case 'car':
-						img = 'https://images.pexels.com/photos/21014/pexels-photo.jpg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb';
-						break;
-				}
-				this.image = img;
-			},
+        register(){
+          let user = this.form
+          this.$store.dispatch( 'register', user ).then( () =>
+          {
+            this.data(); // Refresh data
+          });
+        },
 		},
 	}
 </script>

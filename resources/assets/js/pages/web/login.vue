@@ -103,29 +103,28 @@
 		},
 		methods: {
 			  login(){
-          <!-- Gather info needed for login -->
+
           let user = {
             email: this.email,
             password: this.password,
           }
-          <!-- Make request to api -->
+
           this.$store.dispatch( 'login', user ).then( () =>
           {
             this.data(); // Refresh data
           });
         },
         forgotPassword(){
-          <!-- Gather info needed for forgetting password -->
           let user = {
             email: this.forgotEmail
           }
-          <!-- Make request to api -->
+
           this.$store.dispatch( 'forgotPassword', user ).then( () =>
           {
             this.data(); // Refresh data
           });
         }
-			},
-		},
-	}
+		  },
+		}
+	
 </script>
