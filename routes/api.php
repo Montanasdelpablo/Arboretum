@@ -148,5 +148,6 @@ Route::get( '/plants', 'PlantController@index' );
 
 Route::post( '/login', 'UserController@login' );
 Route::post( '/register', 'UserController@register' );
+Route::post( '/forgotpassword', 'UserController@forgotpw' );
 
 Route::get( '/logout', 'HomeController@logout' );
