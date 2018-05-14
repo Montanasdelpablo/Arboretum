@@ -6,6 +6,8 @@ import size from "@/store/modules/size";
 // Define constants for layouts first than pages
 const web = () => import('@/layouts/web');
 const index = () => import('@/pages/web/index');
+const login = () => import('@/pages/web/login');
+const register = () => import('@/pages/web/register');
 
 const admin = () => import('@/layouts/admin');
 const dashboard = () => import('@/pages/admin/index');
@@ -29,6 +31,42 @@ const routes = [
 					title: 'Home'
 				},
 				component: index
+			},
+		]
+	},
+	{
+		path: '/login',
+		props: true,
+		meta: {
+			title: 'Aanmelden'
+		},
+		component: web,
+		children: [
+			{
+				path: '',
+				name: 'login',
+				meta: {
+					title: 'Aanmelden'
+				},
+				component: login
+			}
+		]
+	},
+	{
+		path: '/register',
+		props: true,
+		meta: {
+			title: 'Registreren'
+		},
+		component: web,
+		children: [
+			{
+				path: '',
+				name: 'register',
+				meta: {
+					title: 'Registreren'
+				},
+				component: register
 			}
 		]
 	},

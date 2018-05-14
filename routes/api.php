@@ -145,3 +145,8 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 
 // Unprotected routes here
 Route::get( '/plants', 'PlantController@index' );
+
+Route::post( '/login', 'UserController@login' );
+Route::post( '/register', 'UserController@register' );
+
+Route::get( '/logout', 'HomeController@logout' );

@@ -78,18 +78,18 @@
                 items: [
                     {
                     	title: 'Home',
-                        icon: 'home',
-                        to: 'index'
+                      icon: 'home',
+                      to: 'index'
                     },
                     {
                     	title: 'Planten',
-                        icon: 'filter_vintage',
-                        to: 'plants'
+                      icon: 'filter_vintage',
+                      to: ''
                     },
                     {
                     	title: 'Aanmelden',
-                        icon: 'person',
-                        to: 'login'
+                      icon: 'person',
+                      to: ''
                     }
                 ]
 			}
