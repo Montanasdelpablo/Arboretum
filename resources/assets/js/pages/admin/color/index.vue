@@ -10,14 +10,14 @@
             <v-card>
                 <form @submit.prevent="store">
                     <v-card-title>
-                        <span class="headline">Kleur toevoegen</span>
+                        <span class="headline">Kleur {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam"></v-text-field>
+                                    <v-text-field v-model="form.name" label="Naam" required />
                                 </v-flex>
                             </v-layout>
                         </v-container>

@@ -124,6 +124,13 @@ class SupplierController extends Controller
 	{
 		$request->validate([
 			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'suppliers' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:suppliers',
+			'street' => 'nullable|string',
+			'number' => 'nullable|integer',
+			'addition' => 'nullable|string',
+			'zip_code' => 'nullable|string',
+			'city' => 'nullable|string',
+			'phone_number' => 'nullable|integer',
+			'website'=> 'nullable|string|url'
 		]);
 	}
 }
