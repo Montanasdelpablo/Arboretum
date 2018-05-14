@@ -20,7 +20,7 @@ import supplier from './modules/supplier';
 import synonym from './modules/synonym';
 import treetype from './modules/treetype';
 import type from './modules/type';
-//import user from './modules/user';
+import user from './modules/user';
 import variety from './modules/variety';
 import winner from './modules/winner';
 
@@ -52,7 +52,7 @@ export const store = new Vuex.Store( {
 		synonym,
 		treetype,
 		type,
-		//user,
+		user,
 		variety,
 		winner,
 	}

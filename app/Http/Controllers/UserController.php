@@ -73,7 +73,6 @@ class UserController extends Controller
             'password' => 'required'
     ]);
     $user = User::create(request(['name', 'email', 'password']));
-        
     auth()->login($user);
   }
 
@@ -165,7 +164,7 @@ class UserController extends Controller
 
 		if( $destroyed )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'User deleted', 'result' => $sex ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'User deleted', 'result' => $user ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'User not deleted' ], 400 );
 		}
@@ -183,7 +182,7 @@ class UserController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'sexes' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:sexes',
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:email',
 		]);
 	}
 }

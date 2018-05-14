@@ -102,22 +102,29 @@
 			}
 		},
 		methods: {
-			changeForm( type )
-			{
-				let img = '';
-				switch( type )
-				{
-					case 'flight':
-						img = 'https://images.pexels.com/photos/219014/pexels-photo-219014.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb';
-						break;
-					case 'accommodation':
-						img = 'https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb';
-						break;
-					case 'car':
-						img = 'https://images.pexels.com/photos/21014/pexels-photo.jpg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb';
-						break;
-				}
-				this.image = img;
+			  login(){
+          <!-- Gather info needed for login -->
+          let user = {
+            email: this.email,
+            password: this.password,
+          }
+          <!-- Make request to api -->
+          this.$store.dispatch( 'login', user ).then( () =>
+          {
+            this.data(); // Refresh data
+          });
+        },
+        forgotPassword(){
+          <!-- Gather info needed for forgetting password -->
+          let user = {
+            email: this.forgotEmail
+          }
+          <!-- Make request to api -->
+          this.$store.dispatch( 'forgotPassword', user ).then( () =>
+          {
+            this.data(); // Refresh data
+          });
+        }
 			},
 		},
 	}
