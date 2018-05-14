@@ -83,6 +83,11 @@ class UserController extends Controller
     ]);
     $user = User::create(request(['name', 'email', 'password']));
     auth()->login($user);
+		if(empty($user = Auth::user())){
+      return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
+    } else {
+      return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
+    }
   }
 
 
