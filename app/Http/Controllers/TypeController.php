@@ -113,11 +113,11 @@ class TypeController extends Controller
 
 	public function search( $search )
 	{
-		$results = Type::where('name', 'like', '%'.$search.'%')
-			->orWhere('id', $search)
+		$results = Type::where( 'name', 'like', '%'.$search.'%' )
+			->orWhere ('id', $search )
 			->get();
 
-		return response()->json( $results );
+		return response()->json( $results, 200 );
 	}
 
 	private function validation( Request $request )

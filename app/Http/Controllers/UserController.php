@@ -61,7 +61,7 @@ class UserController extends Controller
 	public function forgotpw (){
 		$this->validatie(request(), [
 			'email' => 'required|email',
-		])
+		]);
 		// gather password from user using email above
 
 		// send mail to email with new/old password or link to make a new one

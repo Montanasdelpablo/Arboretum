@@ -117,7 +117,7 @@ class ColorController extends Controller
 			->orWhere('id', $search)
 			->get();
 
-		return response()->json( $results );
+		return response()->json( $results, 200 );
 	}
 
 	private function validation( Request $request )

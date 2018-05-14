@@ -219,7 +219,7 @@
                         icon: ''
                     },
                     {
-                    	title: 'Boom type',
+                    	title: 'Boomtype',
                         to: 'treetypeIndex',
                         icon: 'nature'
                     },
@@ -235,7 +235,7 @@
                     },
                     {
                     	title: 'Winners',
-                        to: 'winnersIndex',
+                        to: 'winnerIndex',
                         icon: 'cake'
                     }
 				]

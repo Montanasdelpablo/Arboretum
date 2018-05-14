@@ -4,13 +4,13 @@
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
                 <v-icon>add</v-icon>
-                Boom type toevoegen
+                Boomtype toevoegen
             </v-btn>
 
             <v-card>
                 <form @submit.prevent="store">
                     <v-card-title>
-                        <span class="headline">Boom type {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
+                        <span class="headline">Boomtype {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -26,7 +26,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Boom type Opslaan</v-btn>
+                        <v-btn color="primary" flat type="submit">Boomtype Opslaan</v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -78,11 +78,11 @@
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Boom type verwijderen</span>
+                    <span class="headline">Boomtype verwijderen</span>
                 </v-card-title>
 
                 <v-card-text>
-                    Weet je zeker dat je de volgende boom type wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je de volgende boomtype wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -108,7 +108,7 @@
 				form: {},
 				headers: [
 					{
-						text: 'Boom type',
+						text: 'Boomtype',
 						align: 'left',
 						value: 'name'
 					},

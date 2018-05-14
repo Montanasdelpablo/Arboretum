@@ -3,7 +3,7 @@ const colorIndex = () => import('@/pages/admin/color');
 const crossingIndex = () => import('@/pages/admin/crossing');
 const groupIndex = () => import('@/pages/admin/group');
 const monthIndex = () => import('@/pages/admin/month');
-//const plantIndex = () => import('@/pages/admin/plant');
+const plantIndex = () => import('@/pages/admin/plant');
 const priorityIndex = () => import('@/pages/admin/priority');
 const sexIndex = () => import('@/pages/admin/sex');
 const sizeIndex = () => import('@/pages/admin/size');
@@ -55,6 +55,14 @@ const adminRoutes = [
 			title: 'Maanden'
 		},
 		component: monthIndex
+	},
+	{
+		path: 'plants',
+		name: 'plantIndex',
+		meta: {
+			title: 'Planten'
+		},
+		component: plantIndex
 	},
 	{
 		path: 'priorities',

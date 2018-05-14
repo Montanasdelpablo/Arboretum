@@ -14,7 +14,18 @@ class PlantController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Plant::all() );
+		$plants = Plant::with(  'type')
+			->with( 'sex' )
+			->with( 'specie' )
+			->with( 'variety' )
+			->with( 'group' )
+			->with( 'synonym' )
+			->with( 'winner' )
+			->with( 'treetype' )
+			->with( 'priority' )
+			->with( 'supplier' )
+			->get();
+		return response()->json( $plants );
 	}
 
 	/**
@@ -38,6 +49,24 @@ class PlantController extends Controller
 		$this->validation( $request );
 
 		$created = Plant::create( $request->all() );
+
+		// Add bloom colors
+		if( !empty( $request->bloom_color ) )
+		{
+			$created->bloom_colors->attach( $request->bloom_color );
+		}
+
+		// Add bloom date
+		if( !empty( $request->bloom_date ) )
+		{
+			$created->bloom_dates->attach( $request->bloom_date );
+		}
+
+		// Add bloom date
+		if( !empty( $request->macule_color ) )
+		{
+			$created->macule_colors->attach( $request->macule_color );
+		}
 
 		if( $created )
 		{
@@ -116,7 +145,7 @@ class PlantController extends Controller
 			->orWhere('id', $search)
 			->get();
 
-		return response()->json( $results );
+		return response()->json( $results, 200 );
 	}
 
 	private function validation( Request $request )

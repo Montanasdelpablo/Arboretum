@@ -9,94 +9,96 @@ class Plant extends Model
 	/**
 	 * @var array
 	 */
-    protected $guarded = ['id'];
+    protected $guarded = [ 'id' ];
+
+    protected $casts = [ 'bloom_color', 'bloom_date', 'macule_color' ];
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function type()
 	{
-		return $this->hasOne( Type::class );
+		return $this->belongsTo( Type::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function sex()
 	{
-		return $this->hasOne( Sex::class );
+		return $this->belongsTo( Sex::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function specie()
 	{
-		return $this->hasOne( Specie::class );
+		return $this->belongsTo( Specie::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function variety()
 	{
-		return $this->hasOne( Variety::class );
+		return $this->belongsTo( Variety::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function group()
 	{
-		return $this->hasOne( Group::class );
+		return $this->belongsTo( Group::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function synonym()
 	{
-		return $this->hasOne( Synonym::class );
+		return $this->belongsTo( Synonym::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function crossing()
 	{
-		return $this->hasOne( Crossing::class );
+		return $this->belongsTo( Crossing::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function winner()
 	{
-		return $this->hasOne( Winner::class );
+		return $this->belongsTo( Winner::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function treetype()
 	{
-		return $this->hasOne( Treetype::class );
+		return $this->belongsTo( Treetype::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function priority()
 	{
-		return $this->hasOne( Priority::class );
+		return $this->belongsTo( Priority::class );
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function supplier()
 	{
-		return $this->hasOne( Supplier::class );
+		return $this->belongsTo( Supplier::class );
 	}
 
 	/**
@@ -124,10 +126,10 @@ class Plant extends Model
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function size()
 	{
-		return $this->hasOne( Size::class );
+		return $this->belongsTo( Size::class );
 	}
 }
