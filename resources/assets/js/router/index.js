@@ -1,20 +1,16 @@
 import Vue from 'vue';
 import { store } from '@/store/store';
 import Router from 'vue-router';
-import size from "@/store/modules/size";
+
+import webRoutes from './web';
+import adminRoutes from './admin';
 
 // Define constants for layouts first than pages
 const web = () => import('@/layouts/web');
-const index = () => import('@/pages/web/index');
 const login = () => import('@/pages/web/login');
 const register = () => import('@/pages/web/register');
 
 const admin = () => import('@/layouts/admin');
-const dashboard = () => import('@/pages/admin/index');
-
-const colorIndex = () => import('@/pages/admin/color');
-const monthIndex = () => import('@/pages/admin/month');
-const sizeIndex = () => import('@/pages/admin/size');
 
 Vue.use( Router );
 
@@ -23,16 +19,7 @@ const routes = [
 		path: '/',
 		props: true,
 		component: web,
-		children: [
-			{
-				path: '',
-				name: 'index',
-				meta: {
-					title: 'Home'
-				},
-				component: index
-			},
-		]
+		children: webRoutes
 	},
 	{
 		path: '/login',
@@ -78,40 +65,7 @@ const routes = [
 			title: 'Dashboard'
 			//auth: true
 		},
-		children: [
-			{
-				path: '',
-				name: 'dashboard',
-				meta: {
-					title: 'Overzicht'
-				},
-				component: dashboard
-			},
-			{
-				path: 'colors',
-				name: 'colorIndex',
-				meta: {
-					title: 'Kleuren',
-				},
-				component: colorIndex
-			},
-			{
-				path: 'months',
-				name: 'monthIndex',
-				meta: {
-					title: 'Maanden'
-				},
-				component: monthIndex
-			},
-			{
-				path: 'sizes',
-				name: 'sizeIndex',
-				meta: {
-					title: 'Groottes'
-				},
-				component: sizeIndex
-			}
-		]
+		children: adminRoutes
 	}
 ];
 

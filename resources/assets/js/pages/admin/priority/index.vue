@@ -4,13 +4,13 @@
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
                 <v-icon>add</v-icon>
-                Maand toevoegen
+                Belang toevoegen
             </v-btn>
 
             <v-card>
                 <form @submit.prevent="store">
                     <v-card-title>
-                        <span class="headline">Maand {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
+                        <span class="headline">Belang {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -26,7 +26,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Maand Opslaan</v-btn>
+                        <v-btn color="primary" flat type="submit">Belang Opslaan</v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -78,11 +78,11 @@
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Maand verwijderen</span>
+                    <span class="headline">Belang verwijderen</span>
                 </v-card-title>
 
                 <v-card-text>
-                    Weet je zeker dat je de volgende maand wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je het volgende belang wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -108,7 +108,7 @@
 				form: {},
 				headers: [
 					{
-						text: 'Maand',
+						text: 'Belang',
 						align: 'left',
 						value: 'name'
 					},
@@ -125,20 +125,23 @@
 			/**
 			 * Get all items
 			 *
-			 * @returns {monthIndex|default.mutations.monthIndex|default.actions.monthIndex|default.getters.monthIndex}
+			 * @returns
+			 *
+             *
+             * {priorityIndex|default.mutations.priorityIndex|default.actions.priorityIndex|default.getters.priorityIndex}
 			 */
 			items()
 			{
-				return this.$store.getters.monthIndex;
+				return this.$store.getters.priorityIndex;
 			},
 
 			/**
 			 * Get the total amount of items
-			 * @returns {default.getters.monthTotal|monthTotal}
+			 * @returns {default.getters.priorityTotal|priorityTotal}
 			 */
 			totalItems()
 			{
-				return this.$store.getters.monthTotal;
+				return this.$store.getters.priorityTotal;
 			}
 		},
 		methods: {
@@ -148,7 +151,7 @@
 			data()
 			{
 				this.loading = true;
-				this.$store.dispatch( 'monthIndex', this.pagination ).then( () => {
+				this.$store.dispatch( 'priorityIndex', this.pagination ).then( () => {
 					this.loading = false;
 				});
 			},
@@ -159,13 +162,14 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'monthUpdate' : 'monthStore', this.form ).then( () =>
-				{
-					this.data(); // Refresh data
-					this.form = {};
-					this.itemEdit = null;
-					this.dialog = false; // Close dialog
-				});
+				this.$store.dispatch( this.itemEdit !== null ? 'priorityUpdate' : 'priorityStore', this.form ).then(
+					() =>
+					{
+						this.data(); // Refresh data
+						this.form = {};
+						this.itemEdit = null;
+						this.dialog = false; // Close dialog
+					});
 			},
 
 			editItem( item )
@@ -183,7 +187,7 @@
 			destroy( id )
 			{
 				this.loading = true;
-				this.$store.dispatch( 'monthDestroy', id ).then( () =>
+				this.$store.dispatch( 'priorityDestroy', id ).then( () =>
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};
