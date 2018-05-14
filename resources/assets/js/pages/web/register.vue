@@ -16,8 +16,8 @@
                               v-model="form.password"
                               :rules="passwordRules"
                               label="Wachtwoord"
-                              required
-                              invisible
+                              :type="'password'"
+                              required                              
                             ></v-text-field>
                             <v-text-field
                               v-model="form.firstname"
@@ -48,20 +48,29 @@
 	{
 		metaInfo: {
 			title: 'register',
-      form: {
-        email: '',
-        password: '',
-        firstname: '',
-        lastname: '',
-      }
+
 		},
-		data()
-		{
-			return {
-				image: 'https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb',
-				activity: 1,
-			}
-		},
+		data() {
+        return {
+  				image: 'https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb',
+  				activity: 1,
+          valid: false,
+          form: {
+            email: '',
+            password: '',
+            firstname: '',
+            lastname: '',
+          },
+          emailRules: [
+            v => !!v || 'E-mail is required',
+            v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+          ],
+          passwordRules: [
+            v => !!v || 'Password is required',
+            v => v.length >= 3 || 'Password must be more than 3 characters'
+          ]
+		    }
+    },
 		methods: {
         register(){
           let user = this.form

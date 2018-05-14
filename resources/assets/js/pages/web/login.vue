@@ -6,20 +6,20 @@
 
             <v-container style="min-height: 0; padding-top: 150px; background-color: #ffffff" :class="{'px-0': $vuetify.breakpoint.xsOnly }">
             <v-flex xs12 sm6 offset-sm3>
-            <v-form v-model="valid">
+            <v-form ref="loginForm" v-model="valid">
                       <v-text-field
                         v-model="email"
                         :rules="emailRules"
-                        :counter="10"
-                        label="Email"
+                        label="Email-adres"
                         required
                       ></v-text-field>
                       <v-text-field
                         v-model="password"
                         :rules="passwordRules"
-                        label="Password"
+                        label="Wachtwoord"
+                        :type="'password'"
+                        :counter="15"
                         required
-                        invisible
                       ></v-text-field>
 
                       <v-btn color="primary" dark @click.stop="forgotpassword = true">Wachtwoord vergeten</v-btn>
@@ -41,11 +41,10 @@
                                 Wachtwoord vergeten
                               </v-card-title>
                               <v-card-text>
-                              <v-form v-model="valid">
+                              <v-form ref="forgotForm" v-model="valid">
                                         <v-text-field
                                           v-model="forgotEmail"
                                           :rules="emailRules"
-                                          :counter="10"
                                           label="Email"
                                           required
                                         ></v-text-field>
@@ -102,6 +101,18 @@
 			}
 		},
 		methods: {
+        submit () {
+           if (this.$refs.loginForm.validate()) {
+             // Native form submission is not yet supported
+             this.login();
+           }
+        },
+        verstuur () {
+           if (this.$refs.forgotForm.validate()) {
+             // Native form submission is not yet supported
+             this.forgotPassword();
+           }
+        },
 			  login(){
 
           let user = {
@@ -126,5 +137,5 @@
         }
 		  },
 		}
-	
+
 </script>
