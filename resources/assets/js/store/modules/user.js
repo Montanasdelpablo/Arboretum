@@ -64,9 +64,9 @@ export default {
 				.then( response => response.json() )
 				.then( response =>
 				{
-					context.commit( 'userIndex', response )
+					// do something
 				} )
-				.catch( error => console.error( 'userIndex', error ) );
+				.catch( error => console.error( 'userLogin', error ) );
 		},
 
 		forgotPassword( context, data )

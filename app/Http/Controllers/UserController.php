@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,7 +19,7 @@ class UserController extends Controller
 		return response()->json( User::all() );
 	}
 
-	public function login(Request $request)
+	public function login( Request $request )
 	{
 		// validate the info, create rules for the inputs
 		$request->validate([
@@ -43,37 +42,6 @@ class UserController extends Controller
 		  	return response()->json( [ 'success' => false, 'message' => 'Not logged in'], 400);
 		}
 	 }
-
-
-	 public function testLogin()
- {
-      $user = new User;
-      $user->first_name = 'joe';
-      $user->last_name = 'joe';
-      $user->email = 'joe@gmail.com';
-      $user->password = Hash::make('123456');
-
-      if ( ! ($user->save()))
-      {
-          dd('user is not being saved to database properly - this is the problem');
-      }
-
-      if ( ! (Hash::check('123456', Hash::make('123456'))))
-      {
-          dd('hashing of password is not working correctly - this is the problem');
-      }
-
-      if ( ! (Auth::attempt(array('email' => 'joe@gmail.com', 'password' => '123456'))))
-      {
-          dd('storage of user password is not working correctly - this is the problem');
-      }
-
-      else
-      {
-          dd('everything is working when the correct data is supplied - so the problem is related to your forms and the data being passed to the function');
-      }
- }
-
 
 	public function forgotpw (Request $request){
 		$request->validatie([
@@ -107,7 +75,7 @@ class UserController extends Controller
 		$request->validate( [
 			'first_name' => 'required|string',
 			'last_name' => 'required|string',
-			'email'    => 'required|string|email',
+			'email'    => 'required|string|email|unique:users,email',
 			'password' => 'required',
 		] );
 
@@ -115,17 +83,13 @@ class UserController extends Controller
 		$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
 
 		// Create user
-		try {
-			$user = User::create([
-				'first_name' => $request->input('first_name'),
-				'last_name' => $request->input('last_name'),
-				'email' => $request->input('email'),
-				'password' => $request->input('password')
-			]);
-		} catch (\Illuminate\Database\QueryException $ex){
-			return $ex->getMessage();
-		}
-		//auth()->login($user);
+		$user = User::create([
+			'first_name' => $request->input('first_name'),
+			'last_name' => $request->input('last_name'),
+			'email' => $request->input('email'),
+			'password' => $request->input('password')
+		]);
+
 		//return $user;
 		if(empty($user = Auth::user())){
 		 return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
