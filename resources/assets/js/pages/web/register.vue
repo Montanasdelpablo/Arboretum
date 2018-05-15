@@ -3,6 +3,16 @@
         <v-parallax :src="image" height="700">
             <v-layout column align-center justify-center>
             <v-container style="min-height: 0; padding-top: 150px; background-color: #ffffff" :class="{'px-0': $vuetify.breakpoint.xsOnly }">
+
+
+            <v-alert v-show="success" :value="true" type="success">
+                  {{ notification }}
+            </v-alert>
+
+            <v-alert v-show="failure" :value="true" type="warning">
+                {{ notification }}
+            </v-alert>
+
             <v-flex xs12 sm6 offset-sm3>
                   <v-form v-model="valid" @submit.prevent="register">
                         <v-text-field
@@ -57,22 +67,36 @@
                 activity: 1,
                 valid: false,
                 form: {},
-               /* emailRules: [
+                emailRules: [
                     v => !!v || 'E-mail is required',
                     v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
                     v => v.length >= 3 || 'Password must be more than 3 characters'
-                ]*/
+                ],
+                success: false,
+                failure: false,
+                notification: '',
             }
         },
 		methods: {
         register(){
           let user = this.form;
-          this.$store.dispatch( 'register', user ).then( () =>
+          this.$store.dispatch( 'register', user ).then( (res) =>
           {
             // this.data(); // Refresh data
+            // See whether success or failure
+            console.log(res);
+            if(res){
+              this.success = true;
+              this.failure = false;
+              this.notification = "Yay! Everything went fine.";
+            } else {
+              this.success = false;
+              this.failure = true;
+              this.notification = "Something has gone wrong!";
+            }
           });
         },
 		},

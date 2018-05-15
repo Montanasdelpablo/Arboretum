@@ -6,16 +6,26 @@
 
             <v-container style="min-height: 0; padding-top: 150px; background-color: #ffffff" :class="{'px-0': $vuetify.breakpoint.xsOnly }">
             <v-flex xs12 sm6 offset-sm3>
+
+
+            <v-alert v-show="success" :value="true" type="success">
+                  {{ notification }}
+            </v-alert>
+
+            <v-alert v-show="failure" :value="true" type="success">
+                {{ notification }}
+            </v-alert>
+
             <v-form ref="loginForm" v-model="valid">
                       <v-text-field
-                        v-model="email"
-                        :rules="emailRules"
+                        v-model="loginForm.email"
+
                         label="Email-adres"
                         required
                       ></v-text-field>
                       <v-text-field
-                        v-model="password"
-                        :rules="passwordRules"
+                        v-model="loginForm.password"
+
                         label="Wachtwoord"
                         type="password"
                         :counter="15"
@@ -44,7 +54,7 @@
                               <v-form ref="forgotForm" v-model="valid">
                                         <v-text-field
                                           v-model="forgotEmail"
-                                          :rules="emailRules"
+
                                           label="Email"
                                           required
                                         ></v-text-field>
@@ -86,18 +96,12 @@
 				image: 'https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb',
 				activity: 1,
         valid: false,
-        email: '',
-        emailRules: [
-          v => !!v || 'E-mail is required',
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-        ],
-        password: '',
-        passwordRules: [
-          v => !!v || 'Password is required',
-          v => v.length >= 3 || 'Password must be more than 3 characters'
-        ],
+        loginForm: {},
         forgotEmail: '',
         forgotpassword: false,
+        success: false,
+        failure: false,
+        notification: '',
 			}
 		},
 		methods: {
@@ -114,25 +118,18 @@
            }
         },
 			  login(){
-
-          let user = {
-            email: this.email,
-            password: this.password,
-          }
-
-          this.$store.dispatch( 'login', user ).then( () =>
+          this.$store.dispatch( 'login', this.loginForm ).then( () =>
           {
-            this.data(); // Refresh data
+            //this.data(); // Refresh data
           });
         },
         forgotPassword(){
           let user = {
             email: this.forgotEmail
           }
-
           this.$store.dispatch( 'forgotPassword', user ).then( () =>
           {
-            this.data(); // Refresh data
+            //this.data(); // Refresh data
           });
         }
 		  },

@@ -146,3 +146,8 @@ Route::get( '/winners/{winner}', 'WinnerController@show' );
 Route::get( '/winners/{winner}/edit', 'WinnerController@edit' );
 Route::put( '/winners/{winner}', 'WinnerController@update' );
 Route::get( '/winners/{search}/search', 'WinnerController@search' );
+
+
+
+// Test login
+Route::get('/testlogin', 'UserController@testLogin');

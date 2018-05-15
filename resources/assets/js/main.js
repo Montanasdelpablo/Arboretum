@@ -11,6 +11,15 @@ Vue.use( VueProgressiveImage );
 
 //Vue.component( 'c-image', () => import( '@/components/Image' ) );
 
+const token = document.head.querySelector( 'meta[name="csrf-token"]' ).getAttribute( 'content' );
+
+if( token )
+{
+window.token = token;
+} else {
+console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
 import App from '@/pages/App';
 
 new Vue({

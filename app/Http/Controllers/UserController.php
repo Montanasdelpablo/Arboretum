@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -19,51 +20,63 @@ class UserController extends Controller
 		return response()->json( User::all() );
 	}
 
-	public function login()
+	public function login(Request $request)
 	{
 		// validate the info, create rules for the inputs
-		$rules = [
+		$request->validate([
 			'email'    => 'required|email', // make sure the email is an actual email
-			'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
-		];
+			'password' => 'required|string|min:3' // password can only be alphanumeric and has to be greater than 3 characters
+		]);
 
-		// run the validation rules on the inputs from the form
-		$validator = Validator::make( Input::all(), $rules );
+		// create our user data for the authentication
+		$attempt = Auth::attempt( [
+				'email' => $request->input( 'email' ),
+				'password' => $request->input( 'password' )
+		]);
 
-		// if the validator fails, redirect back to the form
-		if( $validator->fails() )
-		{
-			return response()->json( [ 'success' => false, 'message' => 'Not logged in', 'result' => $validator, 'input' => Input::except( 'password' ) ], 400 );
-		} else
-		{
-
-			// create our user data for the authentication
-			$userdata = [
-				'email'    => Input::get( 'email' ),
-				'password' => Input::get( 'password' ),
-			];
-
-			// attempt to do the login
-			if( Auth::attempt( $userdata ) )
-			{
-
-				// validation successful!
-				// redirect them to the secure section or whatever
-				// return Redirect::to('secure');
-				// for now we'll just echo success (even though echoing in a controller is bad)
-				return response()->json( [ 'success' => true, 'message' => 'Logged in' ], 201 );
-			} else
-			{
-
-				// validation not successful, send back to form
-				return response()->json( [ 'success' => false, 'message' => 'Not logged in' ], 400 );
-			}
+	  if($attempt){
+				$user = Auth::user();
+				$token = $user->createToken( config( 'app.name' ) )->accessToken;
+				$user->update( [ 'api_token' => $token ] );
+		 		return response()->json( [ 'success' => true, 'token' => $token, 'message' => 'Logged in succesfully'], 201);
+		} else {
+		  	return response()->json( [ 'success' => false, 'message' => 'Not logged in'], 400);
 		}
-	}
+	 }
 
-	public function forgotpw()
-	{
-		$this->validatie( request(), [
+
+	 public function testLogin()
+ {
+      $user = new User;
+      $user->first_name = 'joe';
+      $user->last_name = 'joe';
+      $user->email = 'joe@gmail.com';
+      $user->password = Hash::make('123456');
+
+      if ( ! ($user->save()))
+      {
+          dd('user is not being saved to database properly - this is the problem');
+      }
+
+      if ( ! (Hash::check('123456', Hash::make('123456'))))
+      {
+          dd('hashing of password is not working correctly - this is the problem');
+      }
+
+      if ( ! (Auth::attempt(array('email' => 'joe@gmail.com', 'password' => '123456'))))
+      {
+          dd('storage of user password is not working correctly - this is the problem');
+      }
+
+      else
+      {
+          dd('everything is working when the correct data is supplied - so the problem is related to your forms and the data being passed to the function');
+      }
+ }
+
+
+	public function forgotpw (Request $request){
+		$request->validatie([
 			'email' => 'required|email',
 		] );
 		// gather password from user using email above
@@ -88,8 +101,8 @@ class UserController extends Controller
 	 */
 	public function register( Request $request )
 	{
-		print_r($request->all());
-		print_r($request->input('first_name'));
+		//print_r($request->all());
+		//print_r($request->input('first_name'));
 
 		$request->validate( [
 			'first_name' => 'required|string',
@@ -99,22 +112,26 @@ class UserController extends Controller
 		] );
 
 		// Hash password first (Hash::make)
-		//$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
+		$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
 
 		// Create user
-		$user = User::create([
-			'first_name' => $request->input('first_name'),
-			'last_name' => $request->input('last_name'),
-			'email' => $request->input('email'),
-			'password' => $request->input('password')
-		]);
+		try {
+			$user = User::create([
+				'first_name' => $request->input('first_name'),
+				'last_name' => $request->input('last_name'),
+				'email' => $request->input('email'),
+				'password' => $request->input('password')
+			]);
+		} catch (\Illuminate\Database\QueryException $ex){
+			return $ex->getMessage();
+		}
 		//auth()->login($user);
 		//return $user;
-		//if(empty($user = Auth::user())){
-		//  return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
-		//} else {
-		//  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
-		//  }
+		if(empty($user = Auth::user())){
+		 return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
+		} else {
+		  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
+		  }
 	}
 
 	/**
