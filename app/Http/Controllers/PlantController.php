@@ -23,7 +23,9 @@ class PlantController extends Controller
 			->with( 'winner' )
 			->with( 'treetype' )
 			->with( 'priority' )
+			->with( 'size' )
 			->with( 'supplier' )
+			->with( 'crossing' )
 			->get();
 		return response()->json( $plants );
 	}
@@ -46,9 +48,20 @@ class PlantController extends Controller
 	 */
 	public function store( Request $request )
 	{
+		print_r($request);
 		$this->validation( $request );
 
-		$created = Plant::create( $request->all() );
+		$created = Plant::create([
+			'name',
+			'follow_number',
+			'purchase_number',
+			'control',
+			'place',
+			'latitude',
+			'longitude',
+			'replant',
+			''
+		]);
 
 		// Add bloom colors
 		if( !empty( $request->bloom_color ) )

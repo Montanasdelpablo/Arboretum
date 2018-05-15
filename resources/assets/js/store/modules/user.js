@@ -1,12 +1,11 @@
-export default
-{
+export default {
 	state: {
 		all: [],
 		search: {},
 		edit: {}
 	},
 
-	mutations:  {
+	mutations: {
 
 		/**
 		 * Set all users
@@ -50,60 +49,72 @@ export default
 		 * @param pagination
 		 */
 
-		 login( context, data ){
-       return fetch( '/api/login', {
- 				headers: {
- 					'X-Requested-With': 'XMLHttpRequest',
- 					'X-CSRF-token': window.token,
- 					'Content-Type': 'application/json',
- 					'Accept': 'application/json',
- 			  },
+		login( context, data )
+		{
+			return fetch( '/api/login', {
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRF-token': window.token,
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+				},
 				method: 'POST',
 				body: JSON.stringify( data )
- 			})
+			} )
 				.then( response => response.json() )
-				.then( response => { context.commit( 'userIndex', response )})
+				.then( response =>
+				{
+					context.commit( 'userIndex', response )
+				} )
 				.catch( error => console.error( 'userIndex', error ) );
-     },
+		},
 
-		 forgotPassword( context, data ){
-       return fetch( '/api/forgotPassword', {
- 				headers: {
- 					'X-Requested-With': 'XMLHttpRequest',
- 					'X-CSRF-token': window.token,
- 					'Content-Type': 'application/json',
- 					'Accept': 'application/json',
- 			  },
+		forgotPassword( context, data )
+		{
+			return fetch( '/api/forgotPassword', {
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRF-token': window.token,
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+				},
 				method: 'POST',
 				body: JSON.stringify( data )
- 			})
+			} )
 				.then( response => response.json() )
-				.then( response => { context.commit( 'userIndex', response )})
+				.then( response =>
+				{
+					context.commit( 'userIndex', response )
+				} )
 				.catch( error => console.error( 'userIndex', error ) );
-     },
+		},
 
-		 register( context, data ){
-       return fetch( '/api/register', {
- 				headers: {
- 					'X-Requested-With': 'XMLHttpRequest',
- 					'X-CSRF-token': window.token,
- 					'Content-Type': 'application/json',
- 					'Accept': 'application/json',
- 			  },
+		register( context, data )
+		{
+			return fetch( '/api/register', {
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRF-token': window.token,
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+				},
 				method: 'POST',
 				body: JSON.stringify( data )
- 			})
+			} )
 				.then( response => response.json() )
-				.then( response => { context.commit( 'userIndex', response )})
-				.catch( error => console.error( 'userIndex', error ) );
-     },
+				.then( response =>
+				{
+					// Do something
+				} )
+				.catch( error => console.error( 'userRegister', error ) );
+		},
 
 		userIndex( context, pagination )
 		{
 			let url = '/api/users';
 			if( pagination && Object.keys( pagination ).length > 1 )
 			{
-				url += `?${Object.keys( pagination ).map( key =>  `${key}=${pagination[ key ]}` ).join( '&' ) }`;
+				url += `?${Object.keys( pagination ).map( key => `${key}=${pagination[key]}` ).join( '&' ) }`;
 			}
 
 			return fetch( url, {
@@ -112,9 +123,9 @@ export default
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				}
-			})
+			} )
 				.then( response => response.json() )
 				.then( response => context.commit( 'userIndex', response ) )
 				.catch( error => console.error( 'userIndex', error ) );
@@ -135,21 +146,24 @@ export default
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				},
 				method: 'POST',
 				body: JSON.stringify( data )
-			})
+			} )
 				.then( response => response.json() )
-				.then( response => {
-					if( response.errors ) {
+				.then( response =>
+				{
+					if( response.errors )
+					{
 						context.commit( 'errors', response.errors );
-					} else {
-						context.commit( 'errors', []);
+					} else
+					{
+						context.commit( 'errors', [] );
 					}
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
-				})
+				} )
 				.catch( error => console.error( 'userStore', error ) );
 		},
 
@@ -168,9 +182,9 @@ export default
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				}
-			})
+			} )
 				.then( response => response.json() )
 				.then( response => context.commit( 'userEdit', response ) )
 				.catch( error => console.error( 'userEdit', error ) );
@@ -190,21 +204,24 @@ export default
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				},
 				method: 'PUT',
 				body: JSON.stringify( data )
-			})
+			} )
 				.then( response => response.json() )
-				.then( response => {
-					if( response.errors ) {
+				.then( response =>
+				{
+					if( response.errors )
+					{
 						context.commit( 'errors', response.errors );
-					} else {
-						context.commit( 'errors', []);
+					} else
+					{
+						context.commit( 'errors', [] );
 					}
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
-				})
+				} )
 				.catch( error => console.error( 'userUpdate', error ) );
 		},
 
@@ -223,20 +240,23 @@ export default
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				},
 				method: 'DELETE',
-			})
+			} )
 				.then( response => response.json() )
-				.then( response => {
-					if( response.errors ) {
+				.then( response =>
+				{
+					if( response.errors )
+					{
 						context.commit( 'errors', response.errors );
-					} else {
-						context.commit( 'errors', []);
+					} else
+					{
+						context.commit( 'errors', [] );
 					}
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
-				})
+				} )
 				.catch( error => console.error( 'userDestroy', error ) );
 		},
 
@@ -246,17 +266,18 @@ export default
 		 * @param context
 		 * @param user
 		 */
-		userSearch( context, user ) {
+		userSearch( context, user )
+		{
 			return fetch( `/api/users/${user}/search`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				}
-			})
-				.then( response =>  response.json() )
+			} )
+				.then( response => response.json() )
 				.then( response => context.commit( 'userSearch', response ) )
 				.catch( error => console.error( 'userSearch', error ) );
 		}
@@ -274,7 +295,8 @@ export default
 			if( state.all.data )
 			{
 				return state.all.data;
-			} else {
+			} else
+			{
 				return state.all;
 			}
 		},

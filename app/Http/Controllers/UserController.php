@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
@@ -11,7 +12,6 @@ class UserController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
-	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
@@ -19,83 +19,106 @@ class UserController extends Controller
 		return response()->json( User::all() );
 	}
 
-  public function login() {
-    // validate the info, create rules for the inputs
-    $rules = array(
-        'email'    => 'required|email', // make sure the email is an actual email
-        'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
-    );
+	public function login()
+	{
+		// validate the info, create rules for the inputs
+		$rules = [
+			'email'    => 'required|email', // make sure the email is an actual email
+			'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
+		];
 
-    // run the validation rules on the inputs from the form
-    $validator = Validator::make(Input::all(), $rules);
+		// run the validation rules on the inputs from the form
+		$validator = Validator::make( Input::all(), $rules );
 
-    // if the validator fails, redirect back to the form
-    if ($validator->fails()) {
-        return response()->json( [ 'success' => false, 'message' => 'Not logged in', 'result' => $validator, 'input' => Input::except('password')], 400 );
-    } else {
+		// if the validator fails, redirect back to the form
+		if( $validator->fails() )
+		{
+			return response()->json( [ 'success' => false, 'message' => 'Not logged in', 'result' => $validator, 'input' => Input::except( 'password' ) ], 400 );
+		} else
+		{
 
-        // create our user data for the authentication
-        $userdata = array(
-            'email'     => Input::get('email'),
-            'password'  => Input::get('password')
-        );
+			// create our user data for the authentication
+			$userdata = [
+				'email'    => Input::get( 'email' ),
+				'password' => Input::get( 'password' ),
+			];
 
-        // attempt to do the login
-        if (Auth::attempt($userdata)) {
+			// attempt to do the login
+			if( Auth::attempt( $userdata ) )
+			{
 
-            // validation successful!
-            // redirect them to the secure section or whatever
-            // return Redirect::to('secure');
-            // for now we'll just echo success (even though echoing in a controller is bad)
-            return response()->json( [ 'success' => true, 'message' => 'Logged in'], 201);
+				// validation successful!
+				// redirect them to the secure section or whatever
+				// return Redirect::to('secure');
+				// for now we'll just echo success (even though echoing in a controller is bad)
+				return response()->json( [ 'success' => true, 'message' => 'Logged in' ], 201 );
+			} else
+			{
 
-        } else {
+				// validation not successful, send back to form
+				return response()->json( [ 'success' => false, 'message' => 'Not logged in' ], 400 );
+			}
+		}
+	}
 
-            // validation not successful, send back to form
-            return response()->json( [ 'success' => false, 'message' => 'Not logged in'], 400);
-        }
-
-    }
-  }
-
-	public function forgotpw (){
-		$this->validatie(request(), [
+	public function forgotpw()
+	{
+		$this->validatie( request(), [
 			'email' => 'required|email',
-		]);
+		] );
 		// gather password from user using email above
 
 		// send mail to email with new/old password or link to make a new one
 	}
 
-  public function logout() {
-    Auth::logout(); // log the user out of our application
-    if(empty($user = Auth::user())){
-      return response()->json( [ 'success' => true, 'message' => 'Logged out succesfully'], 201);
-    } else {
-      return response()->json( [ 'success' => false, 'message' => 'Not logged out succesfully'], 400);
-    }
-  }
+	public function logout()
+	{
+		Auth::logout(); // log the user out of our application
+		if( empty( $user = Auth::user() ) )
+		{
+			return response()->json( [ 'success' => true, 'message' => 'Logged out succesfully' ], 201 );
+		} else
+		{
+			return response()->json( [ 'success' => false, 'message' => 'Not logged out succesfully' ], 400 );
+		}
+	}
 
-  public function register(Request $request){
-    $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-    ]);
-		//$newUser = request(['first_name', 'last_name', 'email', 'password']);
-		$user = User::create($request->all());
-    //auth()->login($user);
+	/**
+	 * @param \Illuminate\Http\Request $request
+	 */
+	public function register( Request $request )
+	{
+		print_r($request->all());
+		print_r($request->input('first_name'));
+
+		$request->validate( [
+			'first_name' => 'required|string',
+			'last_name' => 'required|string',
+			'email'    => 'required|string|email',
+			'password' => 'required',
+		] );
+
+		// Hash password first (Hash::make)
+		//$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
+
+		// Create user
+		$user = User::create([
+			'first_name' => $request->input('first_name'),
+			'last_name' => $request->input('last_name'),
+			'email' => $request->input('email'),
+			'password' => $request->input('password')
+		]);
+		//auth()->login($user);
 		//return $user;
 		//if(empty($user = Auth::user())){
-    //  return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
-    //} else {
-    //  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
-  //  }
-  }
-
+		//  return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
+		//} else {
+		//  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
+		//  }
+	}
 
 	/**
 	 * Show the form for creating a new resource.
-	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create()
@@ -106,7 +129,8 @@ class UserController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Illuminate\Http\Request $request
+	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store( Request $request )
@@ -118,8 +142,9 @@ class UserController extends Controller
 		if( $created )
 		{
 			return response()->json( [ 'success' => true, 'message' => 'User created', 'result' => $created ], 201 );
-		} else {
-			return response()->json( [ 'success' => false, 'message' => 'User not created'], 400 );
+		} else
+		{
+			return response()->json( [ 'success' => false, 'message' => 'User not created' ], 400 );
 		}
 	}
 
@@ -127,6 +152,7 @@ class UserController extends Controller
 	 * Display the specified resource.
 	 *
 	 * @param  \App\User $user
+	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show( User $user )
@@ -138,6 +164,7 @@ class UserController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  \App\User $user
+	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit( User $user )
@@ -148,8 +175,9 @@ class UserController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\User $user
+	 * @param  \Illuminate\Http\Request $request
+	 * @param  \App\User                $user
+	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update( Request $request, User $user )
@@ -160,8 +188,9 @@ class UserController extends Controller
 
 		if( $updated )
 		{
-			return response()->json( [ 'success' => true, 'message' => 'User updated', 'result' => $updated ] , 200 );
-		} else {
+			return response()->json( [ 'success' => true, 'message' => 'User updated', 'result' => $updated ], 200 );
+		} else
+		{
 			return response()->json( [ 'success' => false, 'message' => 'User not updated' ], 400 );
 		}
 	}
@@ -181,15 +210,16 @@ class UserController extends Controller
 		if( $destroyed )
 		{
 			return response()->json( [ 'success' => true, 'message' => 'User deleted', 'result' => $user ], 200 );
-		} else {
+		} else
+		{
 			return response()->json( [ 'success' => false, 'message' => 'User not deleted' ], 400 );
 		}
 	}
 
 	public function search( $search )
 	{
-		$results = User::where('name', 'like', '%'.$search.'%')
-			->orWhere('id', $search)
+		$results = User::where( 'name', 'like', '%'.$search.'%' )
+			->orWhere( 'id', $search )
 			->get();
 
 		return response()->json( $results );
@@ -197,8 +227,8 @@ class UserController extends Controller
 
 	private function validation( Request $request )
 	{
-		$request->validate([
+		$request->validate( [
 			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:email',
-		]);
+		] );
 	}
 }

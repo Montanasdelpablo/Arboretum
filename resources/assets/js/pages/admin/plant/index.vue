@@ -36,7 +36,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['type_id']"
-                                        :search-input.sync="typeSearch"
+                                        :search-input.sync="typeIndex"
                                     />
                                 </v-flex>
 
@@ -52,7 +52,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['sex_id']"
-                                        :search-input.sync="sexSearch"
+                                        :search-input.sync="sexIndex"
                                     />
                                 </v-flex>
 
@@ -68,7 +68,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['specie_id']"
-                                        :search-input.sync="specieSearch"
+                                        :search-input.sync="specieIndex"
                                     />
                                 </v-flex>
 
@@ -84,7 +84,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['type_id']"
-                                        :search-input.sync="varietySearch"
+                                        :search-input.sync="varietyIndex"
                                     />
                                 </v-flex>
 
@@ -100,7 +100,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['group_id']"
-                                        :search-input.sync="groupSearch"
+                                        :search-input.sync="groupIndex"
                                     />
                                 </v-flex>
 
@@ -120,7 +120,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['synonym_id']"
-                                        :search-input.sync="synonymSearch"
+                                        :search-input.sync="synonymIndex"
                                     />
                                 </v-flex>
 
@@ -136,7 +136,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['crossing_id']"
-                                        :search-input.sync="crossingSearch"
+                                        :search-input.sync="crossingIndex"
                                     />
                                 </v-flex>
 
@@ -152,7 +152,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['winner_id']"
-                                        :search-input.sync="winnerSearch"
+                                        :search-input.sync="winnerIndex"
                                     />
                                 </v-flex>
 
@@ -172,7 +172,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['treetype_id']"
-                                        :search-input.sync="treetypeSearch"
+                                        :search-input.sync="treetypeIndex"
                                     />
                                 </v-flex>
 
@@ -188,7 +188,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['priority_id']"
-                                        :search-input.sync="prioritySearch"
+                                        :search-input.sync="priorityIndex"
                                     />
                                 </v-flex>
 
@@ -228,7 +228,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['supplier_id']"
-                                        :search-input.sync="supplierSearch"
+                                        :search-input.sync="supplierIndex"
                                     />
                                 </v-flex>
 
@@ -249,7 +249,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['bloom_color']"
-                                        :search-input.sync="colorSearch"
+                                        :search-input.sync="colorIndex"
                                     />
                                 </v-flex>
 
@@ -266,7 +266,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['month_id']"
-                                        :search-input.sync="monthSearch"
+                                        :search-input.sync="monthIndex"
                                     />
                                 </v-flex>
 
@@ -283,7 +283,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['macule_color']"
-                                        :search-input.sync="colorSearch"
+                                        :search-input.sync="colorIndex"
                                     />
                                 </v-flex>
 
@@ -299,7 +299,7 @@
                                         cache-items
                                         required
                                         :error-messages="errors['size_id']"
-                                        :search-input.sync="sizeSearch"
+                                        :search-input.sync="sizeIndex"
                                     />
                                 </v-flex>
 
@@ -360,22 +360,28 @@
                     <td>{{ props.item.group.name }}</td>
                     <td>{{ props.item.name }}</td>
                     <td>{{ props.item.synonym.name }}</td>
-                    <td>{{ props.item }}</td>
+                    <td>{{ props.item.crossing.name }}</td>
                     <td>{{ props.item.winner.name }}</td>
                     <td>{{ props.item.treetype.name }}</td>
                     <td>{{ props.item.priority.name }}</td>
                     <td>{{ props.item.place }}</td>
                     <td>{{ props.item.latitude }}</td>
                     <td>{{ props.item.longitude }}</td>
-                    <td>{{ props.item.replant }}</td>
+                    <td>
+                        <v-icon v-if="props.item.replant" class="green--text">check_box</v-icon>
+                        <v-icon v-else class="red--text">check_box_outline</v-icon>
+                    </td>
                     <td>{{ props.item.moved }}</td>
-                    <td>{{ props.item.dead }}</td>
+                    <td>
+                        <v-icon v-if="props.item.dead" class="green--text">check_box</v-icon>
+                        <v-icon v-else class="red--text">check_box_outline</v-icon>
+                    </td>
                     <td>{{ props.item.supplier.name }}</td>
                     <td>{{ props.item.planted }}</td>
                     <td>{{ props.item }}</td>
                     <td>{{ props.item }}</td>
                     <td>{{ props.item }}</td>
-                    <td>{{ props.item }}</td>
+                    <td>{{ props.item.size.name }}</td>
                     <td>{{ props.item.note }}</td>
                     <td>{{ props.item.description }}</td>
                     <td>
@@ -583,20 +589,20 @@
                 bloom_color: null,
                 macule_color: null,
                 month_id: null,
-                typeSearch: null,
-				sexSearch: null,
-				specieSearch: null,
-				varietySearch: null,
-				groupSearch: null,
-				synonymSearch: null,
-				crossingSearch: null,
-				winnerSearch: null,
-				treetypeSearch: null,
-				prioritySearch: null,
-				supplierSearch: null,
-				sizeSearch: null,
-                colorSearch: null,
-                monthSearch: null,
+                typeIndex: null,
+				sexIndex: null,
+				specieIndex: null,
+				varietyIndex: null,
+				groupIndex: null,
+				synonymIndex: null,
+				crossingIndex: null,
+				winnerIndex: null,
+				treetypeIndex: null,
+				priorityIndex: null,
+				supplierIndex: null,
+				sizeIndex: null,
+                colorIndex: null,
+                monthIndex: null,
 			}
 		},
 		computed: {
@@ -626,72 +632,72 @@
 
             types()
             {
-            	return Object.values( this.$store.getters.typeSearch );
+            	return this.$store.getters.typeIndex;
             },
 
 			sexes()
 			{
-				return Object.values( this.$store.getters.sexSearch );
+				return this.$store.getters.sexIndex;
 			},
 
 			species()
 			{
-				return Object.values( this.$store.getters.specieSearch );
+				return this.$store.getters.specieIndex;
 			},
 
 			varieties()
 			{
-				return Object.values( this.$store.getters.varietySearch );
+				return this.$store.getters.varietyIndex;
 			},
 
 			groups()
 			{
-				return Object.values( this.$store.getters.groupSearch );
+				return this.$store.getters.groupIndex;
 			},
 
 			synonyms()
 			{
-				return Object.values( this.$store.getters.synonymSearch );
+				return this.$store.getters.synonymIndex;
 			},
 
 			crossings()
 			{
-				return Object.values( this.$store.getters.crossingSearch );
+				return this.$store.getters.crossingIndex;
 			},
 
 			winners()
 			{
-				return Object.values( this.$store.getters.winnerSearch );
+				return this.$store.getters.winnerIndex;
 			},
 
 			treetypes()
 			{
-				return Object.values( this.$store.getters.treetypeSearch );
+				return this.$store.getters.treetypeIndex;
 			},
 
 			priorities()
 			{
-				return Object.values( this.$store.getters.prioritySearch );
+				return this.$store.getters.priorityIndex;
 			},
 
 			suppliers()
 			{
-				return Object.values( this.$store.getters.supplierSearch );
+				return this.$store.getters.supplierIndex;
 			},
 
 			sizes()
 			{
-				return Object.values( this.$store.getters.sizeSearch );
+				return this.$store.getters.sizeIndex;
 			},
 
 			colors()
 			{
-				return Object.values( this.$store.getters.colorSearch );
+				return this.$store.getters.colorIndex;
 			},
 
 			months()
 			{
-				return Object.values( this.$store.getters.monthSearch );
+				return this.$store.getters.monthIndex;
 			}
 		},
 		methods: {
@@ -747,123 +753,10 @@
 			{
 				this.dialog = false;
 			},
-
-			type( type )
-            {
-			    if( type && type.length >= 2 )
-                {
-                	this.$store.dispatch( 'typeSearch', type )
-                }
-            },
-
-			sex( sex )
-			{
-				if( sex && sex.length >= 2 )
-				{
-					this.$store.dispatch( 'sexSearch', sex )
-				}
-			},
-
-			specie( specie )
-            {
-				if( specie && specie.length >= 2 )
-				{
-					this.$store.dispatch( 'specieSearch', specie )
-				}
-			},
-
-			variety( variety )
-			{
-				if( variety && variety.length >= 2 )
-				{
-					this.$store.dispatch( 'varietySearch', variety )
-				}
-			},
-
-			group( group )
-			{
-				if( group && group.length >= 2 )
-				{
-					this.$store.dispatch( 'groupSearch', group )
-				}
-			},
-
-			synonym( synonym )
-			{
-				if( synonym && synonym.length >= 2 )
-				{
-					this.$store.dispatch( 'synonymSearch', synonym )
-				}
-			},
-
-			crossing( crossing )
-			{
-				if( crossing && crossing.length >= 2 )
-				{
-					this.$store.dispatch( 'crossingSearch', crossing )
-				}
-			},
-
-			winner( winner )
-			{
-				if( winner && winner.length >= 2 )
-				{
-					this.$store.dispatch( 'winnerSearch', winner )
-				}
-			},
-
-			priority( priority )
-			{
-				if( priority && priority.length >= 2 )
-				{
-					this.$store.dispatch( 'prioritySearch', priority )
-				}
-			},
-
-			treetype( treetype )
-			{
-				if( treetype && treetype.length >= 2 )
-				{
-					this.$store.dispatch( 'treetypeSearch', treetype )
-				}
-			},
-
-			supplier( supplier )
-			{
-				if( supplier && supplier.length >= 2 )
-				{
-					this.$store.dispatch( 'supplierSearch', supplier )
-				}
-			},
-
-			size( size )
-			{
-				if( size && size.length >= 2 )
-				{
-					this.$store.dispatch( 'sizeSearch', size )
-				}
-			},
-
-			color( color )
-			{
-				if( color && color.length >= 2 )
-				{
-					this.$store.dispatch( 'colorSearch', color )
-				}
-			},
-
-			month( month )
-			{
-				if( month && month.length >= 2 )
-				{
-					this.$store.dispatch( 'monthSearch', month )
-				}
-			},
 		},
 		watch: {
 			details( after )
             {
-            	// Set all ids
             },
 
 			pagination: {
@@ -872,74 +765,74 @@
 				}
 			},
 
-			typeSearch( type )
+			typeIndex()
 			{
-				this.type( type );
+				this.$store.dispatch( 'typeIndex' );
 			},
 
-			sexSearch( sex )
+			sexIndex()
 			{
-				this.sex( sex );
+				this.$store.dispatch( 'sexIndex' );
 			},
 
-			specieSearch( specie )
+			specieIndex()
 			{
-				this.specie( specie );
+				this.$store.dispatch( 'specieIndex' );
 			},
 
-			varietySearch( variety )
+			varietyIndex()
 			{
-				this.variety( variety );
+				this.$store.dispatch( 'varietyIndex' );
 			},
 
-			groupSearch( group )
+			groupIndex()
 			{
-				this.group( group );
+				this.$store.dispatch( 'groupIndex' );
 			},
 
-			synonymSearch( synonym )
+			synonymIndex()
 			{
-				this.synonym( synonym );
+				this.$store.dispatch( 'synonymIndex' );
 			},
 
-			crossingSearch( crossing )
+			crossingIndex()
 			{
-				this.crossing( crossing );
+				this.$store.dispatch( 'crossingIndex' );
 			},
 
-			winnerSearch( winner )
+			winnerIndex()
 			{
-				this.winner( winner );
+				this.$store.dispatch( 'winnerIndex' );
 			},
 
-			prioritySearch( priority )
+			priorityIndex()
 			{
-				this.priority( priority );
+				this.$store.dispatch( 'priorityIndex' );
 			},
 
-			treetypeSearch( treetype )
+			treetypeIndex()
 			{
-				this.treetype( treetype );
+				this.$store.dispatch( 'treetypeIndex' );
 			},
 
-			supplierSearch( supplier )
+			supplierIndex()
 			{
-				this.supplier( supplier );
+				this.$store.dispatch( 'supplierIndex' );
 			},
 
-			sizeSearch( size )
+			sizeIndex()
 			{
-				this.size( size );
+				this.$store.dispatch( 'sizeIndex' );
 			},
 
-			colorSearch( color )
+			colorIndex()
 			{
-				this.color( color );
+				this.$store.dispatch( 'colorIndex' );
 			},
 
-			monthSearch( month )
+			monthIndex()
 			{
-				this.month( month );
+				this.$store.dispatch( 'monthIndex' );
 			},
 		}
 	}
