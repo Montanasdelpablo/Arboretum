@@ -15,9 +15,9 @@ const token = document.head.querySelector( 'meta[name="csrf-token"]' ).getAttrib
 
 if( token )
 {
-window.token = token;
+	window.token = token;
 } else {
-console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+	console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 import App from '@/pages/App';

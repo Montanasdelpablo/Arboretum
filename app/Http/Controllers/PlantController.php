@@ -26,6 +26,9 @@ class PlantController extends Controller
 			->with( 'size' )
 			->with( 'supplier' )
 			->with( 'crossing' )
+			->with( 'bloom_colors' )
+			->with( 'bloom_dates' )
+			->with( 'macule_colors' )
 			->get();
 		return response()->json( $plants );
 	}
@@ -48,37 +51,52 @@ class PlantController extends Controller
 	 */
 	public function store( Request $request )
 	{
-		print_r($request);
 		$this->validation( $request );
 
 		$created = Plant::create([
-			'name',
-			'follow_number',
-			'purchase_number',
-			'control',
-			'place',
-			'latitude',
-			'longitude',
-			'replant',
-			''
+			'name' => $request->input( 'name' ),
+			'follow_number' => $request->input( 'follow_number' ),
+			'purchase_number' => $request->input( 'purchase_number' ),
+			'control' => $request->input( 'control' ),
+			'place' => $request->input( 'place' ),
+			'latitude' => $request->input( 'latitude' ),
+			'longitude' => $request->input( 'longitude' ),
+			'replant' => $request->input( 'replant' ),
+			'moved' => $request->input( 'moved' ),
+			'dead' => $request->input( 'dead' ),
+			'planted' => $request->input( 'planted' ),
+			'note' => $request->input( 'note' ),
+			'description' => $request->input( 'description' ),
+			'type_id' => $request->input( 'type_id' ),
+			'sex_id' => $request->input( 'sex_id' ),
+			'specie_id' => $request->input( 'specie_id' ),
+			'variety_id' => $request->input( 'variety_id' ),
+			'group_id' => $request->input( 'group_id' ),
+			'synonym_id' => $request->input( 'synonym_id' ),
+			'crossing_id' => $request->input( 'crossing_id' ),
+			'winner_id' => $request->input( 'winner_id' ),
+			'treetype_id' => $request->input( 'treetype_id' ),
+			'priority_id' => $request->input( 'priority_id' ),
+			'supplier_id' => $request->input( 'supplier_id' ),
+			'size_id' => $request->input( 'size_id' ),
 		]);
 
 		// Add bloom colors
 		if( !empty( $request->bloom_color ) )
 		{
-			$created->bloom_colors->attach( $request->bloom_color );
+			$created->bloom_colors()->attach( $request->bloom_color );
 		}
 
 		// Add bloom date
 		if( !empty( $request->bloom_date ) )
 		{
-			$created->bloom_dates->attach( $request->bloom_date );
+			$created->bloom_dates()->attach( $request->bloom_date );
 		}
 
 		// Add bloom date
 		if( !empty( $request->macule_color ) )
 		{
-			$created->macule_colors->attach( $request->macule_color );
+			$created->macule_colors()->attach( $request->macule_color );
 		}
 
 		if( $created )
@@ -122,7 +140,51 @@ class PlantController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $plant->update( $request->all() );
+		$updated = $plant->update([
+			'name' => $request->input( 'name' ),
+			'follow_number' => $request->input( 'follow_number' ),
+			'purchase_number' => $request->input( 'purchase_number' ),
+			'control' => $request->input( 'control' ),
+			'place' => $request->input( 'place' ),
+			'latitude' => $request->input( 'latitude' ),
+			'longitude' => $request->input( 'longitude' ),
+			'replant' => $request->input( 'replant' ),
+			'moved' => $request->input( 'moved' ),
+			'dead' => $request->input( 'dead' ),
+			'planted' => $request->input( 'planted' ),
+			'note' => $request->input( 'note' ),
+			'description' => $request->input( 'description' ),
+			'type_id' => $request->input( 'type_id' ),
+			'sex_id' => $request->input( 'sex_id' ),
+			'specie_id' => $request->input( 'specie_id' ),
+			'variety_id' => $request->input( 'variety_id' ),
+			'group_id' => $request->input( 'group_id' ),
+			'synonym_id' => $request->input( 'synonym_id' ),
+			'crossing_id' => $request->input( 'crossing_id' ),
+			'winner_id' => $request->input( 'winner_id' ),
+			'treetype_id' => $request->input( 'treetype_id' ),
+			'priority_id' => $request->input( 'priority_id' ),
+			'supplier_id' => $request->input( 'supplier_id' ),
+			'size_id' => $request->input( 'size_id' ),
+		]);
+
+		// Add bloom colors
+		if( !empty( $request->bloom_color ) )
+		{
+			$plant->bloom_colors()->sync( $request->bloom_color );
+		}
+
+		// Add bloom date
+		if( !empty( $request->bloom_date ) )
+		{
+			$plant->bloom_dates()->sync( $request->bloom_date );
+		}
+
+		// Add bloom date
+		if( !empty( $request->macule_color ) )
+		{
+			$plant->macule_colors()->sync( $request->macule_color );
+		}
 
 		if( $updated )
 		{
@@ -164,7 +226,34 @@ class PlantController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => 'required'
+			'name' => 'nullable|string',
+			'follow_number' => 'nullable|integer',
+			'purchase_number' => 'nullable|integer',
+			'control' => 'nullable|string|date',
+			'place' => 'string',
+			'latitude' => 'string',
+			'longitude' => 'string',
+			'replant' => 'nullable|boolean',
+			'moved' => 'nullable|string|date',
+			'dead' => 'boolean',
+			'planted' => 'string|date',
+			'note' => 'nullable|string',
+			'description' => 'nullable|string',
+			'type_id' => 'nullable|integer|exists:types,id',
+			'sex_id' => 'nullable|integer|exists:sexes,id',
+			'specie_id' => 'nullable|integer|exists:species,id',
+			'variety_id' => 'nullable|integer|exists:varieties,id',
+			'group_id' => 'nullable|integer|exists:groups,id',
+			'synonym_id' => 'nullable|integer|exists:synonyms,id',
+			'crossing_id' => 'nullable|integer|exists:crossings,id',
+			'winner_id' => 'nullable|integer|exists:winners,id',
+			'treetype_id' => 'nullable|integer|exists:treetypes,id',
+			'priority_id' => 'nullable|integer|exists:priorities,id',
+			'supplier_id' => 'nullable|integer|exists:suppliers,id',
+			'size_id' => 'nullable|integer|exists:sizes,id',
+			'bloom_color' => 'nullable|array',
+			'bloom_date' => 'nullable|array',
+			'macule_color' => 'nullable|array'
 		]);
 	}
 }
