@@ -378,9 +378,21 @@
                     </td>
                     <td>{{ props.item.supplier.name }}</td>
                     <td>{{ props.item.planted }}</td>
-                    <td>{{ props.item }}</td>
-                    <td>{{ props.item }}</td>
-                    <td>{{ props.item }}</td>
+                    <td>
+                        <span v-for="color in props.item.bloom_colors">
+                            {{ color.name }},
+                        </span>
+                    </td>
+                    <td>
+                         <span v-for="date in props.item.bloom_dates">
+                            {{ date.name }},
+                        </span>
+                    </td>
+                    <td>
+                         <span v-for="color in props.item.macule_colors">
+                            {{ color.name }},
+                        </span>
+                    </td>
                     <td>{{ props.item.size.name }}</td>
                     <td>{{ props.item.note }}</td>
                     <td>{{ props.item.description }}</td>
@@ -574,35 +586,6 @@
 						sortable: false,
 					}
 				],
-                type_id: null,
-                sex_id: null,
-                specie_id: null,
-                variety_id: null,
-                group_id: null,
-                synonym_id: null,
-                crossing_id: null,
-                winner_id: null,
-                treetype_id: null,
-                priority_id: null,
-                supplier_id: null,
-                size_id: null,
-                bloom_color: null,
-                macule_color: null,
-                month_id: null,
-                typeIndex: null,
-				sexIndex: null,
-				specieIndex: null,
-				varietyIndex: null,
-				groupIndex: null,
-				synonymIndex: null,
-				crossingIndex: null,
-				winnerIndex: null,
-				treetypeIndex: null,
-				priorityIndex: null,
-				supplierIndex: null,
-				sizeIndex: null,
-                colorIndex: null,
-                monthIndex: null,
 			}
 		},
 		computed: {
@@ -753,17 +736,6 @@
 			{
 				this.dialog = false;
 			},
-		},
-		watch: {
-			details( after )
-            {
-            },
-
-			pagination: {
-				handler() {
-					this.data();
-				}
-			},
 
 			typeIndex()
 			{
@@ -834,6 +806,44 @@
 			{
 				this.$store.dispatch( 'monthIndex' );
 			},
+		},
+		watch: {
+			pagination: {
+				handler()
+				{
+					this.data();
+				}
+			},
+		},
+
+        mounted() {
+			this.typeIndex();
+
+			this.sexIndex();
+
+			this.specieIndex();
+
+			this.varietyIndex();
+
+			this.groupIndex();
+
+			this.synonymIndex();
+
+			this.crossingIndex();
+
+			this.winnerIndex();
+
+			this.priorityIndex();
+
+			this.treetypeIndex();
+
+			this.supplierIndex();
+
+			this.sizeIndex();
+
+			this.colorIndex();
+
+			this.monthIndex();
 		}
 	}
 </script>
