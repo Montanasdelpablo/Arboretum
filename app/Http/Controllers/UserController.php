@@ -76,18 +76,20 @@ class UserController extends Controller
     }
   }
 
-  public function register(){
-    $this->validate(request(), [
+  public function register(Request $request){
+    $request->validate([
             'email' => 'required|email',
             'password' => 'required'
     ]);
-    $user = User::create(request(['name', 'email', 'password']));
-    auth()->login($user);
-		if(empty($user = Auth::user())){
-      return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
-    } else {
-      return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
-    }
+		//$newUser = request(['first_name', 'last_name', 'email', 'password']);
+		$user = User::create($request->all());
+    //auth()->login($user);
+		//return $user;
+		//if(empty($user = Auth::user())){
+    //  return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
+    //} else {
+    //  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
+  //  }
   }
 
 

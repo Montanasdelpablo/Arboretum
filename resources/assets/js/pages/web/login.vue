@@ -17,7 +17,7 @@
                         v-model="password"
                         :rules="passwordRules"
                         label="Wachtwoord"
-                        :type="'password'"
+                        type="password"
                         :counter="15"
                         required
                       ></v-text-field>

@@ -16,15 +16,15 @@
                               v-model="form.password"
                               :rules="passwordRules"
                               label="Wachtwoord"
-                              :type="'password'"
-                              required                              
+                              type="password"
+                              required
                             ></v-text-field>
                             <v-text-field
-                              v-model="form.firstname"
+                              v-model="form.first_name"
                               label="Voornaam"
                             ></v-text-field>
                             <v-text-field
-                              v-model="form.lastname"
+                              v-model="form.last_name"
                               label="Achternaam"
                             ></v-text-field>
 
@@ -58,8 +58,8 @@
           form: {
             email: '',
             password: '',
-            firstname: '',
-            lastname: '',
+            first_name: '',
+            last_name: '',
           },
           emailRules: [
             v => !!v || 'E-mail is required',
@@ -76,7 +76,7 @@
           let user = this.form
           this.$store.dispatch( 'register', user ).then( () =>
           {
-            this.data(); // Refresh data
+            // this.data(); // Refresh data
           });
         },
 		},
