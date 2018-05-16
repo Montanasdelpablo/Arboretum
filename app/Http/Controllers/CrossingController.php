@@ -15,7 +15,10 @@ class CrossingController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Crossing::all() );
+		return response()->json(
+			Crossing::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

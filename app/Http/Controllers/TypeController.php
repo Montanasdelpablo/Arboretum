@@ -15,7 +15,10 @@ class TypeController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Type::all() );
+		return response()->json(
+			Type::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

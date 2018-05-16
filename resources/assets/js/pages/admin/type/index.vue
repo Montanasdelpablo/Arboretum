@@ -61,6 +61,7 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td>{{ props.item.name }}</td>
+                    <td class="text-xs-right">{{ props.item.plant_count }}</td>
                     <td>
                         <v-btn icon @click.nativ="editItem( props.item )">
                             <v-icon color="green">edit</v-icon>
@@ -111,6 +112,11 @@
 						text: 'Type',
 						align: 'left',
 						value: 'name'
+					},
+					{
+						text: 'Planten',
+						align: 'right',
+						value: 'plant_count'
 					},
 					{
 						text: 'Acties',
@@ -172,6 +178,8 @@
 
 			editItem( item )
 			{
+				delete item.plant_count;
+
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog

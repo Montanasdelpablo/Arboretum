@@ -14,22 +14,7 @@ class PlantController extends Controller
 	 */
 	public function index()
 	{
-		$plants = Plant::with(  'type')
-			->with( 'sex' )
-			->with( 'specie' )
-			->with( 'variety' )
-			->with( 'group' )
-			->with( 'synonym' )
-			->with( 'winner' )
-			->with( 'treetype' )
-			->with( 'priority' )
-			->with( 'size' )
-			->with( 'supplier' )
-			->with( 'crossing' )
-			->with( 'bloom_colors' )
-			->with( 'bloom_dates' )
-			->with( 'macule_colors' )
-			->get();
+		$plants = Plant::all();
 		return response()->json( $plants );
 	}
 

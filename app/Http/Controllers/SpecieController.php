@@ -15,7 +15,10 @@ class SpecieController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Specie::all() );
+		return response()->json(
+			Specie::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

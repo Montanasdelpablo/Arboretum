@@ -15,7 +15,10 @@ class SexController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Sex::all() );
+		return response()->json(
+			Sex::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

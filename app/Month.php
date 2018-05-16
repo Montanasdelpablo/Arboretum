@@ -12,10 +12,10 @@ class Month extends Model
 	protected $guarded = ['id'];
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function plant()
+	public function bloom_dates()
 	{
-		return $this->belongsTo( Plant::class );
+		return $this->belongsToMany( Plant::class, 'bloom_month', 'month_id', 'plant_id' );
 	}
 }

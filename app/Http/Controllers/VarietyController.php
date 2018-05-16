@@ -15,7 +15,10 @@ class VarietyController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Variety::all() );
+		return response()->json(
+			Variety::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

@@ -14,7 +14,7 @@ class Color extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-    public function bloom_color()
+    public function bloom_colors()
 	{
 		return $this->belongsToMany( Plant::class, 'bloom_color', 'color_id', 'plant_id' );
 	}
@@ -22,7 +22,7 @@ class Color extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function color_macule()
+	public function macule_colors()
 	{
 		return $this->belongsToMany( Plant::class, 'color_macule', 'color_id', 'plant_id' );
 	}

@@ -99,6 +99,7 @@
                             <a :href="props.item.website" target="_blank">{{ props.item.name }}</a>
                         </span>
                     </td>
+                    <td class="text-xs-right">{{ props.item.plant_count }}</td>
                     <td>
                         <v-btn icon @click.nativ="editItem( props.item )">
                             <v-icon color="green">edit</v-icon>
@@ -181,6 +182,11 @@
 						value: 'website',
 					},
 					{
+						text: 'Planten',
+						align: 'right',
+						value: 'plant_count'
+					},
+					{
 						text: 'Acties',
 						align: 'left',
 						value: '',
@@ -242,6 +248,8 @@
 
 			editItem( item )
 			{
+				delete item.plant_count;
+
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog

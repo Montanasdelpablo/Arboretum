@@ -15,7 +15,11 @@ class ColorController extends Controller
      */
     public function index()
     {
-        return response()->json( Color::all() );
+        return response()->json(
+        	Color::withCount( 'bloom_colors' )
+				->withCount( 'macule_colors' )
+				->get()
+		);
     }
 
     /**

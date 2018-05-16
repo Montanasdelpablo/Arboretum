@@ -15,7 +15,10 @@ class PriorityController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Priority::all() );
+		return response()->json(
+			Priority::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

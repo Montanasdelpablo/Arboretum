@@ -15,7 +15,10 @@ class MonthController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Month::all() );
+		return response()->json(
+			Month::withCount( 'bloom_dates' )
+				->get()
+		);
 	}
 
 	/**
@@ -81,7 +84,9 @@ class MonthController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $month->update( $request->all() );
+		$updated = $month->update( [
+			'name' => $request->input('name')
+		] );
 
 		if( $updated )
 		{

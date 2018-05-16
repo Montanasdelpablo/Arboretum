@@ -13,7 +13,7 @@
                 <v-select
                     label="Sorteer op"
                     v-model="form.orderBy"
-                    items=""
+                    :items="orderBy"
                 />
             </v-flex>
 
@@ -70,32 +70,37 @@
                 form: {},
                 rowsPerPage: [
 					{
-						text: '5',
-						value: '5'
+						text: 5,
+						value: 5
 					},
 					{
-						text: '10',
-						value: '10'
+						text: 10,
+						value: 10
 					},
 					{
-						text: '25',
-						value: '25'
+						text: 25,
+						value: 25
 					},
 					{
 						text: 'Alles',
-						value: '-1'
+						value: -1
 					}
 				],
                 descending: [
 					{
 						text: 'Oplopend',
-						value: 'true'
+						value: true
 					},
 					{
 						text: 'Aflopend',
-						value: 'false'
+						value: false
 					}
-				]
+				],
+                orderBy: [
+                    {
+                    	text: ''
+                    }
+                ]
             }
         },
 

@@ -11,7 +11,13 @@ class Plant extends Model
 	 */
     protected $guarded = [ 'id' ];
 
+    protected $with = [ 'bloom_colors', 'macule_colors', 'crossing', 'group', 'bloom_dates', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'variety', 'winner' ];
+
+	/**
+	 * @var array
+	 */
     protected $casts = [ 'bloom_color', 'bloom_date', 'macule_color' ];
+
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

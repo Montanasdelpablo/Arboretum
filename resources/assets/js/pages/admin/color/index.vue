@@ -17,7 +17,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam" required />
+                                    <v-text-field v-model="form.name" label="Naam" required/>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -33,7 +33,9 @@
         </v-dialog>
 
         <!-- Data table -->
-        <v-data-table :headers="headers" :items="items" :totalItems="totalItems" item-key="id" :loading="loading" :pagination.sync="pagination" no-data-text="Geen data" no-result-text="Geen resultaten gevonden" rows-per-page-text="Rijen per pagina">
+        <v-data-table :headers="headers" :items="items" :totalItems="totalItems" item-key="id" :loading="loading"
+                      :pagination.sync="pagination" no-data-text="Geen data" no-result-text="Geen resultaten gevonden"
+                      rows-per-page-text="Rijen per pagina">
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="header" slot-scope="props">
                 <tr>
@@ -48,6 +50,8 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td>{{ props.item.name }}</td>
+                    <td class="text-xs-right">{{ props.item.bloom_colors_count }}</td>
+                    <td class="text-xs-right">{{ props.item.macule_colors_count }}</td>
                     <td>
                         <v-btn icon @click.nativ="editItem( props.item )">
                             <v-icon color="green">edit</v-icon>
@@ -78,104 +82,167 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <!-- Chart -->
+        <bar-chart :labels="labels" :datasets="datasets" />
     </div>
 </template>
 
 <script>
+    import barChart from '@/components/bar-chart';
 
-export default {
-    data() {
-            return {
-                pagination: {},
-                loading: false,
-                deleteItem: {},
-                itemEdit: null,
-                dialog: false,
-                form: {},
-                headers: [{
-                    text: 'Kleur',
-                    align: 'left',
-                    value: 'name'
-                }, {
-                    text: 'Acties',
-                    align: 'left',
-                    value: '',
-                    sortable: false,
-                }]
+	export default
+    {
+    	components: {
+            'bar-chart': barChart
+        },
+
+		data()
+		{
+			return {
+				pagination: {},
+				loading: false,
+				deleteItem: {},
+				itemEdit: null,
+				dialog: false,
+				form: {},
+				headers: [
+					{
+						text: 'Kleur',
+						align: 'left',
+						value: 'name'
+					},
+                    {
+                    	text: 'Planten',
+                        align: 'right',
+                        value: 'bloom_colors_count'
+                    },
+                    {
+                    	text: 'Macule',
+                        align: 'right',
+						value: 'macule_colors_count'
+                    },
+                    {
+						text: 'Acties',
+						align: 'left',
+						value: '',
+						sortable: false,
+					},
+				]
+			}
+		},
+		computed: {
+			/**
+			 * Get all items
+			 *
+			 * @returns {colorIndex|default.mutations.colorIndex|default.actions.colorIndex|default.getters.colorIndex}
+			 */
+			items()
+			{
+				return this.$store.getters.colorIndex;
+			},
+
+			/**
+			 * Get the total amount of items
+			 * @returns {default.getters.colorTotal|colorTotal}
+			 */
+			totalItems()
+			{
+				return this.$store.getters.colorTotal;
+			},
+
+            labels()
+            {
+            	return this.items.map( color => {
+            		return color.name;
+                })
+            },
+
+            datasets()
+            {
+            	return [
+					{
+						label: 'Planten',
+						backgroundColor: '#fff',
+                        data: this.items.map( color => {
+                        	return color.bloom_colors_count
+                        })
+					},
+                    {
+                    	label: 'Macule',
+						backgroundColor: '#299',
+                        data: this.items.map( color => {
+                        	return color.macule_colors_count
+                        })
+                    }
+                ];
             }
-        },
-        computed: {
-            /**
-             * Get all items
-             *
-             * @returns {colorIndex|default.mutations.colorIndex|default.actions.colorIndex|default.getters.colorIndex}
-             */
-            items() {
-                    return this.$store.getters.colorIndex;
-                },
+		},
+		methods: {
+			/**
+			 * Fetch items
+			 */
+			data()
+			{
+				this.loading = true;
+				this.$store.dispatch( 'colorIndex', this.pagination ).then( () =>
+				{
+					this.loading = false;
+				});
+			},
 
-                /**
-                 * Get the total amount of items
-                 * @returns {default.getters.colorTotal|colorTotal}
-                 */
-                totalItems() {
-                    return this.$store.getters.colorTotal;
-                }
-        },
-        methods: {
-            /**
-             * Fetch items
-             */
-            data() {
-                    this.loading = true;
-                    this.$store.dispatch('colorIndex', this.pagination).then(() => {
-                        this.loading = false;
-                    });
-                },
+			store()
+			{
+				this.loading = true;
 
+				// Dispatch different function based for store or update
+				this.$store.dispatch( this.itemEdit !== null ? 'colorUpdate' : 'colorStore', this.form ).then( () =>
+				{
+					this.data(); // Refresh data
+					this.form = {};
+					this.itemEdit = null;
+					this.dialog = false; // Close dialog
+				} );
+			},
 
-                store() {
-                    this.loading = true;
+			editItem( item )
+			{
+				delete item.bloom_colors_count;
+				delete item.macule_colors_count;
 
-                    // Dispatch different function based for store or update
-                    this.$store.dispatch(this.itemEdit !== null ? 'colorUpdate' : 'colorStore', this.form).then(() => {
-                        this.data(); // Refresh data
-                        this.form = {};
-                        this.itemEdit = null;
-                        this.dialog = false; // Close dialog
-                    });
-                },
+				this.itemEdit = item.id;
+				this.form = Object.assign( this.form, item );
+				this.dialog = true; // Open dialog
+			},
 
-                editItem(item) {
-                    this.itemEdit = item.id;
-                    this.form = Object.assign(this.form, item);
-                    this.dialog = true; // Open dialog
-                },
+			/**
+			 * Delete item
+			 *
+			 * @param id
+			 */
+			destroy( id )
+			{
+				this.loading = true;
+				this.$store.dispatch( 'colorDestroy', id ).then( () =>
+				{
+					this.data(); // Refresh data
+					this.deleteItem = {};
+				} );
+			},
 
-                /**
-                 * Delete item
-                 *
-                 * @param id
-                 */
-                destroy(id) {
-                    this.loading = true;
-                    this.$store.dispatch('colorDestroy', id).then(() => {
-                        this.data(); // Refresh data
-                        this.deleteItem = {};
-                    });
-                },
+			close()
+			{
+				this.dialog = false;
+			},
+		},
 
-                close() {
-                    this.dialog = false;
-                }
-        },
-        watch: {
-            pagination: {
-                handler() {
-                    this.data();
-                }
-            }
-        }
-}
-
+		watch: {
+			pagination: {
+				handler()
+				{
+					this.data();
+				}
+			}
+		},
+	}
 </script>

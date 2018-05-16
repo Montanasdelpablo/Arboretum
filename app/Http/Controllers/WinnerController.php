@@ -15,7 +15,10 @@ class WinnerController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Winner::all() );
+		return response()->json(
+			Winner::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

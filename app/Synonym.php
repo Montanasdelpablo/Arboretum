@@ -12,10 +12,10 @@ class Synonym extends Model
 	protected $guarded = ['id'];
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 */
 	public function plant()
 	{
-		return $this->belongsTo( Plant::class );
+		return $this->hasOne( Plant::class );
 	}
 }

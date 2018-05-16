@@ -15,7 +15,10 @@ class SizeController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Size::all() );
+		return response()->json(
+			Size::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**

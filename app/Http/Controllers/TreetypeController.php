@@ -15,7 +15,10 @@ class TreetypeController extends Controller
 	 */
 	public function index()
 	{
-		return response()->json( Treetype::all() );
+		return response()->json(
+			Treetype::withCount( 'plant' )
+				->get()
+		);
 	}
 
 	/**
