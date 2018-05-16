@@ -1,15 +1,15 @@
 <template>
     <v-app dark>
+        <!-- Toolbar -->
         <v-toolbar color="primary">
             <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
 
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
             <v-spacer />
-
-            <v-btn icon><v-icon>search</v-icon></v-btn>
         </v-toolbar>
 
+        <!-- Navigation -->
         <v-navigation-drawer fixed temporary v-model="drawer">
             <v-toolbar flat class="transparent">
                 <v-list>
@@ -60,10 +60,6 @@
                         <v-flex xs6>
                             <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
                         </v-flex>
-
-                        <v-flex xs6 class="text-xs-center">
-                            <a href="#!" class="body-2 black--text">EDIT</a>
-                        </v-flex>
                     </v-layout>
 
                     <v-list-group v-else-if="item.children" v-model="item.model" :key="item.title" :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
@@ -103,11 +99,13 @@
             </v-list>
         </v-navigation-drawer>
 
+        <!-- Alerts -->
         <v-container fluid>
             <v-alert :type="success ? 'success' : 'error'" :value="message && message.length > 1" transition="scale-transition">
                 {{ message }}
             </v-alert>
 
+            <!-- Content -->
             <router-view></router-view>
         </v-container>
     </v-app>
@@ -236,8 +234,13 @@
                     {
                     	title: 'Winners',
                         to: 'winnerIndex',
-                        icon: 'cake'
-                    }
+                        icon: 'people'
+                    },
+					{
+						title: 'Gebruikers',
+                        to: 'userIndex',
+                        icon: 'person'
+					}
 				]
 			}
 		}
