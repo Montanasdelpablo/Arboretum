@@ -24,7 +24,6 @@ export default {
 	watch: {
 		datasets( after )
 		{
-			console.log(1, after);
 			this.$data._chart.destroy();
 			this.renderBarChart();
 		},

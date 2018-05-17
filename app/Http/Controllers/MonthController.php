@@ -16,7 +16,7 @@ class MonthController extends Controller
 	public function index()
 	{
 		return response()->json(
-			Month::withCount( 'bloom_dates' )
+			Month::withCount( 'plants' )
 				->get()
 		);
 	}

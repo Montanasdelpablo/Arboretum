@@ -5,13 +5,18 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Auth;  
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
      use HasApiTokens, Notifiable;
 
      protected $guarded = ['id'];
+
+	/**
+	 * @var bool
+	 */
+	public $timestamps = false;
 
     /**
      * The attributes that should be hidden for arrays.

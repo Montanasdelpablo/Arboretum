@@ -238,7 +238,7 @@
 
                                 <v-flex xs12>
                                     <v-select
-                                        v-model="form.bloom_color"
+                                        v-model="form.bloom_colors"
                                         label="Bloeikleur"
                                         multiple
                                         autocomplete
@@ -255,7 +255,7 @@
 
                                 <v-flex xs12>
                                     <v-select
-                                        v-model="form.bloom_date"
+                                        v-model="form.months"
                                         label="Bloeitijd"
                                         multiple
                                         autocomplete
@@ -265,14 +265,14 @@
                                         no-data="Geen maand gevonden"
                                         cache-items
                                         required
-                                        :error-messages="errors['month_id']"
+                                        :error-messages="errors['months']"
                                         :search-input.sync="monthIndex"
                                     />
                                 </v-flex>
 
                                 <v-flex xs12>
                                     <v-select
-                                        v-model="form.macule_color"
+                                        v-model="form.macule_colors"
                                         label="Maculekleur"
                                         multiple
                                         autocomplete
@@ -379,18 +379,18 @@
                     <td>{{ props.item.supplier.name }}</td>
                     <td>{{ props.item.planted }}</td>
                     <td>
-                        <span v-for="color in props.item.bloom_colors">
-                            {{ color.name }},
+                        <span v-for="( color, i ) in props.item.bloom_colors">
+                            {{ color.name }}<span v-if="i <= props.item.bloom_colors.length">,</span>
                         </span>
                     </td>
                     <td>
-                         <span v-for="date in props.item.bloom_dates">
-                            {{ date.name }},
+                         <span v-for="( month, i ) in props.item.months">
+                            {{ month.name }}<span v-if="i <= props.item.months.length">,</span>
                         </span>
                     </td>
                     <td>
-                         <span v-for="color in props.item.macule_colors">
-                            {{ color.name }},
+                         <span v-for="( color, i ) in props.item.macule_colors">
+                            {{ color.name }}<span v-if="i <= props.item.macule_colors.length">,</span>
                         </span>
                     </td>
                     <td>{{ props.item.size.name }}</td>
@@ -440,7 +440,10 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
-				form: {},
+				form: {
+					dead: false,
+                    replant: false
+                },
 				headers: [
                     {
                     	text: 'Volgnummer',
@@ -704,7 +707,10 @@
 				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () =>
 				{
 					this.data(); // Refresh data
-					this.form = {};
+					this.form = {
+						dead: false,
+						replant: false
+					};
 					this.itemEdit = null;
 					this.dialog = false; // Close dialog
 				});

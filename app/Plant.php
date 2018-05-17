@@ -9,15 +9,21 @@ class Plant extends Model
 	/**
 	 * @var array
 	 */
-    protected $guarded = [ 'id' ];
+	protected $guarded = [ 'id' ];
 
-    protected $with = [ 'bloom_colors', 'macule_colors', 'crossing', 'group', 'bloom_dates', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'variety', 'winner' ];
+	/**
+	 * @var bool
+	 */
+	public $timestamps = false;
 
 	/**
 	 * @var array
 	 */
-    protected $casts = [ 'bloom_color', 'bloom_date', 'macule_color' ];
-
+	protected $with = [ 'bloom_colors', 'macule_colors', 'crossing', 'group', 'months', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'variety', 'winner' ];
+	/**
+	 * @var array
+	 */
+	protected $casts = [ 'bloom_color', 'months', 'macule_color' ];
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -118,9 +124,9 @@ class Plant extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function bloom_dates()
+	public function months()
 	{
-		return $this->belongsToMany( Month::class, 'bloom_month', 'plant_id', 'month_id' );
+		return $this->belongsToMany( Month::class );
 	}
 
 	/**

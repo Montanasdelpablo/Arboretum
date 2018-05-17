@@ -14,8 +14,7 @@ class PlantController extends Controller
 	 */
 	public function index()
 	{
-		$plants = Plant::all();
-		return response()->json( $plants );
+		return response()->json( Plant::all() );
 	}
 
 	/**
@@ -73,9 +72,9 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( !empty( $request->bloom_date ) )
+		if( !empty( $request->months ) )
 		{
-			$created->bloom_dates()->attach( $request->bloom_date );
+			$created->months()->attach( $request->months );
 		}
 
 		// Add bloom date
@@ -160,9 +159,9 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( !empty( $request->bloom_date ) )
+		if( !empty( $request->months ) )
 		{
-			$plant->bloom_dates()->sync( $request->bloom_date );
+			$plant->months()->sync( $request->months );
 		}
 
 		// Add bloom date
@@ -237,7 +236,7 @@ class PlantController extends Controller
 			'supplier_id' => 'nullable|integer|exists:suppliers,id',
 			'size_id' => 'nullable|integer|exists:sizes,id',
 			'bloom_color' => 'nullable|array',
-			'bloom_date' => 'nullable|array',
+			'months' => 'nullable|array',
 			'macule_color' => 'nullable|array'
 		]);
 	}

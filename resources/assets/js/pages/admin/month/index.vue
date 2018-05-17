@@ -61,7 +61,7 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.bloom_dates_count }}</td>
+                    <td class="text-xs-right">{{ props.item.plants_count }}</td>
                     <td>
                         <v-btn icon @click.nativ="editItem( props.item )">
                             <v-icon color="green">edit</v-icon>
@@ -92,12 +92,21 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <!-- Chart -->
+        <bar-chart :labels="labels" :datasets="datasets" />
     </div>
 </template>
 
 <script>
+	import barChart from '@/components/bar-chart';
+
 	export default
 	{
+		components: {
+			'bar-chart': barChart
+		},
+
 		data()
 		{
 			return {
@@ -116,7 +125,7 @@
 					{
 						text: 'Planten',
 						align: 'right',
-						value: 'bloom_dates_count'
+						value: 'plants_count'
 					},
 					{
 						text: 'Acties',
@@ -145,7 +154,27 @@
 			totalItems()
 			{
 				return this.$store.getters.monthTotal;
-			}
+			},
+
+			labels()
+			{
+				return this.items.map( item => {
+					return item.name;
+				})
+			},
+
+			datasets()
+			{
+				return [
+					{
+						label: 'Planten',
+						backgroundColor: '#fff',
+						data: this.items.map( item => {
+							return item.plants_count
+						})
+					}
+				];
+			},
 		},
 		methods: {
 			/**

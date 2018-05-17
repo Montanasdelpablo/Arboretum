@@ -12,6 +12,11 @@ class Variety extends Model
 	protected $guarded = ['id'];
 
 	/**
+	 * @var bool
+	 */
+	public $timestamps = false;
+
+	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 */
 	public function plant()

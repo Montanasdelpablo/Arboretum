@@ -41,7 +41,7 @@
 
                     <v-card-title>
                         <h3 class="headline">
-                            {{ plant.sex.name }} {{ plant.specie.name }}
+                            {{ plant.sex.name }} {{ plant.specie.name }} ({{ plant.name }})
                         </h3>
                     </v-card-title>
 
@@ -98,7 +98,40 @@
 				],
                 orderBy: [
                     {
-                    	text: ''
+                    	text: 'Naam',
+                        value: 'name'
+                    },
+                    {
+                        text: 'Bloeikleur',
+                        value: 'bloom_colors'
+                    },
+                    {
+                        text: 'Maculekleur',
+                        value: 'macule_colors'
+                    },
+                    {
+                        text: 'Kruising ouders',
+                        value: 'crossing.name'
+                    },
+                    {
+                    	text: 'Groep',
+                        value: 'group.name'
+                    },
+                    {
+                    	text: 'Bloeidatum',
+                        value: 'months.name'
+                    },
+                    {
+                    	text: 'Geslacht',
+                        value: 'sex.name'
+                    },
+                    {
+                    	text: 'Grootte',
+                        value: 'size.name'
+                    },
+                    {
+                    	text: 'Soort',
+                        value: 'specie.name'
                     }
                 ]
             }

@@ -92,14 +92,24 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <!-- Chart -->
+        <bar-chart :labels="labels" :datasets="datasets" />
     </div>
 </template>
 
 <script>
-	export default {
-		data()
-		{
-			return {
+	import barChart from '@/components/bar-chart';
+
+	export default
+	{
+		components: {
+			'bar-chart': barChart
+		},
+
+        data()
+        {
+		return {
 				pagination: {},
 				loading: false,
 				deleteItem: {},
@@ -126,6 +136,7 @@
 				]
 			}
 		},
+
 		computed: {
 			/**
 			 * Get all items
@@ -145,8 +156,29 @@
 			totalItems()
 			{
 				return this.$store.getters.winnerTotal;
-			}
+			},
+
+			labels()
+			{
+				return this.items.map( item => {
+					return item.name;
+				})
+			},
+
+			datasets()
+			{
+				return [
+					{
+						label: 'Planten',
+						backgroundColor: '#fff',
+						data: this.items.map( item => {
+							return item.plant_count
+						})
+					}
+				];
+			},
 		},
+
 		methods: {
 			/**
 			 * Fetch items
