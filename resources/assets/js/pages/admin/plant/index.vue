@@ -353,17 +353,17 @@
                 <tr>
                     <td>{{ props.item.follow_number }}</td>
                     <td>{{ props.item.purchase_number }}</td>
-                    <td>{{ props.item.type.name }}</td>
-                    <td>{{ props.item.sex.name }}</td>
-                    <td>{{ props.item.specie.name }}</td>
-                    <td>{{ props.item.variety.name }}</td>
-                    <td>{{ props.item.group.name }}</td>
-                    <td>{{ props.item.name }}</td>
-                    <td>{{ props.item.synonym.name }}</td>
-                    <td>{{ props.item.crossing.name }}</td>
-                    <td>{{ props.item.winner.name }}</td>
-                    <td>{{ props.item.treetype.name }}</td>
-                    <td>{{ props.item.priority.name }}</td>
+                    <td>{{ props.item.type_id ? props.item.type.name : '' }}</td>
+                    <td>{{ props.item.sex_id ? props.item.sex.name : '' }}</td>
+                    <td>{{ props.item.specie_id ? props.item.specie.name : '' }}</td>
+                    <td>{{ props.item.variety_id ? props.item.variety.name : '' }}</td>
+                    <td>{{ props.item.group_id ? props.item.group.name : '' }}</td>
+                    <td>{{ props.item.name_id ? props.item.name.name : '' }}</td>
+                    <td>{{ props.item.synonym_id ? props.item.synonym.name : '' }}</td>
+                    <td>{{ props.item.crossing_id ? props.item.crossing.name : '' }}</td>
+                    <td>{{ props.item.winner_id ? props.item.winner.name : '' }}</td>
+                    <td>{{ props.item.treetype_id ? props.item.treetype.name : '' }}</td>
+                    <td>{{ props.item.priority_id ? props.item.priority.name : '' }}</td>
                     <td>{{ props.item.place }}</td>
                     <td>{{ props.item.latitude }}</td>
                     <td>{{ props.item.longitude }}</td>
@@ -376,24 +376,12 @@
                         <v-icon v-if="props.item.dead" class="green--text">check_box</v-icon>
                         <v-icon v-else class="red--text">check_box_outline</v-icon>
                     </td>
-                    <td>{{ props.item.supplier.name }}</td>
+                    <td>{{ props.item.supplier_id ? props.item.supplier.name : '' }}</td>
                     <td>{{ props.item.planted }}</td>
-                    <td>
-                        <span v-for="( color, i ) in props.item.bloom_colors">
-                            {{ color.name }}<span v-if="i <= props.item.bloom_colors.length">,</span>
-                        </span>
-                    </td>
-                    <td>
-                         <span v-for="( month, i ) in props.item.months">
-                            {{ month.name }}<span v-if="i <= props.item.months.length">,</span>
-                        </span>
-                    </td>
-                    <td>
-                         <span v-for="( color, i ) in props.item.macule_colors">
-                            {{ color.name }}<span v-if="i <= props.item.macule_colors.length">,</span>
-                        </span>
-                    </td>
-                    <td>{{ props.item.size.name }}</td>
+                    <td>{{ props.item.bloom_colors.map( color => color.name ).join( ', ' ) }}</td>
+                    <td>{{ props.item.months.map( month => month.name ).join( ', ' ) }}</td>
+                    <td>{{ props.item.macule_colors.map( color => color.name ).join( ', ' ) }}</td>
+                    <td>{{ props.item.size_id ? props.item.size.name : '' }}</td>
                     <td>{{ props.item.note }}</td>
                     <td>{{ props.item.description }}</td>
                     <td>
@@ -676,6 +664,11 @@
 				return this.$store.getters.sizeIndex;
 			},
 
+            names()
+            {
+            	return this.$store.getters.nameIndex;
+            },
+
 			colors()
 			{
 				return this.$store.getters.colorIndex;
@@ -803,6 +796,11 @@
 				this.$store.dispatch( 'sizeIndex' );
 			},
 
+            nameIndex()
+            {
+                this.$store.dispatch( 'nameIndex' );
+            },
+
 			colorIndex()
 			{
 				this.$store.dispatch( 'colorIndex' );
@@ -846,6 +844,8 @@
 			this.supplierIndex();
 
 			this.sizeIndex();
+
+			this.nameIndex();
 
 			this.colorIndex();
 

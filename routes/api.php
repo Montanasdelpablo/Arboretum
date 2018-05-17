@@ -52,6 +52,7 @@ Route::delete( '/months/{month}', 'MonthController@destroy' );
 
 // Plants
 Route::post( '/plants', 'PlantController@store' );
+Route::post( '/plants/import', 'PlantController@import' );
 Route::get( '/plants/{plant}', 'PlantController@show' );
 Route::get( '/plants/{plant}/edit', 'PlantController@edit' );
 Route::put( '/plants/{plant}', 'PlantController@update' );
@@ -137,7 +138,7 @@ Route::get( '/varieties/{variety}', 'VarietyController@show' );
 Route::get( '/varieties/{variety}/edit', 'VarietyController@edit' );
 Route::put( '/varieties/{variety}', 'VarietyController@update' );
 Route::get( '/varieties/{search}/search', 'VarietyController@search' );
-Route::delete( '/colors/{color}', 'ColorController@destroy' );
+Route::delete( '/varieties/{variety}', 'VarietyController@destroy' );
 
 // Winners
 Route::get( '/winners', 'WinnerController@index' );
@@ -146,6 +147,16 @@ Route::get( '/winners/{winner}', 'WinnerController@show' );
 Route::get( '/winners/{winner}/edit', 'WinnerController@edit' );
 Route::put( '/winners/{winner}', 'WinnerController@update' );
 Route::get( '/winners/{search}/search', 'WinnerController@search' );
+Route::delete( '/winners/{winner}', 'WinnerController@destroy' );
+
+// Names
+Route::get( '/names', 'NameController@index' );
+Route::post( '/names', 'NameController@store' );
+Route::get( '/names/{name}', 'NameController@show' );
+Route::get( '/names/{name}/edit', 'NameController@edit' );
+Route::put( '/names/{name}', 'NameController@update' );
+Route::get( '/names/{search}/search', 'NameController@search' );
+Route::delete( '/names/{name}', 'NameController@destroy' );
 
 
 

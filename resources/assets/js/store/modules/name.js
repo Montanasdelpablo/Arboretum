@@ -3,65 +3,54 @@ export default
 	state: {
 		all: [],
 		search: {},
-		plant: {}
+		edit: {}
 	},
 
 	mutations:  {
 		/**
-		 * Set all plants
+		 * Set all names
 		 *
 		 * @param state
-		 * @param plants
+		 * @param names
 		 */
-		plantIndex( state, plants )
+		nameIndex( state, names )
 		{
-			state.all = plants;
+			state.all = names;
 		},
 
 		/**
-		 * Show plant
+		 * Edit name
 		 *
 		 * @param state
-		 * @param plant
+		 * @param name
 		 */
-		plantShow( state, plant )
+		nameEdit( state, name )
 		{
-			state.plant = plant;
+			state.edit = name;
 		},
 
 		/**
-		 * Edit plant
+		 * Search name
 		 *
 		 * @param state
-		 * @param plant
+		 * @param name
 		 */
-		plantEdit( state, plant )
+		nameSearch( state, name )
 		{
-			state.plant = plant;
-		},
-
-		/**
-		 * Search plant
-		 *
-		 * @param state
-		 * @param plant
-		 */
-		plantSearch( state, plant )
-		{
-			state.search = plant;
+			state.search = name;
 		}
 	},
 
 	actions: {
 		/**
-		 * Get all plants from API
+		 * Get all names from API
 		 *
 		 * @param context
 		 * @param pagination
 		 */
-		plantIndex( context, pagination )
+		nameIndex( context, pagination )
 		{
-			let url = '/api/plants';
+			let url = '/api/names';
 			if( pagination && Object.keys( pagination ).length > 1 )
 			{
 				url += `?${Object.keys( pagination ).map( key =>  `${key}=${pagination[ key ]}` ).join( '&' ) }`;
@@ -77,20 +66,20 @@ export default
 				}
 			})
 				.then( response => response.json() )
-				.then( response => context.commit( 'plantIndex', response ) )
-				.catch( error => console.error( 'plantIndex', error ) );
+				.then( response => context.commit( 'nameIndex', response ) )
+				.catch( error => console.error( 'nameIndex', error ) );
 		},
 
 		/**
-		 * Store plant in DB
+		 * Store name in DB
 		 *
 		 * @param context
 		 * @param data
 		 * @returns {Promise<any>}
 		 */
-		plantStore( context, data )
+		nameStore( context, data )
 		{
-			return fetch( '/api/plants', {
+			return fetch( '/api/names', {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -111,18 +100,19 @@ export default
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
 				})
-				.catch( error => console.error( 'plantStore', error ) );
+				.catch( error => console.error( 'nameStore', error ) );
 		},
 
 		/**
+		 * Get information from specific name
 		 *
 		 * @param context
 		 * @param id
 		 * @returns {Promise<any>}
 		 */
-		plantShow( context, id )
+		nameEdit( context, id )
 		{
-			return fetch( `/api/plants/${id}`, {
+			return fetch( `/api/names/${id}/edit`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -132,42 +122,19 @@ export default
 				}
 			})
 				.then( response => response.json() )
-				.then( response => context.commit( 'plantShow', response ) )
-				.catch( error => console.error( 'plantShow', error ) );
+				.then( response => context.commit( 'nameEdit', response ) )
+				.catch( error => console.error( 'nameEdit', error ) );
 		},
 
 		/**
-		 * Get information from specific plant
-		 *
-		 * @param context
-		 * @param id
-		 * @returns {Promise<any>}
-		 */
-		plantEdit( context, id )
-		{
-			return fetch( `/api/plants/${id}/edit`, {
-				headers: {
-					'X-Requested-With': 'XMLHttpRequest',
-					'X-CSRF-token': window.token,
-					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-				}
-			})
-				.then( response => response.json() )
-				.then( response => context.commit( 'plantEdit', response ) )
-				.catch( error => console.error( 'plantEdit', error ) );
-		},
-
-		/**
-		 * Update plant in DB
+		 * Update name in DB
 		 *
 		 * @param context
 		 * @param data
 		 */
-		plantUpdate( context, data )
+		nameUpdate( context, data )
 		{
-			return fetch( `/api/plants/${data.id}`, {
+			return fetch( `/api/names/${data.id}`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -188,19 +155,19 @@ export default
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
 				})
-				.catch( error => console.error( 'plantUpdate', error ) );
+				.catch( error => console.error( 'nameUpdate', error ) );
 		},
 
 		/**
-		 * Destroy plant
+		 * Destroy name
 		 *
 		 * @param context
 		 * @param id
 		 * @returns {Promise<any>}
 		 */
-		plantDestroy( context, id )
+		nameDestroy( context, id )
 		{
-			return fetch( `/api/plants/${id}`, {
+			return fetch( `/api/names/${id}`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -220,17 +187,17 @@ export default
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
 				})
-				.catch( error => console.error( 'plantDestroy', error ) );
+				.catch( error => console.error( 'nameDestroy', error ) );
 		},
 
 		/**
 		 * Get search results from API
 		 *
 		 * @param context
-		 * @param plant
+		 * @param name
 		 */
-		plantSearch( context, plant ) {
-			return fetch( `/api/plants/${plant}/search`, {
+		nameSearch( context, name ) {
+			return fetch( `/api/names/${name}/search`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -240,19 +207,19 @@ export default
 				}
 			})
 				.then( response =>  response.json() )
-				.then( response => context.commit( 'plantSearch', response ) )
-				.catch( error => console.error( 'plantSearch', error ) );
+				.then( response => context.commit( 'nameSearch', response ) )
+				.catch( error => console.error( 'nameSearch', error ) );
 		}
 	},
 
 	getters: {
 		/**
-		 * Get all plants
+		 * Get all names
 		 *
 		 * @param state
 		 * @returns {{}|state.all|*}
 		 */
-		plantIndex( state )
+		nameIndex( state )
 		{
 			if( state.all.data )
 			{
@@ -262,40 +229,22 @@ export default
 			}
 		},
 
-		/**
-		 * Get plant
-		 *
-		 * @param state
-		 * @returns {*}
-		 */
-		plantShow( state )
+		nameEdit( state )
 		{
-			return state.plant;
+			return state.edit;
 		},
 
 		/**
-		 * Get plant
-		 *
-		 * @param state
-		 * @returns {*}
-		 */
-		plantEdit( state )
-		{
-			return state.plant;
-		},
-
-		/**
-		 * Get the total amount of plants
-		 *
+		 * Get the total amount of names
 		 * @param state
 		 * @returns {*|number|PaymentItem}
 		 */
-		plantTotal( state )
+		nameTotal( state )
 		{
 			return state.all.total;
 		},
 
-		plantSearch( state )
+		nameSearch( state )
 		{
 			return state.search;
 		}

@@ -24,7 +24,7 @@ const webRoutes = [
 		path: 'planten/:id',
 		name: 'plantShow',
 		meta: {
-			title: 'Plant :name'
+			title: 'Plant'
 		},
 		component: plantShow
 	},

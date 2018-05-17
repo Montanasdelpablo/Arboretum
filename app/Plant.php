@@ -19,11 +19,19 @@ class Plant extends Model
 	/**
 	 * @var array
 	 */
-	protected $with = [ 'bloom_colors', 'macule_colors', 'crossing', 'group', 'months', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'variety', 'winner' ];
+	protected $with = [ 'name', 'bloom_colors', 'macule_colors', 'crossing', 'group', 'months', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'variety', 'winner' ];
 	/**
 	 * @var array
 	 */
 	protected $casts = [ 'bloom_color', 'months', 'macule_color' ];
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function name()
+	{
+		return $this->belongsTo( Name::class );
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

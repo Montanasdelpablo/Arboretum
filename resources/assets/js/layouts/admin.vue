@@ -236,6 +236,11 @@
                         to: 'winnerIndex',
                         icon: 'people'
                     },
+                    {
+                        title: 'Namen',
+                        to: 'nameIndex',
+                        icon: 'person'
+                    },
 					{
 						title: 'Gebruikers',
                         to: 'userIndex',

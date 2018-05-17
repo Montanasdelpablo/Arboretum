@@ -14,6 +14,7 @@ const treetypeIndex = () => import('@/pages/admin/treetype');
 const typeIndex = () => import('@/pages/admin/type');
 const varietyIndex = () => import('@/pages/admin/variety');
 const winnerIndex = () => import('@/pages/admin/winner');
+const nameIndex = () => import('@/pages/admin/name');
 
 const adminRoutes = [
 	{
@@ -144,6 +145,14 @@ const adminRoutes = [
 		},
 		component: winnerIndex
 	},
+	{
+		path: 'names',
+		name: 'nameIndex',
+		meta: {
+			title: 'Names'
+		},
+		component: nameIndex
+	}
 ];
 
 export default adminRoutes;

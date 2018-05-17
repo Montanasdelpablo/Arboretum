@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md fluid style="margin-top:64px">
-        <v-layout row wrap class="text-xs-center">
-            <v-flex xs12 md2>
+        <v-layout row wrap>
+            <v-flex xs12>
                 <v-select
                     label="Planten per pagina"
                     v-model="form.rowsPerPage"
@@ -51,7 +51,7 @@
                         <v-btn
                             flat
                             color="primary"
-                           :to="{ to: 'plantShow', params: { id: plant.id, name: plant.name }}"
+                           :to="{ name: 'plantShow', params: { id: plant.id }}"
                         >
                             Lees meer
                         </v-btn>

@@ -23,6 +23,7 @@ import type from './modules/type';
 import user from './modules/user';
 import variety from './modules/variety';
 import winner from './modules/winner';
+import name from './modules/name';
 
 Vue.use( Vuex );
 
@@ -55,5 +56,6 @@ export const store = new Vuex.Store( {
 		user,
 		variety,
 		winner,
+		name,
 	}
 });
