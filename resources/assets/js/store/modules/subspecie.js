@@ -8,49 +8,49 @@ export default
 
 	mutations:  {
 		/**
-		 * Set all varieties
+		 * Set all subspecies
 		 *
 		 * @param state
-		 * @param varieties
+		 * @param subspecies
 		 */
-		varietyIndex( state, varieties )
+		subspecieIndex( state, subspecies )
 		{
-			state.all = varieties;
+			state.all = subspecies;
 		},
 
 		/**
-		 * Edit variety
+		 * Edit subspecie
 		 *
 		 * @param state
-		 * @param variety
+		 * @param subspecie
 		 */
-		varietyEdit( state, variety )
+		subspecieEdit( state, subspecie )
 		{
-			state.edit = variety;
+			state.edit = subspecie;
 		},
 
 		/**
-		 * Search variety
+		 * Search subspecie
 		 *
 		 * @param state
-		 * @param variety
+		 * @param subspecie
 		 */
-		varietySearch( state, variety )
+		subspecieSearch( state, subspecie )
 		{
-			state.search = variety;
+			state.search = subspecie;
 		}
 	},
 
 	actions: {
 		/**
-		 * Get all varieties from API
+		 * Get all subspecies from API
 		 *
 		 * @param context
 		 * @param pagination
 		 */
-		varietyIndex( context, pagination )
+		subspecieIndex( context, pagination )
 		{
-			let url = '/api/varieties';
+			let url = '/api/subspecies';
 			if( pagination && Object.keys( pagination ).length > 1 )
 			{
 				url += `?${Object.keys( pagination ).map( key =>  `${key}=${pagination[ key ]}` ).join( '&' ) }`;
@@ -66,20 +66,20 @@ export default
 				}
 			})
 				.then( response => response.json() )
-				.then( response => context.commit( 'varietyIndex', response ) )
-				.catch( error => console.error( 'varietyIndex', error ) );
+				.then( response => context.commit( 'subspecieIndex', response ) )
+				.catch( error => console.error( 'subspecieIndex', error ) );
 		},
 
 		/**
-		 * Store variety in DB
+		 * Store subspecie in DB
 		 *
 		 * @param context
 		 * @param data
 		 * @returns {Promise<any>}
 		 */
-		varietyStore( context, data )
+		subspecieStore( context, data )
 		{
-			return fetch( '/api/varieties', {
+			return fetch( '/api/subspecies', {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -100,19 +100,19 @@ export default
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
 				})
-				.catch( error => console.error( 'varietyStore', error ) );
+				.catch( error => console.error( 'subspecieStore', error ) );
 		},
 
 		/**
-		 * Get information from specific variety
+		 * Get information from specific subspecie
 		 *
 		 * @param context
 		 * @param id
 		 * @returns {Promise<any>}
 		 */
-		varietyEdit( context, id )
+		subspecieEdit( context, id )
 		{
-			return fetch( `/api/varieties/${id}/edit`, {
+			return fetch( `/api/subspecies/${id}/edit`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -122,19 +122,19 @@ export default
 				}
 			})
 				.then( response => response.json() )
-				.then( response => context.commit( 'varietyEdit', response ) )
-				.catch( error => console.error( 'varietyEdit', error ) );
+				.then( response => context.commit( 'subspecieEdit', response ) )
+				.catch( error => console.error( 'subspecieEdit', error ) );
 		},
 
 		/**
-		 * Update variety in DB
+		 * Update subspecie in DB
 		 *
 		 * @param context
 		 * @param data
 		 */
-		varietyUpdate( context, data )
+		subspecieUpdate( context, data )
 		{
-			return fetch( `/api/varieties/${data.id}`, {
+			return fetch( `/api/subspecies/${data.id}`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -155,19 +155,19 @@ export default
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
 				})
-				.catch( error => console.error( 'varietyUpdate', error ) );
+				.catch( error => console.error( 'subspecieUpdate', error ) );
 		},
 
 		/**
-		 * Destroy variety
+		 * Destroy subspecie
 		 *
 		 * @param context
 		 * @param id
 		 * @returns {Promise<any>}
 		 */
-		varietyDestroy( context, id )
+		subspecieDestroy( context, id )
 		{
-			return fetch( `/api/varieties/${id}`, {
+			return fetch( `/api/subspecies/${id}`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -187,17 +187,17 @@ export default
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success );
 				})
-				.catch( error => console.error( 'varietyDestroy', error ) );
+				.catch( error => console.error( 'subspecieDestroy', error ) );
 		},
 
 		/**
 		 * Get search results from API
 		 *
 		 * @param context
-		 * @param variety
+		 * @param subspecie
 		 */
-		varietySearch( context, variety ) {
-			return fetch( `/api/varieties/${variety}/search`, {
+		subspecieSearch( context, subspecie ) {
+			return fetch( `/api/subspecies/${subspecie}/search`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
 					'X-CSRF-token': window.token,
@@ -207,19 +207,19 @@ export default
 				}
 			})
 				.then( response =>  response.json() )
-				.then( response => context.commit( 'varietySearch', response ) )
-				.catch( error => console.error( 'varietySearch', error ) );
+				.then( response => context.commit( 'subspecieSearch', response ) )
+				.catch( error => console.error( 'subspecieSearch', error ) );
 		}
 	},
 
 	getters: {
 		/**
-		 * Get all varieties
+		 * Get all subspecies
 		 *
 		 * @param state
 		 * @returns {{}|state.all|*}
 		 */
-		varietyIndex( state )
+		subspecieIndex( state )
 		{
 			if( state.all.data )
 			{
@@ -229,22 +229,22 @@ export default
 			}
 		},
 
-		varietyEdit( state )
+		subspecieEdit( state )
 		{
 			return state.edit;
 		},
 
 		/**
-		 * Get the total amount of varieties
+		 * Get the total amount of subspecies
 		 * @param state
 		 * @returns {*|number|PaymentItem}
 		 */
-		varietyTotal( state )
+		subspecieTotal( state )
 		{
 			return state.all.total;
 		},
 
-		varietySearch( state )
+		subspecieSearch( state )
 		{
 			return state.search;
 		}

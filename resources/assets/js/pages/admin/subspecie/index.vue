@@ -141,20 +141,20 @@
 			 * Get all items
 			 *
 			 * @returns
-			 * {varietyIndex|default.mutations.varietyIndex|default.actions.varietyIndex|default.getters.varietyIndex}
+             * {subspecieIndex|default.mutations.subspecieIndex|default.actions.subspecieIndex|default.getters.subspecieIndex}
 			 */
 			items()
 			{
-				return this.$store.getters.varietyIndex;
+				return this.$store.getters.subspecieIndex;
 			},
 
 			/**
 			 * Get the total amount of items
-			 * @returns {default.getters.varietyTotal|varietyTotal}
+			 * @returns {default.getters.subspecieTotal|subspecieTotal}
 			 */
 			totalItems()
 			{
-				return this.$store.getters.varietyTotal;
+				return this.$store.getters.subspecieTotal;
 			},
 
 			labels()
@@ -184,7 +184,7 @@
 			data()
 			{
 				this.loading = true;
-				this.$store.dispatch( 'varietyIndex', this.pagination ).then( () => {
+				this.$store.dispatch( 'subspecieIndex', this.pagination ).then( () => {
 					this.loading = false;
 				});
 			},
@@ -195,7 +195,7 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'varietyUpdate' : 'varietyStore', this.form ).then(
+				this.$store.dispatch( this.itemEdit !== null ? 'subspecieUpdate' : 'subspecieStore', this.form ).then(
 					() =>
 					{
 						this.data(); // Refresh data
@@ -222,7 +222,7 @@
 			destroy( id )
 			{
 				this.loading = true;
-				this.$store.dispatch( 'varietyDestroy', id ).then( () =>
+				this.$store.dispatch( 'subspecieDestroy', id ).then( () =>
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};

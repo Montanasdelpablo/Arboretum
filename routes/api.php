@@ -131,14 +131,14 @@ Route::put( '/types/{type}', 'TypeController@update' );
 Route::get( '/types/{search}/search', 'TypeController@search' );
 Route::delete( '/types/{type}', 'TypeController@destroy' );
 
-// Varieties
-Route::get( '/varieties', 'VarietyController@index' );
-Route::post( '/varieties', 'VarietyController@store' );
-Route::get( '/varieties/{variety}', 'VarietyController@show' );
-Route::get( '/varieties/{variety}/edit', 'VarietyController@edit' );
-Route::put( '/varieties/{variety}', 'VarietyController@update' );
-Route::get( '/varieties/{search}/search', 'VarietyController@search' );
-Route::delete( '/varieties/{variety}', 'VarietyController@destroy' );
+// Subspecies
+Route::get( '/subspecies', 'subspecieController@index' );
+Route::post( '/subspecies', 'subspecieController@store' );
+Route::get( '/subspecies/{subspecie}', 'subspecieController@show' );
+Route::get( '/subspecies/{subspecie}/edit', 'subspecieController@edit' );
+Route::put( '/subspecies/{subspecie}', 'subspecieController@update' );
+Route::get( '/subspecies/{search}/search', 'subspecieController@search' );
+Route::delete( '/subspecies/{subspecie}', 'subspecieController@destroy' );
 
 // Winners
 Route::get( '/winners', 'WinnerController@index' );

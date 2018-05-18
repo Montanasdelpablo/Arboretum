@@ -1,10 +1,14 @@
 <template>
-    <v-container grid-list-md style="margin-top:64px">
+    <v-container grid-list-md fluid style="margin-top:64px">
         <v-layout row wrap>
             <v-flex xs12>
                 <v-layout row wrap>
                     <v-flex xs12>
-                        <h1 class="display-4">{{ plant.name }}</h1>
+                        <h1 class="display-4">
+                            {{ plant.sex ? plant.sex.name : '' }}
+                            {{ plant.specie ? plant.specie.name : '' }}
+                            {{ plant.subspecie ? plant.subspecie.name : '' }}
+                        </h1>
                     </v-flex>
 
                     <v-flex xs12 md6>
@@ -13,7 +17,8 @@
 
                     <v-flex xs12 md6>
                         <v-card>
-                            <v-card-media src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg" />
+                            <v-card-media src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg"
+                                          height="200" />
 
                             <v-card-text>
                                 <v-layout row wrap>
@@ -22,11 +27,16 @@
                                             <v-list-tile>
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Latijnse naam</v-list-tile-title>
-                                                    <v-list-tile-sub-title>{{ plant.sex.name }} {{ plant.specie.name }}</v-list-tile-sub-title>
+                                                    <v-list-tile-sub-title>
+                                                        {{ plant.sex ? plant.sex.name : '' }}
+                                                        {{ plant.specie ? plant.specie.name : '' }}
+                                                        {{ plant.subspecie ? plant.subspecie.name : '' }}
+                                                        <em v-if="plant.name">({{ plant.name.name }})</em>
+                                                    </v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
-                                            <v-list-tile>
+                                            <v-list-tile v-if="plant.months">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Bloeitijd</v-list-tile-title>
                                                     <v-list-tile-sub-title>
@@ -35,7 +45,7 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
-                                            <v-list-tile>
+                                            <v-list-tile v-if="plant.bloom_colors">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Bloeikleur</v-list-tile-title>
                                                     <v-list-tile-sub-title>
@@ -44,12 +54,19 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
-                                            <v-list-tile>
+                                            <v-list-tile v-if="plant.macule_colors">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Maculekleur</v-list-tile-title>
                                                     <v-list-tile-sub-title>
                                                         {{ plant.macule_colors.map( color => color.name ).join( ', ' ) }}
                                                     </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.crossing">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Kruising</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.crossing.name }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
                                         </v-list>

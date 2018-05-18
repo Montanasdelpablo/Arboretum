@@ -12,7 +12,7 @@ const supplierIndex = () => import('@/pages/admin/supplier');
 const synonymIndex = () => import('@/pages/admin/synonym');
 const treetypeIndex = () => import('@/pages/admin/treetype');
 const typeIndex = () => import('@/pages/admin/type');
-const varietyIndex = () => import('@/pages/admin/variety');
+const subspecieIndex = () => import('@/pages/admin/subspecie');
 const winnerIndex = () => import('@/pages/admin/winner');
 const nameIndex = () => import('@/pages/admin/name');
 
@@ -130,12 +130,12 @@ const adminRoutes = [
 		component: typeIndex
 	},
 	{
-		path: 'varieties',
-		name: 'varietyIndex',
+		path: 'subspecies',
+		name: 'subspecieIndex',
 		meta: {
 			title: 'Variëteiten'
 		},
-		component: varietyIndex
+		component: subspecieIndex
 	},
 	{
 		path: 'winners',

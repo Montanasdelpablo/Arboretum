@@ -19,7 +19,7 @@ class Plant extends Model
 	/**
 	 * @var array
 	 */
-	protected $with = [ 'name', 'bloom_colors', 'macule_colors', 'crossing', 'group', 'months', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'variety', 'winner' ];
+	protected $with = [ 'name', 'bloom_colors', 'macule_colors', 'crossing', 'group', 'months', 'priority', 'sex', 'size', 'specie', 'supplier', 'synonym', 'treetype', 'type', 'subspecie', 'winner' ];
 	/**
 	 * @var array
 	 */
@@ -60,9 +60,9 @@ class Plant extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
-	public function variety()
+	public function subspecie()
 	{
-		return $this->belongsTo( Variety::class );
+		return $this->belongsTo( Subspecie::class );
 	}
 
 	/**

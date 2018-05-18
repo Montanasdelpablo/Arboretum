@@ -272,7 +272,7 @@ class PlantController extends Controller
 			$type = $plant[ 'type plant' ] != null ? \App\Type::firstOrCreate( [ 'name' => $plant[ 'type plant' ] ] )['id'] : null;
 			$sex = $plant[ 'geslachtsnaam' ] != null ? \App\Sex::firstOrCreate( [ 'name' => $plant[ 'geslachtsnaam' ] ] )['id'] : null;
 			$specie = $plant[ 'soortnaam' ] != null ? \App\Specie::firstOrCreate( [ 'name' => $plant[ 'soortnaam' ] ] )['id'] : null;
-			$variety = $plant[ 'ssp/variëteitsnaam' ] != null ? \App\Variety::firstOrCreate( [ 'name' => $plant[ 'ssp/variëteitsnaam' ] ] )['id'] : null;
+			$variety = $plant[ 'ssp/variëteitsnaam' ] != null ? \App\Subspecie::firstOrCreate( [ 'name' => $plant[ 'ssp/variëteitsnaam' ] ] )[ 'id'] : null;
 			$group = $plant[ 'group' ] != null ? \App\Group::firstOrCreate( [ 'name' => $plant[ 'group' ] ] )['id'] : null;
 			$synonym = $plant[ 'synoniem' ] != null ? \App\Synonym::firstOrCreate( [ 'name' => $plant[ 'synoniem' ] ] )['id'] : null;
 			$crossing = $plant[ 'kruizings ouders' ] != null ? \App\Crossing::firstOrCreate( [ 'name' => $plant[ 'kruizings ouders' ] ] )['id'] : null;

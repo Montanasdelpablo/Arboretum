@@ -228,7 +228,7 @@
                     },
                     {
                     	title: 'Variaties',
-                        to: 'varietyIndex',
+                        to: 'subspecieIndex',
                         icon: ''
                     },
                     {
