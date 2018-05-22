@@ -36,7 +36,7 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
-                                            <v-list-tile v-if="plant.months">
+                                            <v-list-tile v-if="plant.months && plant.months.length > 0">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Bloeitijd</v-list-tile-title>
                                                     <v-list-tile-sub-title>
@@ -45,7 +45,7 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
-                                            <v-list-tile v-if="plant.bloom_colors">
+                                            <v-list-tile v-if="plant.bloom_colors && plant.bloom_colors.length > 0">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Bloeikleur</v-list-tile-title>
                                                     <v-list-tile-sub-title>
@@ -54,7 +54,7 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
-                                            <v-list-tile v-if="plant.macule_colors">
+                                            <v-list-tile v-if="plant.macule_colors && plant.macule_colors.length > 0">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Maculekleur</v-list-tile-title>
                                                     <v-list-tile-sub-title>
@@ -67,6 +67,55 @@
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Kruising</v-list-tile-title>
                                                     <v-list-tile-sub-title>{{ plant.crossing.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.planted">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Gepoot</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.planted }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.supplier">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Leverancier</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.supplier.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.group">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Groep</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.group.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.place">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Locatie</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.place }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.type">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Typeplant</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.type.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.subspecie">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Verieteit</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.subspecie.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.size">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Grootte</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.size.name }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
                                         </v-list>
