@@ -32,58 +32,15 @@
             </v-card>
         </v-dialog>
 
-        <!-- Data table -->
-        <v-data-table
-            :headers="headers"
-            :items="items"
-            :totalItems="totalItems"
-            item-key="id"
-            :loading="loading"
-            :pagination.sync="pagination"
-            no-data-text="Geen data"
-            no-result-text="Geen resultaten gevonden"
-            rows-per-page-text="Rijen per pagina"
-        >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-            <template slot="header" slot-scope="props">
-                <tr>
-                    <th
-                        v-for="header in props.headers"
-                        :key="header.text"
-                    >
-                        <v-icon small>arrow_upward</v-icon>
-                        {{ header.text }}
-                    </th>
-                    <th>Acties</th>
-                </tr>
-            </template>
-
-            <template slot="items" slot-scope="props">
-                <tr>
-                    <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.plant_count }}</td>
-                    <td>
-                        <v-btn icon @click.nativ="editItem( props.item )">
-                            <v-icon color="green">edit</v-icon>
-                        </v-btn>
-
-                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                            <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
-
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Type verwijderen</span>
+                    <span class="headline">Gebruiker verwijderen</span>
                 </v-card-title>
 
                 <v-card-text>
-                    Weet je zeker dat je het volgende type wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je deze gebruiker wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -99,12 +56,11 @@
 </template>
 
 <script>
-	import barChart from '@/components/bar-chart';
 
 	export default
 	{
 		components: {
-			'bar-chart': barChart
+
 		},
 
 		data()
@@ -118,14 +74,14 @@
 				form: {},
 				headers: [
 					{
-						text: 'Type',
+						text: 'Gebruiker',
 						align: 'left',
 						value: 'name'
 					},
 					{
-						text: 'Planten',
+						text: 'Gebruikers',
 						align: 'right',
-						value: 'plant_count'
+						value: 'user_count'
 					},
 					{
 						text: 'Acties',
@@ -141,26 +97,26 @@
 			 * Get all items
 			 *
 			 * @returns
-			 * {typeIndex|default.mutations.typeIndex|default.actions.typeIndex|default.getters.typeIndex}
+			 * {userIndex|default.mutations.userIndex|default.actions.userIndex|default.getters.userIndex}
 			 */
 			items()
 			{
-				return this.$store.getters.typeIndex;
+				return this.$store.getters.userIndex;
 			},
 
 			/**
 			 * Get the total amount of items
-			 * @returns {default.getters.typeTotal|typeTotal}
+			 * @returns {default.getters.userTotal|userTotal}
 			 */
 			totalItems()
 			{
-				return this.$store.getters.typeTotal;
+				return this.$store.getters.userTotal;
 			},
 
 			labels()
 			{
 				return this.items.map( item => {
-					return item.name;
+					return item.email;
 				})
 			},
 
@@ -168,10 +124,10 @@
 			{
 				return [
 					{
-						label: 'Planten',
+						label: 'Gebruikers',
 						backgroundColor: '#fff',
 						data: this.items.map( item => {
-							return item.plant_count
+							return item.user_count
 						})
 					}
 				];
@@ -184,7 +140,7 @@
 			data()
 			{
 				this.loading = true;
-				this.$store.dispatch( 'typeIndex', this.pagination ).then( () => {
+				this.$store.dispatch( 'userIndex', this.pagination ).then( () => {
 					this.loading = false;
 				});
 			},
@@ -195,7 +151,7 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'typeUpdate' : 'typeStore', this.form ).then(
+				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userStore', this.form ).then(
 					() =>
 					{
 						this.data(); // Refresh data
@@ -207,7 +163,7 @@
 
 			editItem( item )
 			{
-				delete item.plant_count;
+				delete item.user_count;
 
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
@@ -222,7 +178,7 @@
 			destroy( id )
 			{
 				this.loading = true;
-				this.$store.dispatch( 'typeDestroy', id ).then( () =>
+				this.$store.dispatch( 'userDestroy', id ).then( () =>
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};
