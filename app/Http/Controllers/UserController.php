@@ -208,8 +208,8 @@ class UserController extends Controller
 
 	private function validation( Request $request )
 	{
-		//$request->validate( [
-		//	'email' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:email',
-		//] );
+		$request->validate( [
+			'email' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
+		] );
 	}
 }

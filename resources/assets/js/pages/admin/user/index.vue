@@ -15,12 +15,24 @@
                         <span class="headline">Gebruiker {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
-                    <v-card-text>
+                    <v-card-text v-if="this.itemEdit == null">
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
                                     <v-text-field v-model="form.email" label="Email" required />
                                     <v-text-field v-model="form.password" label="Wachtwoord" required />
+                                    <v-text-field v-model="form.first_name" label="Voornaam"  />
+                                    <v-text-field v-model="form.last_name" label="Achternaam"  />
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card-text>
+
+                    <v-card-text v-if="this.itemEdit">
+                        <v-container grid-list-md>
+                            <v-layout wrap>
+                                <v-flex xs12 sm6 md4>
+                                    <v-text-field v-model="form.email" label="Email" required />                                    
                                     <v-text-field v-model="form.first_name" label="Voornaam"  />
                                     <v-text-field v-model="form.last_name" label="Achternaam"  />
                                 </v-flex>
