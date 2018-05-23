@@ -241,11 +241,11 @@
                         to: 'nameIndex',
                         icon: 'person'
                     },
-					{
-						title: 'Gebruikers',
-                        to: 'userIndex',
-                        icon: 'person'
-					}
+          					{
+          						title: 'Gebruikers',
+                      to: 'userIndex',
+                      icon: 'person'
+          					}
 				]
 			}
 		}
