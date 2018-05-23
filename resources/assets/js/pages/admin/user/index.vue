@@ -65,8 +65,9 @@
 
             <template slot="items" slot-scope="props">
                 <tr>
-                    <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.plant_count }}</td>
+                    <td>{{ props.item.email }}</td>
+                    <td class="text-xs-left">{{ props.item.first_name }}</td>
+                    <td class="text-xs-left">{{ props.item.last_name }}</td>
                     <td>
                         <v-btn icon @click.nativ="editItem( props.item )">
                             <v-icon color="green">edit</v-icon>
@@ -120,14 +121,19 @@
 				form: {},
 				headers: [
 					{
-						text: 'Gebruiker',
+						text: 'Email',
 						align: 'left',
 						value: 'name'
 					},
 					{
-						text: 'Gebruikers',
-						align: 'right',
-						value: 'user_count'
+						text: 'Voornaam',
+						align: 'left',
+						value: 'first_name'
+					},
+          {
+						text: 'Achternaam',
+						align: 'left',
+						value: 'last_name'
 					},
 					{
 						text: 'Acties',
@@ -147,6 +153,7 @@
 			 */
 			items()
 			{
+        console.log(this.$store.getters.userIndex);
 				return this.$store.getters.userIndex;
 			},
 
