@@ -21,8 +21,9 @@
         <div id="app"></div>
 
         <script>
-			var google = '{{ config( 'app.GOOGLE_API' ) }}';
+			var google_api = '{{ config( 'app.GOOGLE_API' ) }}';
         </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ config( 'app.GOOGLE_API' ) }}"></script>
         <script src="{{ asset( '/js/main.js' ) }}"></script>
         {{--<script src="/service-worker.js"></script>--}}
     </body>

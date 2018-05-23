@@ -4,23 +4,15 @@ import { store } from './store/store';
 import router from './router';
 import Meta from 'vue-meta';
 import VueProgressiveImage from 'vue-progressive-image';
-//import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use( Meta );
 Vue.use( Vuetify );
 Vue.use( VueProgressiveImage );
 
-/*
-if( google.length > 0 )
+if( google_api.length === 0 )
 {
-	Vue.use( VueGoogleMaps, {
-		load: {
-			key: google,
-		}
-	} );
-} else {
 	console.error('No Google developer token');
-} */
+}
 
 //Vue.component( 'c-image', () => import( '@/components/Image' ) );
 

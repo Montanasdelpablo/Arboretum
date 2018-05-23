@@ -37,20 +37,33 @@ module.exports = env => {
 					}
 				},
 				{
+					test: /\.css$/,
+					use: [
+						'vue-style-loader',
+						{
+							loader: 'css-loader',
+							options: {
+								minimize: !env.dev,
+								modules: true,
+								localIdentName: '[local]_[hash:base64:8]'
+							}
+						}
+					]
+				},
+				{
 					test: /\.scss$/,
-					exclude: ['/vendor/', '/node_modules/', '/public/', '/resources/assets/scss/'],
-					use: ExtractTextPlugin.extract( {
-						fallback: 'style-loader',
-						use: [
-							{
-								loader: 'css-loader',
-								options: {
-									minimize: !env.dev
-								}
-							},
-							'sass-loader'
-						]
-					})
+					use: [
+						'vue-style-loader',
+						{
+							loader: 'css-loader',
+							options: {
+								minimize: !env.dev,
+								modules: true,
+								localIdentName: '[local]_[hash:base64:8]'
+							}
+						},
+						'sass-loader'
+					]
 				},
 				{
 					test: /\.(jpg|jpeg|gif|png|svg)$/,

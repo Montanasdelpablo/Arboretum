@@ -136,6 +136,20 @@
                             </v-card-text>
                         </v-card>
                     </v-flex>
+
+                    <v-flex xs12>
+                        <google-map
+                            :center="{lat:53.361050, lng:6.464806}"
+                            :zoom="18"
+                            map-id="plant"
+                            type="satellite"
+                            style="width:100%;height:500px"
+                        >
+                            <google-map-marker
+                                :coords="{lat:53.361050, lng:6.464806}"
+                            />
+                        </google-map>
+                    </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
@@ -143,8 +157,16 @@
 </template>
 
 <script>
+	import GoogleMap from '@/components/google-map';
+	import GoogleMapMarker from '@/components/google-map-marker';
+
     export default
     {
+    	components: {
+    	    'google-map': GoogleMap,
+            'google-map-marker': GoogleMapMarker
+        },
+
     	computed: {
     		plant()
             {
