@@ -9,6 +9,11 @@ export default
 	message( state, message )
 	{
 		state.message = message;
+		state.alert = true;
+	},
+
+	hideAlert (state, alert) {
+		state.alert = false;
 	},
 
 	/**
@@ -20,6 +25,7 @@ export default
 	success( state, success )
 	{
 		state.success = success;
+		state.alert = true;
 	},
 
 	/**
@@ -31,6 +37,7 @@ export default
 	errors( state, errors )
 	{
 		state.errors = errors;
+		state.alert = true;
 	},
 
 	/**

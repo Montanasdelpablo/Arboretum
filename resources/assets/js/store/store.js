@@ -33,6 +33,7 @@ export const store = new Vuex.Store( {
 		currentDate: '',
 		success: '',
 		message: '',
+		alert: false,
 		errors: []
 	},
 	getters,

@@ -22,6 +22,11 @@ export default
 		return state.success;
 	},
 
+	alert( state )
+	{
+		return state.alert;
+	},
+
 	/**
 	 * Get errors
 	 *

@@ -101,7 +101,7 @@
 
         <!-- Alerts -->
         <v-container fluid>
-            <v-alert :type="success ? 'success' : 'error'" :value="message && message.length > 1" transition="scale-transition">
+            <v-alert dismissible v-on:click="hideAlert" v-model="alert" :type="success ? 'success' : 'error'" :value="message && message.length > 1" transition="scale-transition">
                 {{ message }}
             </v-alert>
 
@@ -126,7 +126,8 @@
 				'message',
 				'success',
 				'errors',
-				'userProfile'
+				'userProfile',
+        'alert',
 			]),
         },
 
@@ -148,14 +149,17 @@
 			{
 				this.$store.commit( 'userLogout' );
         this.$router.push( { name: 'index' } );
-			}
+			},
+      hideAlert(){
+        this.$store.commit( 'hideAlert' );
+      }
 		},
 
 		data()
 		{
 			return {
 				drawer: false,
-				items: [
+        items: [
 					{
 						title: 'Overview',
 						to: 'dashboard',
