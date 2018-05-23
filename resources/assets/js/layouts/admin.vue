@@ -147,7 +147,7 @@
 			logout()
 			{
 				this.$store.commit( 'userLogout' );
-                this.$router.push( { name: 'index' } );
+        this.$router.push( { name: 'index' } );
 			}
 		},
 

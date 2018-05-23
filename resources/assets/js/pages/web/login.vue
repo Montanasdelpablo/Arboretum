@@ -31,15 +31,17 @@
                                 required
                             ></v-text-field>
 
-                            <v-btn color="primary" dark @click.stop="forgotpassword = true">Wachtwoord vergeten</v-btn>
 
                             <v-btn
                                 color="primary"
-                                style="float:right"
+
                                 type="submit"
                             >
-                                submit
+                                Inloggen
                             </v-btn>
+
+                            <v-btn color="primary" style="float:right" dark @click.stop="forgotpassword = true">Wachtwoord vergeten</v-btn>
+
                         </form>
 
                         <v-dialog v-model="forgotpassword" max-width="500px">
@@ -117,6 +119,12 @@
 				this.$store.dispatch( 'login', this.loginForm ).then( () =>
 				{
 					//this.data(); // Refresh data
+          this.loginForm.password = '';
+          
+          if( sessionStorage.getItem( 'token' ) && sessionStorage.getItem( 'token' ).length > 0 )
+					{
+						this.$router.push( { name: 'dashboard' } );
+					}
 				} );
 			},
 			forgotPassword()

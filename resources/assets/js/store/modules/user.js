@@ -1,6 +1,8 @@
 export default {
 	state: {
 		all: [],
+		loggedIn: !!sessionStorage.getItem( 'token' ),
+		user: JSON.parse( sessionStorage.getItem( 'user' ) ),
 		search: {},
 		edit: {}
 	},
@@ -18,6 +20,11 @@ export default {
 			state.all = users;
 		},
 
+		userLogin( state )
+		{
+			state.loggedIn = true;
+		},
+
 		/**
 		 * Edit user
 		 *
@@ -28,6 +35,14 @@ export default {
 		{
 			state.edit = user;
 		},
+
+		userLogout( state )
+		{
+			state.loggedIn = false;
+			sessionStorage.removeItem( 'token' );
+			sessionStorage.removeItem( 'user' );
+		},
+
 
 		/**
 		 * Search user
@@ -49,6 +64,11 @@ export default {
 		 * @param pagination
 		 */
 
+		userLogout( state )
+		{
+			state.loggedIn = false;
+			sessionStorage.removeItem( 'token' );
+		},
 		login( context, data )
 		{
 			return fetch( '/api/login', {
@@ -65,6 +85,21 @@ export default {
 				.then( response =>
 				{
 					// do something
+					// If there are any errors
+					if( response.errors )
+					{
+						context.commit( 'errors', response.errors );
+					}
+
+					context.commit( 'message', response.message );
+					context.commit( 'success', response.success ? response.success : false );
+
+					if( response.token )
+					{
+						sessionStorage.setItem( 'token', response.token ); // Makes sure the user is logged in even after page refresh
+						sessionStorage.setItem( 'user', JSON.stringify( response.user ) );
+						context.commit( 'userLogin' );
+					}
 				} )
 				.catch( error => console.error( 'userLogin', error ) );
 		},
