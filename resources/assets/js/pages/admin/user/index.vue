@@ -4,7 +4,7 @@
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
                 <v-icon>add</v-icon>
-                Type toevoegen
+                Gebruiker toevoegen
             </v-btn>
 
             <v-card>
