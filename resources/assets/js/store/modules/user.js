@@ -96,6 +96,7 @@ export default {
 
 					if( response.token )
 					{
+						console.log(response);
 						sessionStorage.setItem( 'token', response.token ); // Makes sure the user is logged in even after page refresh
 						sessionStorage.setItem( 'user', JSON.stringify( response.user ) );
 						context.commit( 'userLogin' );
@@ -338,7 +339,19 @@ export default {
 
 		userEdit( state )
 		{
-			return state.edit;
+			let user = state.edit;
+
+			if( user )
+			{
+				user = {
+					id: user.id,
+					first_name: user.first_name,
+					last_name: user.last_name,
+					email: user.email,
+					password: user.password,
+				};
+			}
+			return user;
 		},
 
 		/**

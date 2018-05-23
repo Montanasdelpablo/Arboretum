@@ -37,7 +37,7 @@ class UserController extends Controller
 				$user = Auth::user();
 				$token = $user->createToken( config( 'app.name' ) )->accessToken;
 				$user->update( [ 'api_token' => $token ] );
-		 		return response()->json( [ 'success' => true, 'token' => $token, 'message' => 'Logged in succesfully'], 201);
+		 		return response()->json( [ 'success' => true, 'token' => $token, 'message' => 'Logged in succesfully', 'user' => $user], 201);
 		} else {
 		  	return response()->json( [ 'success' => false, 'message' => 'Not logged in'], 400);
 		}

@@ -1,5 +1,7 @@
 <template>
     <div>
+
+
         <!-- Create/ edit dialog -->
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
@@ -10,14 +12,17 @@
             <v-card>
                 <form @submit.prevent="store">
                     <v-card-title>
-                        <span class="headline">Type {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
+                        <span class="headline">Gebruiker {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam" required />
+                                    <v-text-field v-model="form.email" label="Email" required />
+                                    <v-text-field v-model="form.password" label="Wachtwoord" required />
+                                    <v-text-field v-model="form.first_name" label="Voornaam"  />
+                                    <v-text-field v-model="form.last_name" label="Achternaam"  />
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -26,11 +31,54 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Type Opslaan</v-btn>
+                        <v-btn color="primary" flat type="submit">Gebruiker opslaan</v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
         </v-dialog>
+
+        <!-- Data table -->
+        <v-data-table
+            :headers="headers"
+            :items="items"
+            :totalItems="totalItems"
+            item-key="id"
+            :loading="loading"
+            :pagination.sync="pagination"
+            no-data-text="Geen data"
+            no-result-text="Geen resultaten gevonden"
+            rows-per-page-text="Rijen per pagina"
+        >
+            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+            <template slot="header" slot-scope="props">
+                <tr>
+                    <th
+                        v-for="header in props.headers"
+                        :key="header.text"
+                    >
+                        <v-icon small>arrow_upward</v-icon>
+                        {{ header.text }}
+                    </th>
+                    <th>Acties</th>
+                </tr>
+            </template>
+
+            <template slot="items" slot-scope="props">
+                <tr>
+                    <td>{{ props.item.name }}</td>
+                    <td class="text-xs-right">{{ props.item.plant_count }}</td>
+                    <td>
+                        <v-btn icon @click.nativ="editItem( props.item )">
+                            <v-icon color="green">edit</v-icon>
+                        </v-btn>
+
+                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                            <v-icon color="red">delete</v-icon>
+                        </v-btn>
+                    </td>
+                </tr>
+            </template>
+        </v-data-table>
 
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
@@ -50,8 +98,6 @@
             </v-card>
         </v-dialog>
 
-        <!-- Chart -->
-        <bar-chart :labels="labels" :datasets="datasets" />
     </div>
 </template>
 
@@ -59,7 +105,7 @@
 
 	export default
 	{
-		components: {
+    components: {
 
 		},
 

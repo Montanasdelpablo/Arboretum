@@ -158,7 +158,5 @@ Route::put( '/names/{name}', 'NameController@update' );
 Route::get( '/names/{search}/search', 'NameController@search' );
 Route::delete( '/names/{name}', 'NameController@destroy' );
 
-
-
 // Test login
 Route::get('/testlogin', 'UserController@testLogin');
