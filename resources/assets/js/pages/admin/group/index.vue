@@ -231,6 +231,7 @@
 
 			close()
 			{
+        this.itemEdit = null;
 				this.dialog = false;
 			}
 		},
