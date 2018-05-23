@@ -733,9 +733,10 @@
 
 			close()
 			{
+        this.dialog = false;
+        this.form = {};
         this.itemEdit = null;
-				this.dialog = false;
-			},
+      },
 
 			typeIndex()
 			{

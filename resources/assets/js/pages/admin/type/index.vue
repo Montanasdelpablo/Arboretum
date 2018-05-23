@@ -230,9 +230,10 @@
 			},
 
 			close()
-			{
-        this.itemEdit = null;
+			{        
 				this.dialog = false;
+        this.form = {};
+        this.itemEdit = null;
 			}
 		},
 		watch: {
