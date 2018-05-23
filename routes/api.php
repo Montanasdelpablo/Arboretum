@@ -158,5 +158,14 @@ Route::put( '/names/{name}', 'NameController@update' );
 Route::get( '/names/{search}/search', 'NameController@search' );
 Route::delete( '/names/{name}', 'NameController@destroy' );
 
+// Users
+Route::get( '/users', 'UserController@index' );
+Route::post( '/users', 'UserController@store' );
+Route::get( '/users/{user}', 'UserController@show' );
+Route::get( '/users/{user}/edit', 'UserController@edit' );
+Route::put( '/users/{user}', 'Userontroller@update' );
+Route::get( '/users/{user}/search', 'UserController@search' );
+Route::delete( '/users/{user}', 'UserController@destroy' );
+
 // Test login
 Route::get('/testlogin', 'UserController@testLogin');
