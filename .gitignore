@@ -15,3 +15,4 @@ yarn-error.log
 /public/css
 /public/images
 package-lock.json
+/public/mix-manifest.json

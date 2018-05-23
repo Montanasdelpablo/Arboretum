@@ -37,7 +37,7 @@ class PlantController extends Controller
 		$this->validation( $request );
 
 		$created = Plant::create( [
-			'name'            => $request->input( 'name' ),
+			'name_id'            => $request->input( 'name' ),
 			'follow_number'   => $request->input( 'follow_number' ),
 			'purchase_number' => $request->input( 'purchase_number' ),
 			'control'         => $request->input( 'control' ),
@@ -53,7 +53,7 @@ class PlantController extends Controller
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
 			'specie_id'       => $request->input( 'specie_id' ),
-			'variety_id'      => $request->input( 'variety_id' ),
+			'subspecie_id'      => $request->input( 'subspecie_id' ),
 			'group_id'        => $request->input( 'group_id' ),
 			'synonym_id'      => $request->input( 'synonym_id' ),
 			'crossing_id'     => $request->input( 'crossing_id' ),
@@ -128,7 +128,7 @@ class PlantController extends Controller
 		$this->validation( $request );
 
 		$updated = $plant->update( [
-			'name'            => $request->input( 'name' ),
+			'name_id'            => $request->input( 'name' ),
 			'follow_number'   => $request->input( 'follow_number' ),
 			'purchase_number' => $request->input( 'purchase_number' ),
 			'control'         => $request->input( 'control' ),
@@ -144,7 +144,7 @@ class PlantController extends Controller
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
 			'specie_id'       => $request->input( 'specie_id' ),
-			'variety_id'      => $request->input( 'variety_id' ),
+			'subspecie_id'      => $request->input( 'subspecie_id' ),
 			'group_id'        => $request->input( 'group_id' ),
 			'synonym_id'      => $request->input( 'synonym_id' ),
 			'crossing_id'     => $request->input( 'crossing_id' ),
@@ -215,7 +215,7 @@ class PlantController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate( [
-			'name'            => 'nullable|string',
+			'name_id'            => 'nullable|integer|exists:names,id',
 			'follow_number'   => 'nullable|integer',
 			'purchase_number' => 'nullable|integer',
 			'control'         => 'nullable|string|date',
@@ -231,7 +231,7 @@ class PlantController extends Controller
 			'type_id'         => 'nullable|integer|exists:types,id',
 			'sex_id'          => 'nullable|integer|exists:sexes,id',
 			'specie_id'       => 'nullable|integer|exists:species,id',
-			'variety_id'      => 'nullable|integer|exists:varieties,id',
+			'subspecie_id'      => 'nullable|integer|exists:subspecies,id',
 			'group_id'        => 'nullable|integer|exists:groups,id',
 			'synonym_id'      => 'nullable|integer|exists:synonyms,id',
 			'crossing_id'     => 'nullable|integer|exists:crossings,id',
@@ -248,6 +248,7 @@ class PlantController extends Controller
 
 	public function import( Request $request )
 	{
+		set_time_limit( 0 );
 		$plants = [];
 
 		$i = 0;
@@ -289,7 +290,7 @@ class PlantController extends Controller
 				'type_id'     => $type,
 				'sex_id'      => $sex,
 				'specie_id'   => $specie,
-				'variety_id'  => $variety,
+				'subspecie_id'  => $variety,
 				'group_id'    => $group,
 				'synonym_id'  => $synonym,
 				'crossing_id' => $crossing,

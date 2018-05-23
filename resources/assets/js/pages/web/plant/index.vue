@@ -29,7 +29,7 @@
         <v-divider />
 
         <v-layout row wrap>
-            <v-flex sm12 md3 v-for="plant in plantIndex" :key="plant.id">
+            <v-flex sm12 md3 v-if="plantIndex.length > 0" v-for="plant in plantIndex" :key="plant.id">
                 <v-card hover>
                     <!-- Image -->
                     <v-card-media src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg" height="200px"/>
@@ -54,6 +54,12 @@
                         </v-btn>
                     </v-card-actions>
                 </v-card>
+            </v-flex>
+
+            <v-flex v-else xs12 md6 offset-md3>
+                <v-alert type="info">
+                    Er zijn geen resultaten gevonden
+                </v-alert>
             </v-flex>
         </v-layout>
 
@@ -156,38 +162,41 @@
                     orderBy = this.form.orderBy.split( '.' ),
                     ascending = this.form.ascending;
 
-				// OrderBy
-				plants.sort( ( a, b ) => {
-					if( a[orderBy[0]] != null && b[orderBy[0]] != null )
+				if( plants.length > 0 )
+				{
+					// OrderBy
+					plants.sort( ( a, b ) =>
 					{
-
-						let valueA = a[orderBy[0]][orderBy[1]].toUpperCase();
-						let valueB = b[orderBy[0]][orderBy[1]].toUpperCase();
-
-						console.log( valueA, valueB );
-
-						if( valueA < valueB )
+						if( a[orderBy[0]] != null && b[orderBy[0]] != null )
 						{
-							return -1
-						}
 
-						if( valueA > valueB )
-						{
-							return 1
-						}
+							let valueA = a[orderBy[0]][orderBy[1]].toUpperCase();
+							let valueB = b[orderBy[0]][orderBy[1]].toUpperCase();
 
-						return 0;
+							if( valueA < valueB )
+							{
+								return -1
+							}
+
+							if( valueA > valueB )
+							{
+								return 1
+							}
+
+							return 0;
+						}
+						return false;
+					} );
+
+					if( !ascending )
+					{
+						plants.reverse()
 					}
-					return false;
-                });
 
-				if( !ascending )
-                {
-                    plants.reverse()
-                }
-
-				// Paginate
-				return plants.slice( firstItem, lastItem );
+					// Paginate
+					return plants.slice( firstItem, lastItem );
+				}
+				return plants;
 			},
 
             pages()

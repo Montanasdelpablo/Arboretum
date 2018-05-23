@@ -211,4 +211,6 @@ return [
 
     ],
 
+	'GOOGLE_API' => env('GOOGLE_API')
+
 ];

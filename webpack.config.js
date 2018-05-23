@@ -1,6 +1,7 @@
 const path = require('path'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	CleanWebpackPlugin = require('clean-webpack-plugin'),
+	{ VueLoaderPlugin } = require('vue-loader'),
 	swp = require('sw-precache-webpack-plugin');
 
 module.exports = env => {
@@ -85,6 +86,7 @@ module.exports = env => {
 			}
 		},
 		plugins: [
+			new VueLoaderPlugin(),
 			new ExtractTextPlugin( 'public/css/[name].css' ),
 			new CleanWebpackPlugin(['./public/js', './public/fonts', './public/css'])
 			/*new swp({

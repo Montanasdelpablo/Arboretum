@@ -17,8 +17,16 @@
 
                     <v-flex xs12 md6>
                         <v-card>
-                            <v-card-media src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg"
-                                          height="200" />
+                            <v-card-media
+                                src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg"
+                                height="200"
+                            >
+                                <img
+                                    :src="`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}`"
+                                    :alt="`QR-code ${plant.id}`"
+                                    style="width:200px;height:200px;position:absolute;right:0"
+                                >
+                            </v-card-media>
 
                             <v-card-text>
                                 <v-layout row wrap>
@@ -76,7 +84,11 @@
                                                     <v-list-tile-sub-title>{{ plant.planted }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
+                                        </v-list>
+                                    </v-flex>
 
+                                    <v-flex xs12 md6>
+                                        <v-list two-line>
                                             <v-list-tile v-if="plant.supplier">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Leverancier</v-list-tile-title>
@@ -137,6 +149,11 @@
     		plant()
             {
             	return this.$store.getters.plantShow;
+            },
+
+            url()
+            {
+    		    return `${window.location.hostname}${this.$route.path}`;
             }
         },
 
