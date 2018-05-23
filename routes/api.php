@@ -163,7 +163,7 @@ Route::get( '/users', 'UserController@index' );
 Route::post( '/users', 'UserController@store' );
 Route::get( '/users/{user}', 'UserController@show' );
 Route::get( '/users/{user}/edit', 'UserController@edit' );
-Route::put( '/users/{user}', 'Userontroller@update' );
+Route::put( '/users/{user}', 'UserController@update' );
 Route::get( '/users/{user}/search', 'UserController@search' );
 Route::delete( '/users/{user}', 'UserController@destroy' );
 

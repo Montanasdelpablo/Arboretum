@@ -199,7 +199,7 @@ class UserController extends Controller
 
 	public function search( $search )
 	{
-		$results = User::where( 'name', 'like', '%'.$search.'%' )
+		$results = User::where( 'email', 'like', '%'.$search.'%' )
 			->orWhere( 'id', $search )
 			->get();
 
@@ -208,8 +208,8 @@ class UserController extends Controller
 
 	private function validation( Request $request )
 	{
-		$request->validate( [
-			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:email',
-		] );
+		//$request->validate( [
+		//	'email' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:email',
+		//] );
 	}
 }
