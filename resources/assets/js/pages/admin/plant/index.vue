@@ -429,15 +429,15 @@
 				itemEdit: null,
 				dialog: false,
 				form: {
-					dead: false,
-                    replant: false
+      					dead: false,
+                replant: false
                 },
 				headers: [
-                    {
-                    	text: 'Volgnummer',
-                        align: 'right',
-                        value: 'follow_number'
-                    },
+            {
+            	text: 'Volgnummer',
+                align: 'right',
+                value: 'follow_number'
+            },
 					{
 						text: 'Aankoopnummer',
 						align: 'right',
