@@ -26,7 +26,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Winner Opslaan</v-btn>
+                        <v-btn color="primary" flat type="submit">Winner {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -232,7 +232,7 @@
 			},
 
 			close()
-			{        
+			{
 				this.dialog = false;
         this.form = {};
         this.itemEdit = null;

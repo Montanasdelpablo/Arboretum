@@ -26,7 +26,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Synoniem Opslaan</v-btn>
+                        <v-btn color="primary" flat type="submit">Synoniem {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
                     </v-card-actions>
                 </form>
             </v-card>

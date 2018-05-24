@@ -32,7 +32,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.email" label="Email" required />                                    
+                                    <v-text-field v-model="form.email" label="Email" required />
                                     <v-text-field v-model="form.first_name" label="Voornaam"  />
                                     <v-text-field v-model="form.last_name" label="Achternaam"  />
                                 </v-flex>
@@ -43,7 +43,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Gebruiker opslaan</v-btn>
+                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }} </v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
