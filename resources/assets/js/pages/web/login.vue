@@ -18,13 +18,11 @@
                         <form ref="loginForm" v-model="valid" @submit.prevent="submit">
                             <v-text-field
                                 v-model="loginForm.email"
-
                                 label="Email-adres"
                                 required
                             ></v-text-field>
                             <v-text-field
                                 v-model="loginForm.password"
-
                                 label="Wachtwoord"
                                 type="password"
                                 :counter="15"
@@ -32,15 +30,12 @@
                             ></v-text-field>
 
 
-                            <v-btn
-                                color="primary"
-
-                                type="submit"
-                            >
+                            <v-btn color="primary"
+                                   type="submit" >
                                 Inloggen
                             </v-btn>
 
-                            <v-btn color="primary" style="float:right" dark @click.stop="forgotpassword = true">Wachtwoord vergeten</v-btn>
+                            <v-btn flat="true" color="primary" style="float:right" dark @click.stop="forgotpassword = true">Wachtwoord vergeten</v-btn>
 
                         </form>
 
@@ -120,7 +115,7 @@
 				{
 					//this.data(); // Refresh data
           this.loginForm.password = '';
-          
+
           if( sessionStorage.getItem( 'token' ) && sessionStorage.getItem( 'token' ).length > 0 )
 					{
 						this.$router.push( { name: 'dashboard' } );
