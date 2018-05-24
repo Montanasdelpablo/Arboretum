@@ -136,6 +136,9 @@ class UserController extends Controller
 		// Validate input
 		$this->validation( $request );
 
+		// Hash password
+		$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
+		
 		// Create new user
 		$created = User::create( $request->all() );
 

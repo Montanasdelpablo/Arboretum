@@ -25,7 +25,7 @@
                             :append-icon="passwordVisible ? 'visibility_off' : 'visibility'"
                             :append-icon-cb="() => (passwordVisible = !passwordVisible)"
                             :type="passwordVisible ? 'text' : 'password'"
-                            minlength="8"
+                            minlength="6"
                             :error-messages="errors['password']"
                             :counter="15"
                             required
@@ -59,7 +59,7 @@
                                     />
                                 </v-card-text>
 
-                                <v-card-actions>
+                                <v-card-actions right>
                                     <v-btn color="primary" type="submit">Verstuur wachtwoord</v-btn>
                                     <v-btn color="primary" flat @click.stop="forgotpassword=false">Sluiten</v-btn>
                                 </v-card-actions>
