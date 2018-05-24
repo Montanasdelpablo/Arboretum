@@ -6,7 +6,7 @@
 
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
-            <v-spacer />
+            <v-spacer/>
         </v-toolbar>
 
         <!-- Navigation -->
@@ -15,7 +15,7 @@
                 <v-list>
                     <v-list-tile avatar>
                         <v-list-tile-avatar>
-                            <img src="https://randomuser.me/api/portraits/men/85.jpg" >
+                            <img src="https://randomuser.me/api/portraits/men/85.jpg">
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
@@ -32,7 +32,7 @@
                                                 <v-icon>edit</v-icon>
                                             </v-list-tile-action>
                                             <v-list-tile-title>
-                                               Bewerk profiel
+                                                Bewerk profiel
                                             </v-list-tile-title>
                                         </v-list-tile>
                                         <v-list-tile @click.stop="logout">
@@ -62,7 +62,8 @@
                         </v-flex>
                     </v-layout>
 
-                    <v-list-group v-else-if="item.children" v-model="item.model" :key="item.title" :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
+                    <v-list-group v-else-if="item.children" v-model="item.model" :key="item.title"
+                                  :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
                         <v-list-tile slot="activator">
                             <v-list-tile-content>
                                 <v-list-tile-title>
@@ -101,7 +102,8 @@
 
         <!-- Alerts -->
         <v-container fluid>
-            <v-alert dismissible v-on:click="hideAlert" v-model="alert" :type="success ? 'success' : 'error'" :value="message && message.length > 1" transition="scale-transition">
+            <v-alert dismissible v-on:click="hideAlert" v-model="alert" :type="success ? 'success' : 'error'"
+                     :value="message && message.length > 1" transition="scale-transition">
                 {{ message }}
             </v-alert>
 
@@ -112,144 +114,147 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex';
-	export default
-	{
-		metaInfo() {
-			return {
-			    title: this.$route.meta.title
-            }
-        },
+	import {mapGetters} from 'vuex';
 
-        computed: {
-			...mapGetters([
+	export default {
+		metaInfo()
+		{
+			return {
+				title: this.$route.meta.title
+			}
+		},
+
+		computed: {
+			...mapGetters( [
 				'message',
 				'success',
 				'errors',
 				'userProfile',
-        'alert',
-			]),
-        },
+				'alert',
+			] ),
+		},
 
 		methods: {
 			/**
-             * Return the title of the page
-             *
+			 * Return the title of the page
+			 *
 			 * @returns {*}
 			 */
 			title()
 			{
-                return this.$route.meta.title;
-            },
+				return this.$route.meta.title;
+			},
 
 			/**
-             * Logout user
+			 * Logout user
 			 */
 			logout()
 			{
 				this.$store.commit( 'userLogout' );
-        this.$router.push( { name: 'index' } );
+				this.$router.push( {name: 'index'} );
 			},
-      hideAlert(){
-        this.$store.commit( 'hideAlert' );
-      }
+
+			hideAlert()
+			{
+				this.$store.commit( 'hideAlert' );
+			}
 		},
 
 		data()
 		{
 			return {
 				drawer: false,
-        items: [
+				items: [
 					{
 						title: 'Overview',
 						to: 'dashboard',
 						icon: 'home'
 					},
-                    {
-                    	title: 'Planten',
-                        to: 'plantIndex',
-                        icon: 'filter_vintage'
-                    },
-                    {
-                    	title: 'Kleuren',
-                        to: 'colorIndex',
-                        icon: 'colorize'
-                    },
-                    {
-                    	title: 'Kruisingen',
-                        to: 'crossingIndex',
-                        icon: 'close'
-                    },
-                    {
-                    	title: 'Groepen',
-                        to: 'groupIndex',
-                        icon: 'group_work'
-                    },
-                    {
-                    	title: 'Maanden',
-                        to: 'monthIndex',
-                        icon: 'event'
-                    },
-                    {
-                    	title: 'Belang',
-                        to: 'priorityIndex',
-                        icon: 'priority_high'
-                    },
-                    {
-                    	title: 'Geslachten',
-                        to: 'sexIndex',
-                        icon: 'wc'
-                    },
-                    {
-                    	title: 'Groottes',
-                        to: 'sizeIndex',
-                        icon: 'fullscreen'
-                    },
-                    {
-                    	title: 'Soorten',
-                        to: 'specieIndex',
-                        icon: ''
-                    },
-                    {
-                    	title: 'Leveranciers',
-                        to: 'supplierIndex',
-                        icon: 'local_shipping'
-                    },
-                    {
-                    	title: 'Synoniemen',
-                        to: 'synonymIndex',
-                        icon: ''
-                    },
-                    {
-                    	title: 'Boomtype',
-                        to: 'treetypeIndex',
-                        icon: 'nature'
-                    },
-                    {
-                    	title: 'Type',
-                        to: 'typeIndex',
-                        icon: ''
-                    },
-                    {
-                    	title: 'Variaties',
-                        to: 'subspecieIndex',
-                        icon: ''
-                    },
-                    {
-                    	title: 'Winners',
-                        to: 'winnerIndex',
-                        icon: 'people'
-                    },
-                    {
-                        title: 'Namen',
-                        to: 'nameIndex',
-                        icon: 'person'
-                    },
-          					{
-          						title: 'Gebruikers',
-                      to: 'userIndex',
-                      icon: 'person'
-          					}
+					{
+						title: 'Planten',
+						to: 'plantIndex',
+						icon: 'filter_vintage'
+					},
+					{
+						title: 'Kleuren',
+						to: 'colorIndex',
+						icon: 'colorize'
+					},
+					{
+						title: 'Kruisingen',
+						to: 'crossingIndex',
+						icon: 'close'
+					},
+					{
+						title: 'Groepen',
+						to: 'groupIndex',
+						icon: 'group_work'
+					},
+					{
+						title: 'Maanden',
+						to: 'monthIndex',
+						icon: 'event'
+					},
+					{
+						title: 'Belang',
+						to: 'priorityIndex',
+						icon: 'priority_high'
+					},
+					{
+						title: 'Geslachten',
+						to: 'sexIndex',
+						icon: 'wc'
+					},
+					{
+						title: 'Groottes',
+						to: 'sizeIndex',
+						icon: 'fullscreen'
+					},
+					{
+						title: 'Soorten',
+						to: 'specieIndex',
+						icon: ''
+					},
+					{
+						title: 'Leveranciers',
+						to: 'supplierIndex',
+						icon: 'local_shipping'
+					},
+					{
+						title: 'Synoniemen',
+						to: 'synonymIndex',
+						icon: ''
+					},
+					{
+						title: 'Boomtype',
+						to: 'treetypeIndex',
+						icon: 'nature'
+					},
+					{
+						title: 'Type',
+						to: 'typeIndex',
+						icon: ''
+					},
+					{
+						title: 'Variaties',
+						to: 'subspecieIndex',
+						icon: ''
+					},
+					{
+						title: 'Winners',
+						to: 'winnerIndex',
+						icon: 'people'
+					},
+					{
+						title: 'Namen',
+						to: 'nameIndex',
+						icon: 'person'
+					},
+					{
+						title: 'Gebruikers',
+						to: 'userIndex',
+						icon: 'person'
+					}
 				]
 			}
 		}

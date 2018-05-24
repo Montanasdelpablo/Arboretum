@@ -1,136 +1,143 @@
 <template>
     <v-container fluid>
-        <v-parallax :src="image" height="700">
-            <v-layout column align-center justify-center>
+        <v-layout column align-center justify-center>
+            <v-container
+                style="min-height: 0; padding-top: 150px; background-color: #ffffff"
+                :class="{'px-0': $vuetify.breakpoint.xsOnly }"
+            >
+                <v-flex xs12 sm6 offset-sm3>
+                    <v-alert dismissible v-on:click="hideAlert" v-model="alert" :type="success ? 'success' : 'error'" :value="message && message.length > 1" transition="scale-transition">
+                        {{ message }}
+                    </v-alert>
 
-                <v-container style="min-height: 0; padding-top: 150px; background-color: #ffffff"
-                             :class="{'px-0': $vuetify.breakpoint.xsOnly }">
-                    <v-flex xs12 sm6 offset-sm3>
+                    <form @submit.prevent="submit">
+                        <v-text-field
+                            v-model="loginForm.email"
+                            type="email"
+                            label="Email-adres"
+                            :error-messages="errors['email']"
+                            required
+                        />
 
-                        <v-alert v-show="success" :value="true" type="success">
-                            {{ notification }}
-                        </v-alert>
+                        <v-text-field
+                            v-model="loginForm.password"
+                            label="Wachtwoord"
+                            :append-icon="passwordVisible ? 'visibility_off' : 'visibility'"
+                            :append-icon-cb="() => (passwordVisible = !passwordVisible)"
+                            :type="passwordVisible ? 'text' : 'password'"
+                            minlength="8"
+                            :error-messages="errors['password']"
+                            :counter="15"
+                            required
+                        />
 
-                        <v-alert v-show="failure" :value="true" type="success">
-                            {{ notification }}
-                        </v-alert>
+                        <v-btn color="primary" type="submit">Inloggen</v-btn>
+                    </form>
 
-                        <form ref="loginForm" v-model="valid" @submit.prevent="submit">
-                            <v-text-field
-                                v-model="loginForm.email"
-                                label="Email-adres"
-                                required
-                            ></v-text-field>
-                            <v-text-field
-                                v-model="loginForm.password"
-                                label="Wachtwoord"
-                                type="password"
-                                :counter="15"
-                                required
-                            ></v-text-field>
+                    <v-dialog v-model="forgotpassword" max-width="500px">
+                        <v-btn
+                            slot="activator"
+                            flat
+                            color="primary"
+                            style="float:right"
+                            dark
+                            @click.stop="forgotpassword = true"
+                        >
+                            Wachtwoord vergeten
+                        </v-btn>
 
+                        <v-card>
+                            <form @submit.prevent="forgotPassword">
+                                <v-card-title>Wachtwoord vergeten</v-card-title>
 
-                            <v-btn color="primary"
-                                   type="submit" >
-                                Inloggen
-                            </v-btn>
-
-                            <v-btn flat="true" color="primary" style="float:right" dark @click.stop="forgotpassword = true">Wachtwoord vergeten</v-btn>
-
-                        </form>
-
-                        <v-dialog v-model="forgotpassword" max-width="500px">
-                            <v-card>
-                                <v-card-title>
-                                    Wachtwoord vergeten
-                                </v-card-title>
                                 <v-card-text>
-                                    <form ref="forgotForm" v-model="valid" @submit.prevent="verstuur">
-                                        <v-text-field
-                                            v-model="forgotEmail"
-
-                                            label="Email"
-                                            required
-                                        ></v-text-field>
-
-                                        <v-btn
-                                            color="primary"
-                                            style="float:right"
-                                            :disabled="!valid"
-                                        >
-                                            Verstuur wachtwoord
-                                        </v-btn>
-                                    </form>
+                                    <v-text-field
+                                        v-model="forgotEmail"
+                                        type="email"
+                                        label="Email"
+                                        required
+                                    />
                                 </v-card-text>
+
                                 <v-card-actions>
+                                    <v-btn color="primary" type="submit">Verstuur wachtwoord</v-btn>
                                     <v-btn color="primary" flat @click.stop="forgotpassword=false">Sluiten</v-btn>
-
                                 </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-flex>
-                </v-container>
-
-            </v-layout>
-        </v-parallax>
+                            </form>
+                        </v-card>
+                    </v-dialog>
+                </v-flex>
+            </v-container>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
+	import { mapGetters } from 'vuex';
+
 	export default {
 		metaInfo: {
-			title: 'login'
+			title: 'Login'
 		},
+
+		computed: {
+			...mapGetters( [
+				'message',
+				'success',
+				'errors',
+				'userProfile',
+				'alert',
+			] ),
+		},
+
 		data()
 		{
 			return {
-				image: 'https://images.pexels.com/photos/573552/pexels-photo-573552.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb',
 				activity: 1,
 				valid: false,
 				loginForm: {},
 				forgotEmail: '',
 				forgotpassword: false,
-				success: false,
-				failure: false,
-				notification: '',
+                passwordVisible: false,
 			}
 		},
+
 		methods: {
 			submit()
 			{
-					// Native form submission is not yet supported
-					this.login();
+				// Native form submission is not yet supported
+				this.login();
 			},
-			verstuur()
-			{
-				if( this.$refs.forgotForm.validate() )
-				{
-					// Native form submission is not yet supported
-					this.forgotPassword();
-				}
-			},
+
 			login()
 			{
 				this.$store.dispatch( 'login', this.loginForm ).then( () =>
 				{
 					//this.data(); // Refresh data
-          this.loginForm.password = '';
+					this.loginForm.password = '';
 
-          if( sessionStorage.getItem( 'token' ) && sessionStorage.getItem( 'token' ).length > 0 )
+					if( sessionStorage.getItem( 'token' ) && sessionStorage.getItem( 'token' ).length > 0 )
 					{
-						this.$router.push( { name: 'dashboard' } );
+						this.$router.push( {name: 'dashboard'} );
 					}
 				} );
 			},
+
 			forgotPassword()
 			{
 				let user = {
 					email: this.forgotEmail
 				};
+
 				this.$store.dispatch( 'forgotPassword', user ).then( () =>
 				{
 					//this.data(); // Refresh data
 				} );
+			},
+
+            hideAlert()
+			{
+				this.$store.commit( 'hideAlert' );
 			}
 		},
 	}
