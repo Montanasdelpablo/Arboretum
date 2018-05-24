@@ -71,6 +71,8 @@ export default {
 		},
 		login( context, data )
 		{
+
+			// Returns request
 			return fetch( '/api/login', {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
@@ -90,13 +92,12 @@ export default {
 					{
 						context.commit( 'errors', response.errors );
 					}
-
+					// Commit response to  state
 					context.commit( 'message', response.message );
 					context.commit( 'success', response.success ? response.success : false );
-
 					if( response.token )
 					{
-						console.log(response);
+						// Set session
 						sessionStorage.setItem( 'token', response.token ); // Makes sure the user is logged in even after page refresh
 						sessionStorage.setItem( 'user', JSON.stringify( response.user ) );
 						context.commit( 'userLogin' );
@@ -107,6 +108,9 @@ export default {
 
 		forgotPassword( context, data )
 		{
+			// This does not work yet
+
+			// Returns request
 			return fetch( '/api/forgotPassword', {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
@@ -120,6 +124,7 @@ export default {
 				.then( response => response.json() )
 				.then( response =>
 				{
+					// Commit to state
 					context.commit( 'userIndex', response )
 				} )
 				.catch( error => console.error( 'userIndex', error ) );
@@ -127,6 +132,7 @@ export default {
 
 		register( context, data )
 		{
+			// Returns request/response
 			return fetch( '/api/register', {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
@@ -147,12 +153,14 @@ export default {
 
 		userIndex( context, pagination )
 		{
+			// Set url
 			let url = '/api/users';
+			// If pagination, add it to url
 			if( pagination && Object.keys( pagination ).length > 1 )
 			{
 				url += `?${Object.keys( pagination ).map( key => `${key}=${pagination[key]}` ).join( '&' ) }`;
 			}
-
+			// Returns request/response
 			return fetch( url, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
@@ -212,6 +220,7 @@ export default {
 		 */
 		userEdit( context, id )
 		{
+			// Returns request/response
 			return fetch( `/api/users/${id}/edit`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',

@@ -165,8 +165,7 @@
 			 */
 			items()
 			{
-        console.log(this.$store.getters.userIndex);
-				return this.$store.getters.userIndex;
+        return this.$store.getters.userIndex;
 			},
 
 			/**
@@ -204,6 +203,7 @@
 			 */
 			data()
 			{
+        // Grab data
 				this.loading = true;
 				this.$store.dispatch( 'userIndex', this.pagination ).then( () => {
 					this.loading = false;
@@ -229,7 +229,6 @@
 			editItem( item )
 			{
 				delete item.user_count;
-
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog

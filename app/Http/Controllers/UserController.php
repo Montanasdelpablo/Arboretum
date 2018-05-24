@@ -33,17 +33,26 @@ class UserController extends Controller
 				'password' => $request->input( 'password' )
 		]);
 
+		// If $attempt returns true
 	  if($attempt){
+				// Grab current user
 				$user = Auth::user();
+				// Build token
 				$token = $user->createToken( config( 'app.name' ) )->accessToken;
+				// Update model with token
 				$user->update( [ 'api_token' => $token ] );
+				// Return response 201 with data
 		 		return response()->json( [ 'success' => true, 'token' => $token, 'message' => 'Logged in succesfully', 'user' => $user], 201);
 		} else {
+				// Return response 400
 		  	return response()->json( [ 'success' => false, 'message' => 'Not logged in'], 400);
 		}
 	 }
 
 	public function forgotpw (Request $request){
+		// Still todo!
+
+		// validate email
 		$request->validatie([
 			'email' => 'required|email',
 		] );
@@ -54,12 +63,17 @@ class UserController extends Controller
 
 	public function logout()
 	{
+		// No use of this function right now because we are just deleting session in frontend
 		Auth::logout(); // log the user out of our application
+
+		// Conditional check if there is not a current user
 		if( empty( $user = Auth::user() ) )
 		{
+			// Return response 201 with data
 			return response()->json( [ 'success' => true, 'message' => 'Logged out succesfully' ], 201 );
 		} else
 		{
+			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'Not logged out succesfully' ], 400 );
 		}
 	}
@@ -72,6 +86,7 @@ class UserController extends Controller
 		//print_r($request->all());
 		//print_r($request->input('first_name'));
 
+		// Validate input
 		$request->validate( [
 			'first_name' => 'required|string',
 			'last_name' => 'required|string',
@@ -92,8 +107,10 @@ class UserController extends Controller
 
 		//return $user;
 		if(empty($user = Auth::user())){
-		 return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
+			// Return response 201 with data
+			return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
 		} else {
+			// Return response 400 with data
 		  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
 		  }
 	}
@@ -116,15 +133,20 @@ class UserController extends Controller
 	 */
 	public function store( Request $request )
 	{
+		// Validate input
 		$this->validation( $request );
 
+		// Create new user
 		$created = User::create( $request->all() );
 
+		// If there is a user created
 		if( $created )
 		{
+			// Return response 201 with data
 			return response()->json( [ 'success' => true, 'message' => 'User created', 'result' => $created ], 201 );
 		} else
 		{
+			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'User not created' ], 400 );
 		}
 	}
@@ -163,15 +185,20 @@ class UserController extends Controller
 	 */
 	public function update( Request $request, User $user )
 	{
+		// Validate input
 		$this->validation( $request );
 
+		// Update with input
 		$updated = $user->update( $request->all() );
 
+		// If updated
 		if( $updated )
 		{
+			// Return respose 200 with data
 			return response()->json( [ 'success' => true, 'message' => 'User updated', 'result' => $updated ], 200 );
 		} else
 		{
+			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'User not updated' ], 400 );
 		}
 	}
