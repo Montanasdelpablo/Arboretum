@@ -38,7 +38,7 @@ De gebruikte frameworks voor dit project zijn de volgende:
 Voor dat je met de installatie begint zorg ervoor dat je alle programma's hebt geinstalleerd die bij [software](#software) staan.
 Zorg er daarnaast voor dat je server aan de eisen voldoet die bij [server](#server) worden genoemd.
 
-*Wanneer over een command wordt gesproken gaan we ervan uit dat een command word uitgevoerd in de map waarin alle bestanden (komen te) staan.* 
+*Wanneer over een command wordt gesproken gaan we ervan uit dat een command word uitgevoerd in de map waarin alle bestanden (komen te) staan.*
 
 Download of clone vervolgens alle bestanden van de [repository](https://github.com/Montanasdelpablo/Arboretum). Of gebruik het volgende command: `git clone https://github.com/Montanasdelpablo/Arboretum`
 
@@ -71,8 +71,8 @@ Voor het online zetten/ uploaden van de API zijn er nog een aantal extra stappen
 
 ## API<a name="api"></a>
 
-Voor de RESTFUL API zijn er de onderstaande routes. 
-Voor elke route wordt beschreven wat de route verwacht te krijgen en wat je terug krijgt. 
+Voor de RESTFUL API zijn er de onderstaande routes.
+Voor elke route wordt beschreven wat de route verwacht te krijgen en wat je terug krijgt.
 
 Voor alle routes gaan we ervan uit dat deze de volgende prefix heeft: `voorbeeld.nl/api/`. Waar `voorbeeld.nl` vervangen dient te worden door hosting url.
 
@@ -82,7 +82,7 @@ Alle routes verwachten in ieder geval de volgende headers:
 	X-CSRF-token: window.token //optioneel
 	Content-Type: application/json
 	Accept: application/json
-	
+
 Van alle `post`, `put`, `delete` routes krijg je de volgende resultaten terug:
 
     success: (boolean) true of false afhankelijk van of een actie geslaagd is ja of nee
@@ -97,623 +97,623 @@ Van alle `post`, `put`, `delete` routes krijg je de volgende resultaten terug:
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: colors
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: colors/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde item
-	
+
 	url: colors/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde item
-	
+
 	url: colors/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: colors/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: colors/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Kruisingen
 
 	url: crossings
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle items
-	
+
 	url: crossings
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: crossings/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde item
-	
+
 	url: crossings/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde item
-	
+
 	url: crossings/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: crossings/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: crossings/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Groepen
 
 	url: groups
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: groups
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: groups/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: groups/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: groups/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: groups/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: groups/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Maanden
 
 	url: months
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle items
-	
+
 	url: months
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: months/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: months/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: months/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: months/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: months/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Planten
 
 	url: plants
     method: get
     return: (json) alle items
-    
+
     url: plants
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: plants/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: plants/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: plants/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: plants/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: plants/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Prioriteit
 
 	url: priorities
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: priorities
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: priorities/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: priorities/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: priorities/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: priorities/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: priorities/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Geslachten
 
 	url: sexes
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: sexes
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: sexes/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: sexes/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: sexes/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: sexes/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: sexes/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Groottes
 
 	url: sizes
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: sizes
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: sizes/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: sizes/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: sizes/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: sizes/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: sizes/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Soorten
 
 	url: species
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: species
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: species/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: species/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: species/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: species/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: species/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Leveranciers
 
 	url: suppliers
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: suppliers
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: suppliers/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: suppliers/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: suppliers/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: suppliers/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: suppliers/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Synonym
 
 	url: synonyms
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: synonyms
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: synonyms/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: synonyms/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: synonyms/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: synonyms/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: synonyms/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Boomtype
 
 	url: treetypes
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: treetypes
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: treetypes/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: treetypes/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: treetypes/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: treetypes/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: treetypes/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Types
 
 	url: types
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: types
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: types/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: types/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: types/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: types/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: types/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Varieteiten
 
 	url: varieties
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: varieties
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: varieties/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: varieties/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: varieties/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: varieties/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: varieties/{id}
 	id: integer
 	method: delete
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data verwijderde item
-	
+
 ### Winners
 
 	url: winners
     method: get
     extra header: Authorization: 'Bearer <api_token>'
     return: (json) alle items
-    
+
     url: winners
 	method: post
 	body: name (string)
 	extra header: Authorization: 'Bearer <api_token>'
-	
+
 	url: winners/{id}
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: winners/{id}/edit
 	id: integer
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) data gespecificeerde kleur
-	
+
 	url: winners/{id}
 	id: integer
 	method: put
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) geupdate data
-	
+
 	url: winners/{search}/search
 	search: integer(id)/ string
 	method: get
 	extra header: Authorization: 'Bearer <api_token>'
 	return: (json) alle resultaten die overeen komen met de zoek opdracht
-	
+
 	url: winners/{id}
 	id: integer
 	method: delete
