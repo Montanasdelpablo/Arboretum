@@ -63,13 +63,13 @@ export default {
 		 * @param context
 		 * @param pagination
 		 */
-
 		userLogout( state )
 		{
 			state.loggedIn = false;
 			sessionStorage.removeItem( 'token' );
 		},
-		login( context, data )
+
+		userLogin( context, data )
 		{
 
 			// Returns request
@@ -130,7 +130,7 @@ export default {
 				.catch( error => console.error( 'userIndex', error ) );
 		},
 
-		register( context, data )
+		userRegister( context, data )
 		{
 			// Returns request/response
 			return fetch( '/api/register', {
@@ -139,6 +139,7 @@ export default {
 					'X-CSRF-token': window.token,
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
+					'Authorization': `Bearer ${sessionStorage.getItem( 'token' )}`
 				},
 				method: 'POST',
 				body: JSON.stringify( data )
@@ -181,7 +182,7 @@ export default {
 		 * @param context
 		 * @param data
 		 * @returns {Promise<any>}
-		 */
+		 *//*
 		userStore( context, data )
 		{
 			return fetch( '/api/users', {
@@ -209,7 +210,7 @@ export default {
 					context.commit( 'success', response.success );
 				} )
 				.catch( error => console.error( 'userStore', error ) );
-		},
+		},*/
 
 		/**
 		 * Get information from specific user
@@ -346,6 +347,11 @@ export default {
 			}
 		},
 
+		userLoggedIn( state )
+		{
+			return state.loggedIn;
+		},
+
 		userEdit( state )
 		{
 			let user = state.edit;
@@ -361,6 +367,11 @@ export default {
 				};
 			}
 			return user;
+		},
+
+		userProfile( state )
+		{
+			return state.user;
 		},
 
 		/**

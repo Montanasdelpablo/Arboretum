@@ -74,17 +74,17 @@
 
                                 <v-flex xs12>
                                     <v-select
-                                        v-model="form.variety_id"
+                                        v-model="form.subspecie_id"
                                         label="Variëteitsnaam"
                                         autocomplete
-                                        :items="varieties"
+                                        :items="subspecies"
                                         item-text="name"
                                         item-value="id"
                                         no-data="Geen variëteit gevonden"
                                         cache-items
                                         required
                                         :error-messages="errors['type_id']"
-                                        :search-input.sync="varietyIndex"
+                                        :search-input.sync="subspecieIndex"
                                     />
                                 </v-flex>
 
@@ -356,7 +356,7 @@
                     <td>{{ props.item.type_id ? props.item.type.name : '' }}</td>
                     <td>{{ props.item.sex_id ? props.item.sex.name : '' }}</td>
                     <td>{{ props.item.specie_id ? props.item.specie.name : '' }}</td>
-                    <td>{{ props.item.variety_id ? props.item.variety.name : '' }}</td>
+                    <td>{{ props.item.subspecie_id ? props.item.subspecie.name : '' }}</td>
                     <td>{{ props.item.group_id ? props.item.group.name : '' }}</td>
                     <td>{{ props.item.name_id ? props.item.name.name : '' }}</td>
                     <td>{{ props.item.synonym_id ? props.item.synonym.name : '' }}</td>
@@ -461,7 +461,7 @@
 					{
 						text: 'Variëteitsnaam',
 						align: 'right',
-						value: 'variety'
+						value: 'subspecie'
 					},
 					{
 						text: 'Groep',
@@ -619,9 +619,9 @@
 				return this.$store.getters.specieIndex;
 			},
 
-			varieties()
+			subspecies()
 			{
-				return this.$store.getters.varietyIndex;
+				return this.$store.getters.subspecieIndex;
 			},
 
 			groups()
@@ -753,9 +753,9 @@
 				this.$store.dispatch( 'specieIndex' );
 			},
 
-			varietyIndex()
+			subspecieIndex()
 			{
-				this.$store.dispatch( 'varietyIndex' );
+				this.$store.dispatch( 'subspecieIndex' );
 			},
 
 			groupIndex()
@@ -829,7 +829,7 @@
 
 			this.specieIndex();
 
-			this.varietyIndex();
+			this.subspecieIndex();
 
 			this.groupIndex();
 

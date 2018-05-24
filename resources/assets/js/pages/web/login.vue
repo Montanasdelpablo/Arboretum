@@ -10,7 +10,7 @@
                         {{ message }}
                     </v-alert>
 
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="login">
                         <v-text-field
                             v-model="loginForm.email"
                             type="email"
@@ -25,7 +25,7 @@
                             :append-icon="passwordVisible ? 'visibility_off' : 'visibility'"
                             :append-icon-cb="() => (passwordVisible = !passwordVisible)"
                             :type="passwordVisible ? 'text' : 'password'"
-                            minlength="8"
+                            minlength="6"
                             :error-messages="errors['password']"
                             :counter="15"
                             required
@@ -103,15 +103,9 @@
 		},
 
 		methods: {
-			submit()
-			{
-				// Native form submission is not yet supported
-				this.login();
-			},
-
 			login()
 			{
-				this.$store.dispatch( 'login', this.loginForm ).then( () =>
+				this.$store.dispatch( 'userLogin', this.loginForm ).then( () =>
 				{
 					//this.data(); // Refresh data
 					this.loginForm.password = '';

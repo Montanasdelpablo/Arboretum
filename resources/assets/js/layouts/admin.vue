@@ -14,37 +14,29 @@
             <v-toolbar flat class="transparent">
                 <v-list>
                     <v-list-tile avatar>
-                        <v-list-tile-avatar>
-                            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-                        </v-list-tile-avatar>
+                        <!--TODO fix layout-->
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                <!--<div v-if="userProfile['first_name'] && userProfile['last_name']">
+                                <div v-if="userProfile['first_name'] && userProfile['last_name']">
                                     {{ userProfile['first_name'] }} {{ userProfile['last_name'] }}
-                                </div>-->
-
-                                <v-menu>
-                                    <v-icon slot="activator">expand_more</v-icon>
-
-                                    <v-list>
-                                        <v-list-tile>
-                                            <v-list-tile-action>
-                                                <v-icon>edit</v-icon>
-                                            </v-list-tile-action>
-                                            <v-list-tile-title>
-                                                Bewerk profiel
-                                            </v-list-tile-title>
-                                        </v-list-tile>
-                                        <v-list-tile @click.stop="logout">
-                                            <v-list-tile-action>
-                                                <v-icon>exit_to_app</v-icon>
-                                            </v-list-tile-action>
-                                            <v-list-tile-title>Logout</v-list-tile-title>
-                                        </v-list-tile>
-                                    </v-list>
-                                </v-menu>
+                                </div>
                             </v-list-tile-title>
                         </v-list-tile-content>
+
+                        <v-list-tile-action>
+                            <v-menu>
+                                <v-icon slot="activator">expand_more</v-icon>
+
+                                <v-list>
+                                    <v-list-tile @click.stop="logout">
+                                        <v-list-tile-action>
+                                            <v-icon>exit_to_app</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-title>Logout</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                        </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
             </v-toolbar>

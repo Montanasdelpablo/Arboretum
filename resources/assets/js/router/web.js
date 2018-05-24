@@ -1,7 +1,10 @@
+import { store } from '@/store/store';
+
 const index = () => import('@/pages/web/index');
 
 const plantIndex = () => import('@/pages/web/plant/index');
 const plantShow = () => import('@/pages/web/plant/show');
+const login = () => import('@/pages/web/login');
 
 const webRoutes = [
 	{
@@ -34,7 +37,25 @@ const webRoutes = [
 		meta: {
 			title: 'Locatie'
 		}
-	}
+	},
+	{
+		path: 'login',
+		name: 'login',
+		meta: {
+			title: 'Aanmelden'
+		},
+		beforeEnter: ( to, form, next ) => {
+			// If user is logged in return to dashboard
+			if( store.getters.userLoggedIn )
+			{
+				next( { name: 'dashboard' } )
+			} else {
+				next();
+			}
+		},
+		component: login
+	},
+
 ];
 
 export default webRoutes;

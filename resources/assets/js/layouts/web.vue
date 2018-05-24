@@ -91,7 +91,7 @@
 					{
 						title: 'Aanmelden',
 						icon: 'person',
-						to: ''
+						to: 'login'
 					}
 				]
 			}

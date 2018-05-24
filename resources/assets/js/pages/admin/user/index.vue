@@ -1,7 +1,6 @@
 <template>
     <div>
 
-
         <!-- Create/ edit dialog -->
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
@@ -15,26 +14,19 @@
                         <span class="headline">Gebruiker {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
-                    <v-card-text v-if="this.itemEdit == null">
+                    <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.email" label="Email" required />
-                                    <v-text-field v-model="form.password" label="Wachtwoord" required />
-                                    <v-text-field v-model="form.first_name" label="Voornaam"  />
-                                    <v-text-field v-model="form.last_name" label="Achternaam"  />
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-
-                    <v-card-text v-if="this.itemEdit">
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.email" label="Email" required />
-                                    <v-text-field v-model="form.first_name" label="Voornaam"  />
-                                    <v-text-field v-model="form.last_name" label="Achternaam"  />
+                                    <v-text-field v-model="form.email" label="Email" required/>
+                                    <v-text-field
+                                        type="password"
+                                        v-model="form.password"
+                                        label="Wachtwoord"
+                                        required
+                                        v-if="this.itemEdit == null "/>
+                                    <v-text-field v-model="form.first_name" label="Voornaam"/>
+                                    <v-text-field v-model="form.last_name" label="Achternaam"/>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -43,7 +35,9 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }} </v-btn>
+                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' :
+                                                                  'toevoegen' }}
+                        </v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -116,11 +110,8 @@
 
 <script>
 
-	export default
-	{
-    components: {
-
-		},
+	export default {
+		components: {},
 
 		data()
 		{
@@ -142,7 +133,7 @@
 						align: 'left',
 						value: 'first_name'
 					},
-          {
+					{
 						text: 'Achternaam',
 						align: 'left',
 						value: 'last_name'
@@ -165,7 +156,7 @@
 			 */
 			items()
 			{
-        return this.$store.getters.userIndex;
+				return this.$store.getters.userIndex;
 			},
 
 			/**
@@ -179,9 +170,10 @@
 
 			labels()
 			{
-				return this.items.map( item => {
+				return this.items.map( item =>
+				{
 					return item.email;
-				})
+				} )
 			},
 
 			datasets()
@@ -190,9 +182,10 @@
 					{
 						label: 'Gebruikers',
 						backgroundColor: '#fff',
-						data: this.items.map( item => {
+						data: this.items.map( item =>
+						{
 							return item.user_count
-						})
+						} )
 					}
 				];
 			},
@@ -203,27 +196,25 @@
 			 */
 			data()
 			{
-        // Grab data
+				// Grab data
 				this.loading = true;
-				this.$store.dispatch( 'userIndex', this.pagination ).then( () => {
+				this.$store.dispatch( 'userIndex', this.pagination ).then( () =>
+				{
 					this.loading = false;
-				});
+				} );
 			},
-
 
 			store()
 			{
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userStore', this.form ).then(
-					() =>
-					{
+				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () => {
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
 						this.dialog = false; // Close dialog
-					});
+					} );
 			},
 
 			editItem( item )
@@ -246,19 +237,20 @@
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};
-				});
+				} );
 			},
 
 			close()
 			{
-        this.dialog = false;
-        this.form = {};
-        this.itemEdit = null;
+				this.dialog = false;
+				this.form = {};
+				this.itemEdit = null;
 			}
 		},
 		watch: {
 			pagination: {
-				handler() {
+				handler()
+				{
 					this.data();
 				}
 			}
