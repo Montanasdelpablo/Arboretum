@@ -65,6 +65,10 @@
             </template>
         </v-data-table>
 
+        <div class="text-xs-center">
+            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+        </div>
+
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
@@ -113,12 +117,12 @@
 						value: 'name'
 					},
                     {
-                    	text: 'Planten',
+                    	text: 'Bloeikleur',
                         align: 'right',
                         value: 'bloom_colors_count'
                     },
                     {
-                    	text: 'Macule',
+                    	text: 'Maculekleur',
                         align: 'right',
 						value: 'macule_colors_count'
                     },
@@ -151,6 +155,16 @@
 				return this.$store.getters.colorTotal;
 			},
 
+			pages()
+			{
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
+				{
+					return 0;
+				}
+
+				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
+			},
+
             labels()
             {
             	return this.items.map( color => {
@@ -162,15 +176,15 @@
             {
             	return [
 					{
-						label: 'Planten',
-						backgroundColor: '#fff',
+						label: 'Bloeikleur',
+						backgroundColor: '#313D76',
                         data: this.items.map( color => {
                         	return color.bloom_colors_count
                         })
 					},
                     {
-                    	label: 'Macule',
-						backgroundColor: '#299',
+                    	label: 'Maculekleur',
+						backgroundColor: '#78B856',
                         data: this.items.map( color => {
                         	return color.macule_colors_count
                         })

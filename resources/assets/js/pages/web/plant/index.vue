@@ -63,9 +63,11 @@
             </v-flex>
         </v-layout>
 
-        <v-layout justify-center>
-            <v-flex xs12 md6>
-                <v-pagination :length="pages" v-model="form.page"></v-pagination>
+        <v-layout>
+            <v-flex xs12>
+                <div class="text-xs-center">
+                    <v-pagination :length="pages" v-model="form.page" total-visible="7" />
+                </div>
             </v-flex>
         </v-layout>
     </v-container>

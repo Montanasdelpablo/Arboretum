@@ -113,6 +113,10 @@
             </template>
         </v-data-table>
 
+        <div class="text-xs-center">
+            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+        </div>
+
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
@@ -225,6 +229,16 @@
 			totalItems()
 			{
 				return this.$store.getters.supplierTotal;
+			},
+
+			pages()
+			{
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
+				{
+					return 0;
+				}
+
+				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
 			},
 
 			labels()

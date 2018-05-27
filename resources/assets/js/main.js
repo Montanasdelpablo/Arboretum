@@ -6,7 +6,10 @@ import Meta from 'vue-meta';
 import VueProgressiveImage from 'vue-progressive-image';
 
 Vue.use( Meta );
-Vue.use( Vuetify );
+Vue.use( Vuetify, {
+	primary: '#313D76',
+	secondary: '#78B856'
+} );
 Vue.use( VueProgressiveImage );
 
 if( google_api.length === 0 )

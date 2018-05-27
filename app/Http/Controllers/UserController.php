@@ -166,25 +166,42 @@ class UserController extends Controller
 	 */
 	public function update( Request $request, User $user )
 	{
-		$request->validate( [
-			'first_name' => 'required|string',
-			'last_name'  => 'required|string',
-			'email' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'users' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
-		] );
+		// Check if a password has been send
+		if( !empty( $request->input('password') ) )
+		{
+			$request->validate( [
+				'first_name' => 'required|string',
+				'last_name'  => 'required|string',
+				'password' => 'required|string|min:6',
+				'email'      => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'users' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
+			] );
 
-		$updated = $user->update( [
-			'first_name' => $request->input( 'first_name' ),
-			'last_name'  => $request->input( 'last_name' ),
-			'email'      => $request->input( 'email' ),
-		]);
+			$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
+			$updated = $user->update( [
+				'first_name' => $request->input( 'first_name' ),
+				'last_name'  => $request->input( 'last_name' ),
+				'email'      => $request->input( 'email' ),
+			] );
+		} else {
+			$request->validate( [
+				'first_name' => 'required|string',
+				'last_name'  => 'required|string',
+				'email'      => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'users' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
+			] );
+
+			$updated = $user->update( [
+				'first_name' => $request->input( 'first_name' ),
+				'last_name'  => $request->input( 'last_name' ),
+				'email'      => $request->input( 'email' ),
+			] );
+		}
 
 		// If updated
 		if( $updated )
 		{
 			// Return response 200 with data
 			return response()->json( [ 'success' => true, 'message' => 'User updated', 'result' => $updated ], 200 );
-		} else
-		{
+		} else {
 			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'User not updated' ], 400 );
 		}

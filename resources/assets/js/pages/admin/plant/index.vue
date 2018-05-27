@@ -17,11 +17,13 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.follow_number" label="Volgnummer" type="number" required />
+                                    <v-text-field v-model="form.follow_number" label="Volgnummer" type="number"
+                                                  required/>
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.purchase_number" label="Aankoopnummer" type="number" required />
+                                    <v-text-field v-model="form.purchase_number" label="Aankoopnummer" type="number"
+                                                  required/>
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -105,7 +107,7 @@
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.name" label="Naam" required />
+                                    <v-text-field v-model="form.name" label="Naam" required/>
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -157,7 +159,7 @@
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.control" label="Controle" type="date" />
+                                    <v-text-field v-model="form.control" label="Controle" type="date"/>
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -193,27 +195,27 @@
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.place" label="Plaats" required />
+                                    <v-text-field v-model="form.place" label="Plaats" required/>
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.latitude" label="Latitude" required />
+                                    <v-text-field v-model="form.latitude" label="Latitude" required/>
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.longitude" label="Longitude" required />
+                                    <v-text-field v-model="form.longitude" label="Longitude" required/>
                                 </v-flex>
 
                                 <v-flex xs12 md4>
-                                    <v-checkbox v-model="form.replant" label="Herplant" />
+                                    <v-checkbox v-model="form.replant" label="Herplant"/>
                                 </v-flex>
 
                                 <v-flex xs12 md4>
-                                    <v-text-field v-model="form.moved" label="Verplaatst" type="date" />
+                                    <v-text-field v-model="form.moved" label="Verplaatst" type="date"/>
                                 </v-flex>
 
                                 <v-flex xs12 md4>
-                                    <v-checkbox v-model="form.dead" label="Dood" />
+                                    <v-checkbox v-model="form.dead" label="Dood"/>
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -233,7 +235,7 @@
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.planted" label="Poot datum" type="date" />
+                                    <v-text-field v-model="form.planted" label="Poot datum" type="date"/>
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -304,11 +306,11 @@
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.note" label="Aantekening" />
+                                    <v-text-field v-model="form.note" label="Aantekening"/>
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.description" label="Beschrijving" />
+                                    <v-text-field v-model="form.description" label="Beschrijving"/>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -317,7 +319,9 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
+                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' :
+                                                                  'toevoegen' }}
+                        </v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -369,12 +373,12 @@
                     <td>{{ props.item.longitude }}</td>
                     <td>
                         <v-icon v-if="props.item.replant" class="green--text">check_box</v-icon>
-                        <v-icon v-else class="red--text">check_box_outline</v-icon>
+                        <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
                     </td>
                     <td>{{ props.item.moved }}</td>
                     <td>
                         <v-icon v-if="props.item.dead" class="green--text">check_box</v-icon>
-                        <v-icon v-else class="red--text">check_box_outline</v-icon>
+                        <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
                     </td>
                     <td>{{ props.item.supplier_id ? props.item.supplier.name : '' }}</td>
                     <td>{{ props.item.planted }}</td>
@@ -397,6 +401,10 @@
             </template>
         </v-data-table>
 
+        <div class="text-xs-center">
+            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+        </div>
+
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
@@ -418,8 +426,7 @@
 </template>
 
 <script>
-	export default
-	{
+	export default {
 		data()
 		{
 			return {
@@ -429,15 +436,15 @@
 				itemEdit: null,
 				dialog: false,
 				form: {
-      					dead: false,
-                replant: false
-                },
+					dead: false,
+					replant: false
+				},
 				headers: [
-            {
-            	text: 'Volgnummer',
-                align: 'right',
-                value: 'follow_number'
-            },
+					{
+						text: 'Volgnummer',
+						align: 'right',
+						value: 'follow_number'
+					},
 					{
 						text: 'Aankoopnummer',
 						align: 'right',
@@ -604,10 +611,20 @@
 				return this.$store.getters.plantTotal;
 			},
 
-            types()
-            {
-            	return this.$store.getters.typeIndex;
-            },
+			pages()
+			{
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
+                {
+                	return 0;
+                }
+
+				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
+			},
+
+			types()
+			{
+				return this.$store.getters.typeIndex;
+			},
 
 			sexes()
 			{
@@ -664,10 +681,10 @@
 				return this.$store.getters.sizeIndex;
 			},
 
-            names()
-            {
-            	return this.$store.getters.nameIndex;
-            },
+			names()
+			{
+				return this.$store.getters.nameIndex;
+			},
 
 			colors()
 			{
@@ -686,11 +703,11 @@
 			data()
 			{
 				this.loading = true;
-				this.$store.dispatch( 'plantIndex', this.pagination ).then( () => {
+				this.$store.dispatch( 'plantIndex', this.pagination ).then( () =>
+				{
 					this.loading = false;
-				});
+				} );
 			},
-
 
 			store()
 			{
@@ -706,7 +723,7 @@
 					};
 					this.itemEdit = null;
 					this.dialog = false; // Close dialog
-				});
+				} );
 			},
 
 			editItem( item )
@@ -728,15 +745,15 @@
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};
-				});
+				} );
 			},
 
 			close()
 			{
-        this.dialog = false;
-        this.form = {};
-        this.itemEdit = null;
-      },
+				this.dialog = false;
+				this.form = {};
+				this.itemEdit = null;
+			},
 
 			typeIndex()
 			{
@@ -798,10 +815,10 @@
 				this.$store.dispatch( 'sizeIndex' );
 			},
 
-            nameIndex()
-            {
-                this.$store.dispatch( 'nameIndex' );
-            },
+			nameIndex()
+			{
+				this.$store.dispatch( 'nameIndex' );
+			},
 
 			colorIndex()
 			{
@@ -822,7 +839,8 @@
 			},
 		},
 
-        mounted() {
+		mounted()
+		{
 			this.typeIndex();
 
 			this.sexIndex();

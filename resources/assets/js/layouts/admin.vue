@@ -17,7 +17,7 @@
                         <!--TODO fix layout-->
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                <div v-if="userProfile['first_name'] && userProfile['last_name']">
+                                <div v-if="userProfile && userProfile['first_name'] && userProfile['last_name']">
                                     {{ userProfile['first_name'] }} {{ userProfile['last_name'] }}
                                 </div>
                             </v-list-tile-title>
