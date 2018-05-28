@@ -7,8 +7,10 @@ import VueProgressiveImage from 'vue-progressive-image';
 
 Vue.use( Meta );
 Vue.use( Vuetify, {
-	primary: '#313D76',
-	secondary: '#78B856'
+	theme: {
+		primary: '#78B856',
+		secondary: '#313D76'
+	}
 } );
 Vue.use( VueProgressiveImage );
 

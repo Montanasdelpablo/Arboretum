@@ -155,6 +155,11 @@
 				return this.$store.getters.colorTotal;
 			},
 
+            /**
+             * Get the total amount of pages
+             *
+             * @return number
+             */
 			pages()
 			{
 				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
@@ -165,6 +170,11 @@
 				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
 			},
 
+
+            /**
+             * Get the labels for the chart
+             * @returns [labels]
+             */
             labels()
             {
             	return this.items.map( color => {
@@ -172,6 +182,10 @@
                 })
             },
 
+            /**
+             * Generate the dataset for the chart
+             * @returns [dataset]
+             */
             datasets()
             {
             	return [
@@ -205,6 +219,9 @@
 				});
 			},
 
+            /**
+             *  Store item
+             */
 			store()
 			{
 				this.loading = true;

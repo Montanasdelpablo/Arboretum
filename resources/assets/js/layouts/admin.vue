@@ -7,6 +7,22 @@
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
             <v-spacer/>
+
+            <v-toolbar-items>
+                <v-tooltip bottom>
+                    <v-btn slot="activator" flat :to="{ name: 'index' }">
+                        <v-icon>public</v-icon>
+                    </v-btn>
+                    <span>Naar website</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                    <v-btn slot="activator" flat :to="{ name: 'manual' }">
+                        <v-icon>help</v-icon>
+                    </v-btn>
+                    <span>Handleiding</span>
+                </v-tooltip>
+            </v-toolbar-items>
         </v-toolbar>
 
         <!-- Navigation -->
@@ -17,8 +33,9 @@
                         <!--TODO fix layout-->
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                <div v-if="userProfile && userProfile['first_name'] && userProfile['last_name']">
-                                    {{ userProfile['first_name'] }} {{ userProfile['last_name'] }}
+                                <div v-if="userProfile && userProfile.first_name &&
+                                userProfile.last_name">
+                                    {{ userProfile.first_name }} {{ userProfile.last_name }}
                                 </div>
                             </v-list-tile-title>
                         </v-list-tile-content>
@@ -228,7 +245,7 @@
 						icon: ''
 					},
 					{
-						title: 'Variaties',
+						title: 'Variëteiten',
 						to: 'subspecieIndex',
 						icon: ''
 					},

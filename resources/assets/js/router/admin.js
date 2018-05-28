@@ -16,7 +16,8 @@ const subspecieIndex = () => import('@/pages/admin/subspecie');
 const winnerIndex = () => import('@/pages/admin/winner');
 const nameIndex = () => import('@/pages/admin/name');
 const userIndex = () => import('@/pages/admin/user');
-const profileIndex = () => import('@/pages/admin/profile');
+const userShow = () => import('@/pages/admin/user/show');
+const manual = () => import('@/pages/admin/manual');
 
 const adminRoutes = [
 	{
@@ -151,7 +152,7 @@ const adminRoutes = [
 		path: 'names',
 		name: 'nameIndex',
 		meta: {
-			title: 'Names'
+			title: 'Namen'
 		},
 		component: nameIndex
 	},
@@ -159,17 +160,25 @@ const adminRoutes = [
 		path: 'users',
 		name: 'userIndex',
 		meta: {
-			title: 'Users'
+			title: 'Gebruikers'
 		},
 		component: userIndex
 	},
 	{
-		path: 'profile',
-		name: 'profileIndex',
+		path: 'users/:id',
+		name: 'userShow',
 		meta: {
 			title: 'Profile'
 		},
-		component: profileIndex
+		component: userShow
+	},
+	{
+		path: 'manual',
+		name: 'manual',
+		meta: {
+			title: 'Handleiding'
+		},
+		component: manual
 	}
 ];
 
