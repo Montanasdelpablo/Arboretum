@@ -7,6 +7,17 @@
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
             <v-spacer/>
+
+            <v-toolbar-items>
+                <v-tooltip bottom>
+                    <v-btn slot="activator" flat :to="{ name: loggedIn ? 'dashboard' : 'login' }">
+                        <v-icon>dashboard</v-icon>
+                    </v-btn>
+
+                    <span v-if="loggedIn">Naar dashboard</span>
+                    <span v-else>Aanmelden</span>
+                </v-tooltip>
+            </v-toolbar-items>
         </v-toolbar>
 
         <!-- Navigation -->
@@ -88,14 +99,16 @@
                         icon: 'explore',
                         to: ''
                     },
-					{
-						title: 'Aanmelden',
-						icon: 'person',
-						to: 'login'
-					}
 				]
 			}
 		},
+
+        computed: {
+			loggedIn()
+            {
+            	return this.$store.getters.userLoggedIn;
+            }
+        },
 
 		methods: {
 			/**

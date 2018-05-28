@@ -43,7 +43,6 @@ export default {
 			sessionStorage.removeItem( 'user' );
 		},
 
-
 		/**
 		 * Search user
 		 *

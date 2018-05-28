@@ -17,13 +17,23 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.follow_number" label="Volgnummer" type="number"
-                                                  required/>
+                                    <v-text-field
+                                        v-model="form.follow_number"
+                                        label="Volgnummer"
+                                        type="number"
+                                        required
+                                        :error-messages="errors.follow_number"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.purchase_number" label="Aankoopnummer" type="number"
-                                                  required/>
+                                    <v-text-field
+                                        v-model="form.purchase_number"
+                                        label="Aankoopnummer"
+                                        type="number"
+                                        required
+                                        :error-messages="errors.purchase_number"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -36,8 +46,7 @@
                                         item-value="id"
                                         no-data="Geen type gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['type_id']"
+                                        :error-messages="errors.type_id"
                                         :search-input.sync="typeIndex"
                                     />
                                 </v-flex>
@@ -52,8 +61,7 @@
                                         item-value="id"
                                         no-data="Geen geslachten gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['sex_id']"
+                                        :error-messages="errors.sex_id"
                                         :search-input.sync="sexIndex"
                                     />
                                 </v-flex>
@@ -68,8 +76,7 @@
                                         item-value="id"
                                         no-data="Geen soort gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['specie_id']"
+                                        :error-messages="errors.specie_id"
                                         :search-input.sync="specieIndex"
                                     />
                                 </v-flex>
@@ -84,8 +91,7 @@
                                         item-value="id"
                                         no-data="Geen variëteit gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['type_id']"
+                                        :error-messages="errors.type_id"
                                         :search-input.sync="subspecieIndex"
                                     />
                                 </v-flex>
@@ -100,14 +106,24 @@
                                         item-value="id"
                                         no-data="Geen groepen gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['group_id']"
+                                        :error-messages="errors.group_id"
                                         :search-input.sync="groupIndex"
                                     />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.name" label="Naam" required/>
+                                    <v-select
+                                        v-model="form.name_id"
+                                        label="Naam"
+                                        autocomplete
+                                        :items="names"
+                                        item-text="name"
+                                        item-value="id"
+                                        no-data="Geen namen gevonden"
+                                        cache-items
+                                        :error-messages="errors.name_id"
+                                        :search-input.sync="nameIndex"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -120,8 +136,7 @@
                                         item-value="id"
                                         no-data="Geen synoniem gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['synonym_id']"
+                                        :error-messages="errors.synonym_id"
                                         :search-input.sync="synonymIndex"
                                     />
                                 </v-flex>
@@ -136,8 +151,7 @@
                                         item-value="id"
                                         no-data="Geen kruisingen gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['crossing_id']"
+                                        :error-messages="errors.crossing_id"
                                         :search-input.sync="crossingIndex"
                                     />
                                 </v-flex>
@@ -152,8 +166,7 @@
                                         item-value="id"
                                         no-data="Geen winner gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['winner_id']"
+                                        :error-messages="errors.winner_id"
                                         :search-input.sync="winnerIndex"
                                     />
                                 </v-flex>
@@ -172,8 +185,7 @@
                                         item-value="id"
                                         no-data="Geen boomtype gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['treetype_id']"
+                                        :error-messages="errors.treetype_id"
                                         :search-input.sync="treetypeIndex"
                                     />
                                 </v-flex>
@@ -188,34 +200,61 @@
                                         item-value="id"
                                         no-data="Geen belang gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['priority_id']"
+                                        :error-messages="errors.priority_id"
                                         :search-input.sync="priorityIndex"
                                     />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.place" label="Plaats" required/>
+                                    <v-text-field
+                                        v-model="form.place"
+                                        label="Plaats"
+                                        required
+                                        :error-messages="errors.place"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.latitude" label="Latitude" required/>
+                                    <v-text-field
+                                        v-model="form.latitude"
+                                        label="Latitude"
+                                        required
+                                        :error-messages="errors.latitude"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.longitude" label="Longitude" required/>
+                                    <v-text-field
+                                        v-model="form.longitude"
+                                        label="Longitude"
+                                        required
+                                        :error-messages="errors.longitude"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12 md4>
-                                    <v-checkbox v-model="form.replant" label="Herplant"/>
+                                    <v-checkbox
+                                        v-model="form.replant"
+                                        label="Herplant"
+                                        :error-messages="errors.replant"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12 md4>
-                                    <v-text-field v-model="form.moved" label="Verplaatst" type="date"/>
+                                    <v-text-field
+                                        v-model="form.moved"
+                                        label="Verplaatst"
+                                        type="date"
+                                        :error-messages="errors.moved"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12 md4>
-                                    <v-checkbox v-model="form.dead" label="Dood"/>
+                                    <v-checkbox
+                                        v-model="form.dead"
+                                        label="Dood"
+                                        :error-messages="errors.dead"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -228,14 +267,18 @@
                                         item-value="id"
                                         no-data="Geen leverancier gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['supplier_id']"
+                                        :error-messages="errors.supplier_id"
                                         :search-input.sync="supplierIndex"
                                     />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.planted" label="Poot datum" type="date"/>
+                                    <v-text-field
+                                        v-model="form.planted"
+                                        label="Poot datum"
+                                        type="date"
+                                        :error-messages="errors.planted"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -249,8 +292,7 @@
                                         item-value="id"
                                         no-data="Geen kleur gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['bloom_color']"
+                                        :error-messages="errors.bloom_color"
                                         :search-input.sync="colorIndex"
                                     />
                                 </v-flex>
@@ -266,8 +308,7 @@
                                         item-value="id"
                                         no-data="Geen maand gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['months']"
+                                        :error-messages="errors.months"
                                         :search-input.sync="monthIndex"
                                     />
                                 </v-flex>
@@ -283,8 +324,7 @@
                                         item-value="id"
                                         no-data="Geen kleur gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['macule_color']"
+                                        :error-messages="errors.macule_color"
                                         :search-input.sync="colorIndex"
                                     />
                                 </v-flex>
@@ -299,19 +339,40 @@
                                         item-value="id"
                                         no-data="Geen grootte gevonden"
                                         cache-items
-                                        required
-                                        :error-messages="errors['size_id']"
+                                        :error-messages="errors.size_id"
                                         :search-input.sync="sizeIndex"
                                     />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.note" label="Aantekening"/>
+                                    <v-text-field
+                                        multi-line
+                                        v-model="form.note"
+                                        label="Aantekening"
+                                        :error-messages="errors.note"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.description" label="Beschrijving"/>
+                                    <v-text-field
+                                        multi-line
+                                        v-model="form.description"
+                                        label="Beschrijving"
+                                        :error-messages="errors.description"
+                                    />
                                 </v-flex>
+
+                                <!--<v-flex xs12>
+                                    <v-text-field
+                                        v-model="form.image"
+                                        label="Afbeelding"
+                                        type="file"
+                                        :error-message="errors.image"
+                                    />
+                                    <input type="file" @change="getImage" accept="image/*">
+
+                                    <img :src="form.image" v-if="form.image" width="100%">
+                                </v-flex>-->
                             </v-layout>
                         </v-container>
                     </v-card-text>
@@ -319,8 +380,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' :
-                                                                  'toevoegen' }}
+                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
                         </v-btn>
                     </v-card-actions>
                 </form>
@@ -406,14 +466,14 @@
         </div>
 
         <!-- Delete dialog -->
-        <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
+        <v-dialog v-model="Object.keys( deleteItem ).length > 0" style="max-width: 400px">
             <v-card>
                 <v-card-title>
                     <span class="headline">Plant verwijderen</span>
                 </v-card-title>
 
-                <v-card-text>
-                    Weet je zeker dat je de volgende plant wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                <v-card-text v-if="deleteItem.name">
+                    Weet je zeker dat je de volgende plant wil verwijderen: <strong>{{ deleteItem.name.name }}</strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -437,7 +497,8 @@
 				dialog: false,
 				form: {
 					dead: false,
-					replant: false
+					replant: false,
+                    image: null
 				},
 				headers: [
 					{
@@ -586,6 +647,7 @@
 				],
 			}
 		},
+
 		computed: {
 			errors()
 			{
@@ -722,7 +784,11 @@
 						replant: false
 					};
 					this.itemEdit = null;
-					this.dialog = false; // Close dialog
+
+					if( this.errors.length === 0 )
+					{
+						this.dialog = false; // Close dialog
+					}
 				} );
 			},
 
@@ -829,7 +895,19 @@
 			{
 				this.$store.dispatch( 'monthIndex' );
 			},
+
+            getImage( e )
+            {
+            	let image = e.target.files[0];
+            	const reader = new FileReader();
+
+            	reader.readAsDataURL( image );
+            	reader.onload = e => {
+            		this.form.image = e.target.result;
+                }
+            }
 		},
+
 		watch: {
 			pagination: {
 				handler()

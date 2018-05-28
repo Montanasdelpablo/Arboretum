@@ -228,9 +228,17 @@ class UserController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = User::where( 'email', 'like', '%'.$search.'%' )
+			->orWhere( 'first_name', 'like', '%'.$search.'%' )
+			->orRhere( 'last_name', 'like', '%'.$search.'%' )
 			->orWhere( 'id', $search )
 			->get();
 

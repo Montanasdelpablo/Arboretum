@@ -47,7 +47,7 @@
                     <v-card-actions>
                         <v-btn
                             flat
-                            color="primary"
+                            color="secondary"
                            :to="{ name: 'plantShow', params: { id: plant.id }}"
                         >
                             Lees meer

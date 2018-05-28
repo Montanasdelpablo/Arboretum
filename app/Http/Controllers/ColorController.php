@@ -115,6 +115,12 @@ class ColorController extends Controller
 		}
     }
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
     public function search( $search )
 	{
 		$results = Color::where('name', 'like', '%'.$search.'%')
@@ -124,6 +130,11 @@ class ColorController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([
