@@ -33,10 +33,19 @@
         </v-dialog>
 
         <!-- Data table -->
-        <v-data-table :headers="headers" :items="items" :totalItems="totalItems" item-key="id" :loading="loading"
-                      :pagination.sync="pagination" no-data-text="Geen data" no-result-text="Geen resultaten gevonden"
-                      rows-per-page-text="Rijen per pagina">
+        <v-data-table
+            :headers="headers"
+            :items="items"
+            :totalItems="totalItems"
+            item-key="id"
+            :loading="loading"
+            :pagination.sync="pagination"
+            no-data-text="Geen data"
+            no-result-text="Geen resultaten gevonden"
+            rows-per-page-text="Rijen per pagina"
+        >
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+
             <template slot="header" slot-scope="props">
                 <tr>
                     <th v-for="header in props.headers" :key="header.text">
@@ -232,7 +241,11 @@
 					this.data(); // Refresh data
 					this.form = {};
 					this.itemEdit = null;
-					this.dialog = false; // Close dialog
+
+					if( this.errors.length === 0 )
+					{
+						this.dialog = false; // Close dialog
+					}
 				} );
 			},
 
@@ -263,9 +276,9 @@
 
 			close()
 			{
-        this.dialog = false;
-        this.form = {};
-        this.itemEdit = null;
+                this.dialog = false;
+                this.form = {};
+                this.itemEdit = null;
 			},
 		},
 

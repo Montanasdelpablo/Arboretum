@@ -179,6 +179,12 @@ const adminRoutes = [
 			title: 'Handleiding'
 		},
 		component: manual
+	},
+	{
+		path: 'test',
+		name: 'test',
+		meta: {title: 'Test'},
+		component: () => import('@/pages/admin/test')
 	}
 ];
 

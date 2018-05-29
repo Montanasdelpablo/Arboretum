@@ -1,7 +1,7 @@
 <template>
     <v-app dark>
         <!-- Toolbar -->
-        <v-toolbar color="primary">
+        <v-toolbar fixed color="primary">
             <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
 
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
@@ -111,13 +111,19 @@
 
         <!-- Alerts -->
         <v-container fluid>
-            <v-alert dismissible v-on:click="hideAlert" v-model="alert" :type="success ? 'success' : 'error'"
-                     :value="message && message.length > 1" transition="scale-transition">
+            <v-alert
+                dismissible
+                v-on:click="hideAlert"
+                v-model="alert"
+                :type="success ? 'success' : 'error'"
+                :value="message && message.length > 1"
+                transition="scale-transition"
+            >
                 {{ message }}
             </v-alert>
 
             <!-- Content -->
-            <router-view></router-view>
+            <router-view style="margin-top:64px"></router-view>
         </v-container>
     </v-app>
 </template>

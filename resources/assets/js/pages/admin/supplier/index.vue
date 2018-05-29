@@ -285,7 +285,11 @@
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
-						this.dialog = false; // Close dialog
+
+						if( this.errors.length === 0 )
+						{
+							this.dialog = false; // Close dialog
+						}
 					});
 			},
 

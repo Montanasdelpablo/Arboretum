@@ -17,7 +17,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam" required />
+                                    <v-text-field v-model="form.name" label="Naam" required/>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -26,7 +26,9 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Winner {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
+                        <v-btn color="primary" flat type="submit">Winner {{ this.itemEdit !== null ? 'opslaan' :
+                                                                  'toevoegen' }}
+                        </v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -76,7 +78,7 @@
         </v-data-table>
 
         <div class="text-xs-center">
-            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+            <v-pagination v-model="pagination.page" :length="pages" total-visible="7"/>
         </div>
 
         <!-- Delete dialog -->
@@ -87,7 +89,7 @@
                 </v-card-title>
 
                 <v-card-text>
-                    Weet je zeker dat je de volgende kruising wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je de volgende winner wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -98,22 +100,21 @@
         </v-dialog>
 
         <!-- Chart -->
-        <bar-chart :labels="labels" :datasets="datasets" />
+        <bar-chart :labels="labels" :datasets="datasets"/>
     </div>
 </template>
 
 <script>
 	import barChart from '@/components/bar-chart';
 
-	export default
-	{
+	export default {
 		components: {
 			'bar-chart': barChart
 		},
 
-        data()
-        {
-		return {
+		data()
+		{
+			return {
 				pagination: {},
 				loading: false,
 				deleteItem: {},
@@ -174,9 +175,10 @@
 
 			labels()
 			{
-				return this.items.map( item => {
+				return this.items.map( item =>
+				{
 					return item.name;
-				})
+				} )
 			},
 
 			datasets()
@@ -185,9 +187,10 @@
 					{
 						label: 'Planten',
 						backgroundColor: '#fff',
-						data: this.items.map( item => {
+						data: this.items.map( item =>
+						{
 							return item.plant_count
-						})
+						} )
 					}
 				];
 			},
@@ -217,7 +220,11 @@
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
-						this.dialog = false; // Close dialog
+
+						if( this.errors.length === 0 )
+						{
+							this.dialog = false; // Close dialog
+						}
 					} );
 			},
 
@@ -248,8 +255,8 @@
 			close()
 			{
 				this.dialog = false;
-        this.form = {};
-        this.itemEdit = null;
+				this.form = {};
+				this.itemEdit = null;
 			}
 		},
 		watch: {

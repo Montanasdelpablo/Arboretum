@@ -88,7 +88,7 @@
         </v-data-table>
 
         <div class="text-xs-center">
-            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+            <v-pagination v-model="pagination.page" :length="pages" total-visible="7"/>
         </div>
 
         <!-- Delete dialog -->
@@ -223,12 +223,17 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () => {
-						this.data(); // Refresh data
-						this.form = {};
-						this.itemEdit = null;
+				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () =>
+				{
+					this.data(); // Refresh data
+					this.form = {};
+					this.itemEdit = null;
+
+					if( this.errors.length === 0 )
+					{
 						this.dialog = false; // Close dialog
-					} );
+					}
+				} );
 			},
 
 			editItem( item )

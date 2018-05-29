@@ -11,7 +11,8 @@
             <v-toolbar-items>
                 <v-tooltip bottom>
                     <v-btn slot="activator" flat :to="{ name: loggedIn ? 'dashboard' : 'login' }">
-                        <v-icon>dashboard</v-icon>
+                        <v-icon v-if="loggedIn">dashboard</v-icon>
+                        <v-icon v-else>person</v-icon>
                     </v-btn>
 
                     <span v-if="loggedIn">Naar dashboard</span>
@@ -66,7 +67,7 @@
         </v-navigation-drawer>
 
         <!-- Content -->
-        <router-view></router-view>
+        <router-view style="margin-top:64px"></router-view>
     </v-app>
 </template>
 
@@ -99,6 +100,11 @@
                         icon: 'explore',
                         to: ''
                     },
+                    {
+                    	title: this.loggedIn ? 'Dashboard' : 'Aanmelden',
+                        icon: this.loggedIn ? 'dashboard' : 'person',
+                        to: 'login'
+                    }
 				]
 			}
 		},

@@ -211,13 +211,15 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'priorityUpdate' : 'priorityStore', this.form ).then(
-					() =>
-					{
+				this.$store.dispatch( this.itemEdit !== null ? 'priorityUpdate' : 'priorityStore', this.form ).then( () => {
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
-						this.dialog = false; // Close dialog
+
+						if( this.errors.length === 0 )
+						{
+							this.dialog = false; // Close dialog
+						}
 					});
 			},
 

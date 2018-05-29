@@ -1,38 +1,5 @@
 <template>
     <div>
-        <!-- Create/ edit dialog -->
-        <v-dialog v-model="dialog" max-width="500px">
-            <v-btn slot="activator" color="primary">
-                <v-icon>add</v-icon>
-                Maand toevoegen
-            </v-btn>
-
-            <v-card>
-                <form @submit.prevent="store">
-                    <v-card-title>
-                        <span class="headline">Maand {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam" required />
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Maand {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
-                    </v-card-actions>
-                </form>
-            </v-card>
-        </v-dialog>
-
-        <!-- Data table -->
         <v-data-table
             :headers="headers"
             :items="items"
@@ -45,12 +12,10 @@
             rows-per-page-text="Rijen per pagina"
         >
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+
             <template slot="header" slot-scope="props">
                 <tr>
-                    <th
-                        v-for="header in props.headers"
-                        :key="header.text"
-                    >
+                    <th v-for="header in props.headers" :key="header.text">
                         <v-icon small>arrow_upward</v-icon>
                         {{ header.text }}
                     </th>
@@ -60,8 +25,14 @@
 
             <template slot="items" slot-scope="props">
                 <tr>
-                    <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.plants_count }}</td>
+                    <td
+                        v-for="header in headers"
+                        :class="{'text-xs-right' : header.align === 'right'}"
+                        :key="header.id"
+                    >
+                        {{ props.item[header.value] }}
+                    </td>
+
                     <td>
                         <v-btn icon @click.nativ="editItem( props.item )">
                             <v-icon color="green">edit</v-icon>
@@ -83,11 +54,12 @@
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Maand verwijderen</span>
+                    <span class="headline">{{ name }} verwijderen</span>
                 </v-card-title>
 
                 <v-card-text>
-                    Weet je zeker dat je de volgende maand wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je de volgende {{ name }} wil verwijderen:
+                    <strong>{{ deleteItem.name }}</strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -98,7 +70,7 @@
         </v-dialog>
 
         <!-- Chart -->
-        <bar-chart :labels="labels" :datasets="datasets" />
+        <bar-chart :labels="labels" :datasets="datasets" v-if="dataset" />
     </div>
 </template>
 
@@ -111,6 +83,29 @@
 			'bar-chart': barChart
 		},
 
+        props: {
+		    headers: {
+		    	type: Array,
+                required: true
+            },
+            name: {
+		    	type: String,
+                required: true,
+            },
+            controller: {
+		    	type: String,
+                required: true,
+            },
+            form: {
+		    	type: Object,
+                required: true,
+			},
+            dataset: {
+		    	type: Array,
+                required: false,
+            }
+        },
+
 		data()
 		{
 			return {
@@ -119,47 +114,33 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
-				form: {},
-				headers: [
-					{
-						text: 'Maand',
-						align: 'left',
-						value: 'name'
-					},
-					{
-						text: 'Planten',
-						align: 'right',
-						value: 'plants_count'
-					},
-					{
-						text: 'Acties',
-						align: 'left',
-						value: '',
-						sortable: false,
-					}
-				]
 			}
 		},
 		computed: {
 			/**
 			 * Get all items
 			 *
-			 * @returns {monthIndex|default.mutations.monthIndex|default.actions.monthIndex|default.getters.monthIndex}
+			 * @returns {colorIndex|default.mutations.colorIndex|default.actions.colorIndex|default.getters.colorIndex}
 			 */
 			items()
 			{
-				return this.$store.getters.monthIndex;
+				return this.$store.getters[`${this.controller}Index`];
 			},
 
 			/**
 			 * Get the total amount of items
-			 * @returns {default.getters.monthTotal|monthTotal}
+			 * @returns {default.getters.colorTotal|colorTotal}
 			 */
 			totalItems()
 			{
-				return this.$store.getters.monthTotal;
+				return this.$store.getters[`${this.controller}Total`];
 			},
 
+			/**
+			 * Get the total amount of pages
+			 *
+			 * @return number
+			 */
 			pages()
 			{
 				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
@@ -170,6 +151,11 @@
 				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
 			},
 
+
+			/**
+			 * Get the labels for the chart
+			 * @returns [labels]
+			 */
 			labels()
 			{
 				return this.items.map( item => {
@@ -177,18 +163,42 @@
 				})
 			},
 
+			/**
+			 * Generate the dataset for the chart
+			 * @returns [dataset]
+			 */
 			datasets()
 			{
+				if( this.dataset )
+                {
+				return this.dataset.map( data => {
+					return {
+						label: data.label,
+                        backgroundColor: data.color ? data.color : '#fff',
+                        data: this.items.map( item => {
+                        	return item[data.item];
+                        })
+                    }
+				});} else {
+					return [];
+                }/*
 				return [
 					{
-						label: 'Planten',
-						backgroundColor: '#fff',
+						label: 'Bloeikleur',
+						backgroundColor: '#313D76',
 						data: this.items.map( item => {
-							return item.plants_count
+							return item.bloom_colors_count
+						})
+					},
+					{
+						label: 'Maculekleur',
+						backgroundColor: '#78B856',
+						data: this.items.map( item => {
+							return item.macule_colors_count
 						})
 					}
-				];
-			},
+				];*/
+			}
 		},
 		methods: {
 			/**
@@ -197,37 +207,42 @@
 			data()
 			{
 				this.loading = true;
-				this.$store.dispatch( 'monthIndex', this.pagination ).then( () => {
+				this.$store.dispatch( `${this.controller}Index`, this.pagination ).then( () =>
+				{
 					this.loading = false;
 				});
 			},
 
-
+			/**
+			 *  Store item
+			 */
 			store()
 			{
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'monthUpdate' : 'monthStore', this.form ).then( () =>
+				this.$store.dispatch( this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`,
+                    this.form ).then( () =>
 				{
 					this.data(); // Refresh data
 					this.form = {};
 					this.itemEdit = null;
-					this.dialog = false; // Close dialog
-				});
+
+					if( this.errors.length === 0 )
+					{
+						this.dialog = false; // Close dialog
+					}
+				} );
 			},
 
 			editItem( item )
 			{
-				delete item.bloom_dates_count;
+				delete item.bloom_colors_count;
+				delete item.macule_colors_count;
 
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
-
-				if( this.errors.length === 0 )
-				{
-					this.dialog = false; // Close dialog
-				}
+				this.dialog = true; // Open dialog
 			},
 
 			/**
@@ -238,26 +253,28 @@
 			destroy( id )
 			{
 				this.loading = true;
-				this.$store.dispatch( 'monthDestroy', id ).then( () =>
+				this.$store.dispatch( `${this.controller}Destroy`, id ).then( () =>
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};
-				});
+				} );
 			},
 
 			close()
 			{
-        this.dialog = false;
-        this.form = {};
-        this.itemEdit = null;
-			}
+				this.dialog = false;
+				this.form = {};
+				this.itemEdit = null;
+			},
 		},
+
 		watch: {
 			pagination: {
-				handler() {
+				handler()
+				{
 					this.data();
 				}
 			}
-		}
+		},
 	}
 </script>

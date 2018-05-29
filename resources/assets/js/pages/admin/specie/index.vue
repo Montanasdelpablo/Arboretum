@@ -225,7 +225,11 @@
 
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
-				this.dialog = true; // Open dialog
+
+				if( this.errors.length === 0 )
+				{
+					this.dialog = false; // Close dialog
+				}
 			},
 
 			/**

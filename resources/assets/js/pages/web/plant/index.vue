@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md fluid style="margin-top:64px">
+    <v-container grid-list-md fluid>
         <v-layout row wrap>
             <v-flex xs12 md2>
                 <v-select
