@@ -26,7 +26,7 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td
-                        v-for="header in headers"
+                        v-for="header in (headers.splice(headers.length, 1))"
                         :class="{'text-xs-right' : header.align === 'right'}"
                         :key="header.id"
                     >

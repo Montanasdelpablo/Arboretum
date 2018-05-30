@@ -109,6 +109,8 @@
             </v-list>
         </v-navigation-drawer>
 
+        <div class="filler" style="margin-top:64px; width: 100%" />
+
         <!-- Alerts -->
         <v-container fluid>
             <v-alert
@@ -123,7 +125,7 @@
             </v-alert>
 
             <!-- Content -->
-            <router-view style="margin-top:64px"></router-view>
+            <router-view></router-view>
         </v-container>
     </v-app>
 </template>
@@ -269,7 +271,17 @@
 						title: 'Gebruikers',
 						to: 'userIndex',
 						icon: 'person'
-					}
+					},
+                    {
+                    	title: 'Website',
+                        to: 'index',
+                        icon: 'public'
+                    },
+                    {
+                    	title: 'Handleiding',
+                        to: 'manual',
+                        icon: 'help'
+                    }
 				]
 			}
 		}

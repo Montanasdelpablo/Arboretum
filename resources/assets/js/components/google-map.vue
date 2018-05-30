@@ -118,19 +118,3 @@
         }
     }
 </script>
-
-<style module>
-    .google-map {
-        width: 100%;
-        height: 1000px;
-        max-height: 100%;
-    }
-
-    .map-icon, .map-icon-label {
-        font-size: 24px;
-        color: #fff;
-        line-height: 48px;
-        text-align: center;
-        white-space: nowrap;
-    }
-</style>

@@ -1,7 +1,7 @@
 <template>
     <progressive-img
-        :src="require(`@/static${src}`).src"
-        :placeholder="require(`@/static${src}`).placeholder"
+        :src="require(`@/images${src}`).src"
+        :placeholder="require(`@/images${src}`).placeholder"
         :alt="alt"
     />
 </template>

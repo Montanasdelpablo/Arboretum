@@ -66,8 +66,10 @@
             </v-list>
         </v-navigation-drawer>
 
+        <div class="filler" style="margin-top:64px; width: 100%" />
+
         <!-- Content -->
-        <router-view style="margin-top:64px"></router-view>
+        <router-view></router-view>
     </v-app>
 </template>
 

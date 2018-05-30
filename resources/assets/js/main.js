@@ -19,7 +19,7 @@ if( google_api.length === 0 )
 	console.error('No Google developer token');
 }
 
-//Vue.component( 'c-image', () => import( '@/components/Image' ) );
+Vue.component( 'c-image', () => import( '@/components/Image' ) );
 
 const token = document.head.querySelector( 'meta[name="csrf-token"]' ).getAttribute( 'content' );
 

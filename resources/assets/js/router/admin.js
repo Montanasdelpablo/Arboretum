@@ -18,6 +18,7 @@ const nameIndex = () => import('@/pages/admin/name');
 const userIndex = () => import('@/pages/admin/user');
 const userShow = () => import('@/pages/admin/user/show');
 const manual = () => import('@/pages/admin/manual');
+const plantPrint = () => import('@/pages/admin/plant/print');
 
 const adminRoutes = [
 	{
@@ -67,6 +68,14 @@ const adminRoutes = [
 			title: 'Planten'
 		},
 		component: plantIndex
+	},
+	{
+		path: 'plants/print',
+		name: 'plantPrint',
+		meta: {
+			title: 'Planten printen'
+		},
+		component: plantPrint
 	},
 	{
 		path: 'priorities',

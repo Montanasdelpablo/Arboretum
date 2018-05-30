@@ -387,6 +387,11 @@
             </v-card>
         </v-dialog>
 
+        <v-btn flat :to="{ name: 'plantPrint' }">
+            <v-icon>print</v-icon>
+            Lijst afdrukken
+        </v-btn>
+
         <!-- Data table -->
         <v-data-table
             :headers="headers"
@@ -514,57 +519,57 @@
 					{
 						text: 'Bloemtype',
 						align: 'left',
-						value: 'type'
+						value: 'type.name'
 					},
 					{
 						text: 'Geslacht',
 						align: 'left',
-						value: 'sex'
+						value: 'sex.name'
 					},
 					{
 						text: 'Soortnaam',
 						align: 'left',
-						value: 'specie'
+						value: 'specie.name'
 					},
 					{
 						text: 'Variëteitsnaam',
 						align: 'right',
-						value: 'subspecie'
+						value: 'subspecie.name'
 					},
 					{
 						text: 'Groep',
 						align: 'right',
-						value: 'group'
+						value: 'group.name'
 					},
 					{
 						text: 'Naam',
 						align: 'right',
-						value: 'name'
+						value: 'name.name'
 					},
 					{
 						text: 'Synoniem',
 						align: 'right',
-						value: 'synonym'
+						value: 'synonym.name'
 					},
 					{
 						text: 'Kruising ouders',
 						align: 'right',
-						value: ''
+						value: 'crossing.name'
 					},
 					{
 						text: 'Winner',
 						align: 'right',
-						value: 'winner'
+						value: 'winner.name'
 					},
 					{
 						text: 'Boomtype',
 						align: 'right',
-						value: 'treetype'
+						value: 'treetype.name'
 					},
 					{
 						text: 'Belang',
 						align: 'right',
-						value: 'priority'
+						value: 'priority.name'
 					},
 					{
 						text: 'Plaats',
@@ -599,7 +604,7 @@
 					{
 						text: 'Leverancier',
 						align: 'right',
-						value: 'supplier'
+						value: 'supplier.name'
 					},
 					{
 						text: 'Poot datum',
@@ -609,22 +614,25 @@
 					{
 						text: 'Bloeikleur',
 						align: 'right',
-						value: ''
+						value: '',
+                        sortable: false
 					},
 					{
 						text: 'Bloeitijd',
 						align: 'right',
-						value: ''
+						value: '',
+						sortable: false
 					},
 					{
 						text: 'Maculekleur',
 						align: 'right',
-						value: ''
+						value: '',
+						sortable: false
 					},
 					{
 						text: 'Grootte',
 						align: 'right',
-						value: ''
+						value: 'size.name'
 					},
 
 					{
@@ -632,7 +640,6 @@
 						align: 'right',
 						value: 'note'
 					},
-
 					{
 						text: 'Beschrijving',
 						align: 'right',
