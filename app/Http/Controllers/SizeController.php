@@ -41,7 +41,9 @@ class SizeController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Size::create( $request->all() );
+		$created = Size::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class SizeController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $size->update( $request->all() );
+		$updated = $size->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

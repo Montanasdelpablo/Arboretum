@@ -41,7 +41,9 @@ class TreetypeController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Treetype::create( $request->all() );
+		$created = Treetype::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class TreetypeController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $treetype->update( $request->all() );
+		$updated = $treetype->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

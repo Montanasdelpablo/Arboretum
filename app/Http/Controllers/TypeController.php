@@ -41,7 +41,9 @@ class TypeController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Type::create( $request->all() );
+		$created = Type::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class TypeController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $type->update( $request->all() );
+		$updated = $type->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

@@ -42,7 +42,9 @@ class ColorController extends Controller
     {
     	$this->validation( $request );
 
-        $created = Color::create( $request->all() );
+        $created = Color::create([
+        	'name' => $request->input('name')
+		]);
 
         if( $created )
 		{
@@ -85,7 +87,9 @@ class ColorController extends Controller
     {
         $this->validation( $request );
 
-        $updated = $color->update( $request->all() );
+        $updated = $color->update([
+			'name' => $request->input('name')
+		]);
 
         if( $updated )
 		{

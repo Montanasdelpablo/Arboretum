@@ -41,7 +41,9 @@ class SpecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Specie::create( $request->all() );
+		$created = Specie::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class SpecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $specie->update( $request->all() );
+		$updated = $specie->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

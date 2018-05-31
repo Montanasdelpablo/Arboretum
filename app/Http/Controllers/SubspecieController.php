@@ -41,7 +41,9 @@ class SubspecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Subspecie::create( $request->all() );
+		$created = Subspecie::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -87,7 +89,9 @@ class SubspecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $subspecie->update( $request->all() );
+		$updated = $subspecie->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

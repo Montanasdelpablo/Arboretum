@@ -41,7 +41,9 @@ class WinnerController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Winner::create( $request->all() );
+		$created = Winner::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class WinnerController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $winner->update( $request->all() );
+		$updated = $winner->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

@@ -41,7 +41,9 @@ class MonthController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Month::create( $request->all() );
+		$created = Month::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,9 +86,9 @@ class MonthController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $month->update( [
+		$updated = $month->update([
 			'name' => $request->input('name')
-		] );
+		]);
 
 		if( $updated )
 		{

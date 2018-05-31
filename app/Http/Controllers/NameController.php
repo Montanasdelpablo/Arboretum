@@ -41,7 +41,9 @@ class NameController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Name::create( $request->all() );
+		$created = Name::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class NameController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $name->update( $request->all() );
+		$updated = $name->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

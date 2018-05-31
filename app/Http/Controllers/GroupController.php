@@ -41,7 +41,9 @@ class GroupController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Group::create( $request->all() );
+		$created = Group::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class GroupController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $group->update( $request->all() );
+		$updated = $group->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

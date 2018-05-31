@@ -41,7 +41,9 @@ class SynonymController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Synonym::create( $request->all() );
+		$created = Synonym::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class SynonymController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $synonym->update( $request->all() );
+		$updated = $synonym->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

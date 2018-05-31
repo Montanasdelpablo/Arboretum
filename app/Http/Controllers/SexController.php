@@ -41,7 +41,9 @@ class SexController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Sex::create( $request->all() );
+		$created = Sex::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class SexController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $sex->update( $request->all() );
+		$updated = $sex->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

@@ -41,7 +41,9 @@ class SupplierController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Supplier::create( $request->all() );
+		$created = Supplier::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,16 @@ class SupplierController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $supplier->update( $request->all() );
+		$updated = $supplier->update([
+			'name' => $request->input('name'),
+			'street' => $request->input('street'),
+			'number' => $request->input('number'),
+			'addition' => $request->input('addition'),
+			'zip_code' => $request->input('zip_code'),
+			'city' => $request->input('city'),
+			'phone_number' => $request->input('phone_number'),
+			'website' => $request->input('website')
+		]);
 
 		if( $updated )
 		{

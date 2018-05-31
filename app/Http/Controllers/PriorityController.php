@@ -41,7 +41,9 @@ class PriorityController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Priority::create( $request->all() );
+		$created = Priority::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class PriorityController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $priority->update( $request->all() );
+		$updated = $priority->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

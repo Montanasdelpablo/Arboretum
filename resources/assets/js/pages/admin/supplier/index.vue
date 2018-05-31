@@ -17,35 +17,72 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.name" label="Naam" required />
+                                    <v-text-field
+                                        v-model="form.name"
+                                        label="Naam"
+                                        required
+                                        :error-messages="errors.name"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12 sm6 md9>
-                                    <v-text-field v-model="form.street" label="Straat" />
+                                    <v-text-field
+                                        v-model="form.street"
+                                        label="Straat"
+                                        :error-messages="errors.street"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12 sm6 md3>
-                                    <v-text-field v-model="form.number" type="number" label="Nummer" />
+                                    <v-text-field
+                                        v-model="form.number"
+                                        type="number"
+                                        label="Nummer"
+                                        :error-messages="errors.number"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.addition" label="Nummer toevoeging" />
+                                    <v-text-field
+                                        v-model="form.addition"
+                                        label="Nummer toevoeging"
+                                        :error-messages="errors.addition"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.zip_code" label="Postcode" maxlength="6" />
+                                    <v-text-field
+                                        v-model="form.zip_code"
+                                        label="Postcode"
+                                        maxlength="6"
+                                        :error-messages="errors.zip_code"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.city" label="Plaats" />
+                                    <v-text-field
+                                        v-model="form.city"
+                                        label="Plaats"
+                                        :error-messages="errors.city"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.phone_number" label="Telefoonnummer" maxlength="10" />
+                                    <v-text-field
+                                        v-model="form.phone_number"
+                                        label="Telefoonnummer"
+                                        maxlength="10"
+                                        :error-messages="errors.phone_number"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.website" type="url" label="Website url" />
+                                    <v-text-field
+                                        v-model="form.website"
+                                        type="url"
+                                        label="Website url"
+                                        :error-messages="errors.website"
+                                    />
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -209,6 +246,10 @@
 			}
 		},
 		computed: {
+			errors()
+			{
+				return this.$store.getters.errors;
+			},
 			/**
 			 * Get all items
 			 *
@@ -279,24 +320,19 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'supplierUpdate' : 'supplierStore', this.form ).then(
-					() =>
-					{
-						this.data(); // Refresh data
-						this.form = {};
-						this.itemEdit = null;
-
-						if( this.errors.length === 0 )
-						{
-							this.dialog = false; // Close dialog
-						}
-					});
+				this.$store.dispatch( this.itemEdit !== null ? 'supplierUpdate' : 'supplierStore', this.form ).then( () => {
+                    if( this.errors.length === 0 )
+                    {
+                        this.data(); // Refresh data
+                        this.form = {};
+                        this.itemEdit = null;
+                        this.dialog = false; // Close dialog
+                    }
+                });
 			},
 
 			editItem( item )
 			{
-				delete item.plant_count;
-
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog

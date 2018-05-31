@@ -41,7 +41,9 @@ class CrossingController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Crossing::create( $request->all() );
+		$created = Crossing::create([
+			'name' => $request->input('name')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +86,9 @@ class CrossingController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $crossing->update( $request->all() );
+		$updated = $crossing->update([
+			'name' => $request->input('name')
+		]);
 
 		if( $updated )
 		{

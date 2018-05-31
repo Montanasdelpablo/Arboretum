@@ -181,23 +181,7 @@
                     }
 				});} else {
 					return [];
-                }/*
-				return [
-					{
-						label: 'Bloeikleur',
-						backgroundColor: '#313D76',
-						data: this.items.map( item => {
-							return item.bloom_colors_count
-						})
-					},
-					{
-						label: 'Maculekleur',
-						backgroundColor: '#78B856',
-						data: this.items.map( item => {
-							return item.macule_colors_count
-						})
-					}
-				];*/
+                }
 			}
 		},
 		methods: {
@@ -221,15 +205,13 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`,
-                    this.form ).then( () =>
+				this.$store.dispatch( this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`, this.form ).then( () =>
 				{
-					this.data(); // Refresh data
-					this.form = {};
-					this.itemEdit = null;
-
 					if( this.errors.length === 0 )
 					{
+						this.data(); // Refresh data
+						this.form = {};
+						this.itemEdit = null;
 						this.dialog = false; // Close dialog
 					}
 				} );
@@ -237,9 +219,6 @@
 
 			editItem( item )
 			{
-				delete item.bloom_colors_count;
-				delete item.macule_colors_count;
-
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog

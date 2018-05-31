@@ -17,7 +17,12 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam" required />
+                                    <v-text-field
+                                        v-model="form.name"
+                                        label="Naam"
+                                        required
+                                        :error-messages="errors.name"
+                                    />
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -141,6 +146,10 @@
 			}
 		},
 		computed: {
+			errors()
+			{
+				return this.$store.getters.errors;
+			},
 			/**
 			 * Get all items
 			 *
@@ -208,19 +217,19 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'monthUpdate' : 'monthStore', this.form ).then( () =>
-				{
-					this.data(); // Refresh data
-					this.form = {};
-					this.itemEdit = null;
-					this.dialog = false; // Close dialog
+				this.$store.dispatch( this.itemEdit !== null ? 'monthUpdate' : 'monthStore', this.form ).then( () => {
+					if( this.errors.length === 0 )
+					{
+						this.data(); // Refresh data
+						this.form = {};
+						this.itemEdit = null;
+						this.dialog = false; // Close dialog
+					}
 				});
 			},
 
 			editItem( item )
 			{
-				delete item.bloom_dates_count;
-
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 
