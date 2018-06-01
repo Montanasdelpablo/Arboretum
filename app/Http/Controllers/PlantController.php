@@ -371,23 +371,24 @@ class PlantController extends Controller
 	{
 		set_time_limit( 0 );
 		$plants = [];
+		$date = date( 'Y-m-d H:i:s' );
 
 		$i = 0;
 		foreach( $request->all() as $plant ) {
-			$type = !is_null( $plant[ 'type plant' ] ) ? \App\Type::firstOrCreate( [ 'name' => $plant[ 'type plant' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$sex = !is_null( $plant[ 'geslachtsnaam' ] ) ? \App\Sex::firstOrCreate( [ 'name' => $plant[ 'geslachtsnaam' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$specie = !is_null( $plant[ 'soortnaam' ] ) ? \App\Specie::firstOrCreate( [ 'name' => $plant[ 'soortnaam' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$subspecie = !is_null( $plant[ 'ssp/variëteitsnaam' ] ) ? \App\Subspecie::firstOrCreate( [ 'name' => $plant[ 'ssp/variëteitsnaam' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$group = !is_null( $plant[ 'group' ] ) ? \App\Group::firstOrCreate( [ 'name' => $plant[ 'group' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$synonym = !is_null( $plant[ 'synoniem' ] ) ? \App\Synonym::firstOrCreate( [ 'name' => $plant[ 'synoniem' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$crossing = !is_null( $plant [ 'kruizings ouders' ] ) ? \App\Crossing::firstOrCreate( [ 'name' => $plant[ 'kruizings ouders' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$winner = !is_null( $plant[ 'winner' ] ) ? \App\Winner::firstOrCreate( [ 'name' => $plant[ 'winner' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
+			$type = !is_null( $plant[ 'type plant' ] ) ? \App\Type::firstOrCreate( [ 'name' => $plant[ 'type plant' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$sex = !is_null( $plant[ 'geslachtsnaam' ] ) ? \App\Sex::firstOrCreate( [ 'name' => $plant[ 'geslachtsnaam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$specie = !is_null( $plant[ 'soortnaam' ] ) ? \App\Specie::firstOrCreate( [ 'name' => $plant[ 'soortnaam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$subspecie = !is_null( $plant[ 'ssp/variëteitsnaam' ] ) ? \App\Subspecie::firstOrCreate( [ 'name' => $plant[ 'ssp/variëteitsnaam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$group = !is_null( $plant[ 'group' ] ) ? \App\Group::firstOrCreate( [ 'name' => $plant[ 'group' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$synonym = !is_null( $plant[ 'synoniem' ] ) ? \App\Synonym::firstOrCreate( [ 'name' => $plant[ 'synoniem' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$crossing = !is_null( $plant [ 'kruizings ouders' ] ) ? \App\Crossing::firstOrCreate( [ 'name' => $plant[ 'kruizings ouders' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$winner = !is_null( $plant[ 'winner' ] ) ? \App\Winner::firstOrCreate( [ 'name' => $plant[ 'winner' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
 			$treetypes = [ '=' => 'Loofboom', 'x' => 'Naaldboom', 'X' => 'Naaldboom', '+' => 'Boom', 'R' => 'Rhododendron' ];
-			$treetype = !is_null( $plant[ 'boomtype' ] ) ? \App\Treetype::firstOrCreate( [ 'name' => $treetypes[ $plant[ 'boomtype' ] ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$priority = !is_null( $plant[ 'belang' ] ) ? \App\Priority::firstOrCreate( [ 'name' => $plant[ 'belang' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$supplier = !is_null( $plant[ 'leverancier' ] ) ? \App\Supplier::firstOrCreate( [ 'name' => $plant[ 'leverancier' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$size = !is_null( $plant[ 'grootte' ] ) ? \App\Size::firstOrCreate( [ 'name' => ucfirst( $plant[ 'grootte' ] ), 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
-			$name = !is_null( $plant[ 'neder naam' ] ) ? \App\Name::firstOrCreate( [ 'name' => $plant[ 'neder naam' ], 'created_at' => date( 'Y-m-d H:i:s' ), 'updated_at' => date( 'Y-m-d H:i:s' ) ] )[ 'id' ] : null;
+			$treetype = !is_null( $plant[ 'boomtype' ] ) ? \App\Treetype::firstOrCreate( [ 'name' => $treetypes[ $plant[ 'boomtype' ] ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$priority = !is_null( $plant[ 'belang' ] ) ? \App\Priority::firstOrCreate( [ 'name' => $plant[ 'belang' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$supplier = !is_null( $plant[ 'leverancier' ] ) ? \App\Supplier::firstOrCreate( [ 'name' => $plant[ 'leverancier' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$size = !is_null( $plant[ 'grootte' ] ) ? \App\Size::firstOrCreate( [ 'name' => ucfirst( $plant[ 'grootte' ] ), 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$name = !is_null( $plant[ 'neder naam' ] ) ? \App\Name::firstOrCreate( [ 'name' => $plant[ 'neder naam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
 			$latin = $plant[ 'geslachtsnaam' ].' '.$plant[ 'soortnaam' ].' '.$plant[ 'ssp/variëteitsnaam' ];
 
 			$default = [
@@ -403,8 +404,8 @@ class PlantController extends Controller
 				'dead'            => !is_null( $plant[ 'dood' ] ) ? $plant[ 'dood' ] : null,
 				'planted'         => !is_null( $plant[ 'pootdatum' ] ) ? explode( ' ', $plant[ 'pootdatum' ] )[ 0 ] : null,
 				'note'            => $plant[ 'opmerk 1' ].' '.$plant[ 'opmerk 2' ],
-				'created_at'      => date( 'Y-m-d H:i:s' ),
-				'updated_at'      => date( 'Y-m-d H:i:s' ),
+				'created_at'      => $date,
+				'updated_at'      => $date,
 			];
 
 			$ids = [
@@ -451,8 +452,8 @@ class PlantController extends Controller
 			foreach( $bloom_colors as $key => $value ) {
 				$bloom_color_ids[] = \App\Color::firstOrCreate( [
 					'name'       => $value,
-					'created_at' => date( 'Y-m-d H:i:s' ),
-					'updated_at' => date( 'Y-m-d H:i:s' ),
+					'created_at' => $date,
+					'updated_at' => $date,
 				] )[ 'id' ];
 			}
 			/***********************************************************************/
@@ -485,8 +486,8 @@ class PlantController extends Controller
 			foreach( $macule_colors as $key => $value ) {
 				$macule_color_ids[] = \App\Color::firstOrCreate( [
 					'name'       => $value,
-					'created_at' => date( 'Y-m-d H:i:s' ),
-					'updated_at' => date( 'Y-m-d H:i:s' ),
+					'created_at' => $date,
+					'updated_at' => $date,
 				] )[ 'id' ];
 			}
 			/******************************************************************************/
@@ -519,8 +520,8 @@ class PlantController extends Controller
 			foreach( $months as $key => $value ) {
 				$month_ids[] = \App\Month::firstOrCreate( [
 					'name'       => $value,
-					'created_at' => date( 'Y-m-d H:i:s' ),
-					'updated_at' => date( 'Y-m-d H:i:s' ),
+					'created_at' => $date,
+					'updated_at' => $date,
 				] )[ 'id' ];
 			}
 			/*********************************************************************/

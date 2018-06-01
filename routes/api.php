@@ -40,6 +40,7 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 
 	// Plants
 	Route::post( '/plants', 'PlantController@store' );
+	Route::post( '/plants/import', 'PlantController@import' );
 	Route::get( '/plants/{plant}/edit', 'PlantController@edit' );
 	Route::put( '/plants/{plant}', 'PlantController@update' );
 	Route::get( '/plants/{search}/search', 'PlantController@search' );
@@ -157,7 +158,6 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 
 // Unprotected routes here
 Route::get( '/plants', 'PlantController@index' );
-Route::post( '/plants/import', 'PlantController@import' );
 
 Route::post( '/login', 'UserController@login' );
 Route::post( '/forgotpassword', 'UserController@forgotpw' );

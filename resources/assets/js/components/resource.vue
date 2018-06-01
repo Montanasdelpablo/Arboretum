@@ -81,15 +81,13 @@
         >
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
 
-            <template slot="header" slot-scope="props">
-                <tr>
-                    <th v-for="header in props.headers" :key="header.text">
-                        <v-icon small>arrow_upward</v-icon>
-                        {{ header.text }}
-                    </th>
+            <template slot="headerCell" slot-scope="props">
+                <v-tooltip bottom v-if="props.header.sortable !== false">
+                    <span slot="activator">{{ props.header.text }}</span>
+                    <span>Sorteer op {{ props.header.text }}</span>
+                </v-tooltip>
 
-                    <th>Acties</th>
-                </tr>
+                <span v-else>{{ props.header.text }}</span>
             </template>
 
             <template slot="items" slot-scope="props">
