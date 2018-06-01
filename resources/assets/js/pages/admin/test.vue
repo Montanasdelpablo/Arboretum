@@ -1,9 +1,9 @@
 <template>
         <resource
             :headers="headers"
-            name="Kleur"
+            name="Krusingen"
             :form="form"
-            controller="color"
+            controller="crossing"
             :dataset="dataset"
         />
 </template>
@@ -20,8 +20,6 @@
 		data()
 		{
 			return {
-				itemEdit: null,
-                dialog: false,
 				form: [
 					{
 						label: 'Naam',
@@ -31,42 +29,29 @@
                 ],
 				headers: [
 					{
-						text: 'Kleur',
+						text: 'Kruising',
 						align: 'left',
 						value: 'name'
 					},
 					{
-						text: 'Bloeikleur',
+						text: 'Planten',
 						align: 'right',
-						value: 'bloom_colors_count'
+						value: 'plant_count'
 					},
 					{
-						text: 'Maculekleur',
-						align: 'right',
-						value: 'macule_colors_count'
-					}
+						text: 'Acties',
+						align: 'left',
+						sortable: false,
+					},
 				],
                 dataset: [
 					{
-						label: 'Bloeikleur',
-						color: '#313D76',
-						item: 'bloom_colors_count'
-					},
-					{
-						label: 'Maculekleur',
-						color: '#78B856',
-						item: 'macule_colors_count'
+						label: 'Plant',
+						color: '#fff',
+						item: 'plant_count'
 					}
 				]
 			}
-		},
-		methods: {
-			close()
-			{
-				this.dialog = false;
-				this.form = {};
-				this.itemEdit = null;
-			},
-		},
+		}
 	}
 </script>

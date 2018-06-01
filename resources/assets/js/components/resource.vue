@@ -67,55 +67,70 @@
             </v-card>
         </v-dialog>
 
-        <!-- Data table -->
-        <v-data-table
-            :headers="headers"
-            :items="items"
-            :totalItems="totalItems"
-            item-key="id"
-            :loading="loading"
-            :pagination.sync="pagination"
-            no-data-text="Geen data"
-            no-result-text="Geen resultaten gevonden"
-            rows-per-page-text="Rijen per pagina"
-        >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+        <v-card>
+            <v-card-title>
+                <span class="headline">{{ this.$route.meta.title }}</span>
 
-            <template slot="headerCell" slot-scope="props">
-                <v-tooltip bottom v-if="props.header.sortable !== false">
-                    <span slot="activator">{{ props.header.text }}</span>
-                    <span>Sorteer op {{ props.header.text }}</span>
-                </v-tooltip>
+                <v-spacer></v-spacer>
 
-                <span v-else>{{ props.header.text }}</span>
-            </template>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    :label="`Zoeken in ${this.$route.meta.title.toLowerCase()}...`"
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
 
-            <template slot="items" slot-scope="props">
-                <tr>
-                    <td
-                        v-for="(header, i) in headers"
-                        :class="{'text-xs-right' : header.align === 'right'}"
-                        :key="i"
-                    >
-                        {{ props.item[header.value] }}
-                    </td>
+            <!-- Data table -->
+            <v-data-table
+                :headers="headers"
+                :items="items"
+                :totalItems="totalItems"
+                item-key="id"
+                :loading="loading"
+                :pagination.sync="pagination"
+                no-data-text="Geen data"
+                no-result-text="Geen resultaten gevonden"
+                rows-per-page-text="Rijen per pagina"
+            >
+                <v-progress-linear slot="progress" color="secondary" indeterminate></v-progress-linear>
 
-                    <td>
-                        <v-btn icon @click.nativ="editItem( props.item )">
-                            <v-icon color="green">edit</v-icon>
-                        </v-btn>
+                <template slot="headerCell" slot-scope="props">
+                    <v-tooltip bottom v-if="props.header.sortable !== false">
+                        <span slot="activator">{{ props.header.text }}</span>
+                        <span>Sorteer op {{ props.header.text }}</span>
+                    </v-tooltip>
 
-                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                            <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
+                    <span v-else>{{ props.header.text }}</span>
+                </template>
 
-        <div class="text-xs-center">
-            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
-        </div>
+                <template slot="items" slot-scope="props">
+                        <td
+                            v-for="(header, i) in headers"
+                            v-if="header.value"
+                            :class="{'text-xs-right' : header.align === 'right'}"
+                            :key="i"
+                        >
+                            {{ props.item[header.value] }}
+                        </td>
+
+                        <td v-else>
+                            <v-btn icon @click.native="editItem( props.item )">
+                                <v-icon color="green">edit</v-icon>
+                            </v-btn>
+
+                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                                <v-icon color="red">delete</v-icon>
+                            </v-btn>
+                        </td>
+                </template>
+            </v-data-table>
+
+            <div class="text-xs-center">
+                <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+            </div>
+        </v-card>
 
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
@@ -174,6 +189,10 @@
 		    	type: Array,
                 required: true,
 			},
+            defaultForm: {
+		    	type: Object,
+                required: false
+            },
             dataset: {
 		    	type: Array,
                 required: false,
@@ -269,18 +288,6 @@
 					return [];
                 }
 			},
-
-            /**
-             * Return headers without actions
-             */
-            tableFields()
-            {
-            	console.log(this.headers);
-            	let fields = this.headers; // Prevents overwrite of this.headers
-            	fields.pop();
-            	console.log(fields);
-                return fields;
-            }
 		},
 		methods: {
 			/**
@@ -308,7 +315,7 @@
 					if( this.errors.length === 0 )
 					{
 						this.data(); // Refresh data
-						this.formData = {};
+						this.resetForm();
 						this.itemEdit = null;
 						this.dialog = false; // Close dialog
 					}
@@ -343,9 +350,17 @@
 			close()
 			{
 				this.dialog = false;
-				this.formData = {};
+				this.resetForm();
 				this.itemEdit = null;
 			},
+
+			/**
+             * Reset the formData to the default
+			 */
+			resetForm()
+			{
+            	this.formData = this.defaultForm ? this.defaultForm : {}
+            }
 		},
 
 		watch: {

@@ -78,7 +78,7 @@
 		metaInfo()
 		{
 			return {
-				title: this.$route.meta.title
+				title: this.title()
 			}
 		},
 
@@ -124,7 +124,7 @@
 			 */
 			title()
 			{
-				return this.$route.meta.title;
+				return `${this.$route.meta.title} | Arboretum Eenrum`;
 			}
 		}
 	}

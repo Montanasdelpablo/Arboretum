@@ -37,52 +37,64 @@
             </v-card>
         </v-dialog>
 
-        <!-- Data table -->
-        <v-data-table
-            :headers="headers"
-            :items="items"
-            :totalItems="totalItems"
-            item-key="id"
-            :loading="loading"
-            :pagination.sync="pagination"
-            no-data-text="Geen data"
-            no-result-text="Geen resultaten gevonden"
-            rows-per-page-text="Rijen per pagina"
-        >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-            <template slot="header" slot-scope="props">
-                <tr>
-                    <th
-                        v-for="header in props.headers"
-                        :key="header.text"
-                    >
-                        <v-icon small>arrow_upward</v-icon>
-                        {{ header.text }}
-                    </th>
-                    <th>Acties</th>
-                </tr>
-            </template>
+        <v-card>
+            <v-card-title>
+                <span class="headline">{{ this.$route.meta.title }}</span>
 
-            <template slot="items" slot-scope="props">
-                <tr>
-                    <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.plant_count }}</td>
-                    <td>
-                        <v-btn icon @click.nativ="editItem( props.item )">
-                            <v-icon color="green">edit</v-icon>
-                        </v-btn>
+                <v-spacer></v-spacer>
 
-                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                            <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Zoeken in synoniemen..."
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
 
-        <div class="text-xs-center">
-            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
-        </div>
+            <!-- Data table -->
+            <v-data-table
+                :headers="headers"
+                :items="items"
+                :totalItems="totalItems"
+                item-key="id"
+                :loading="loading"
+                :pagination.sync="pagination"
+                no-data-text="Geen data"
+                no-result-text="Geen resultaten gevonden"
+                rows-per-page-text="Rijen per pagina"
+            >
+                <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                <template slot="headerCell" slot-scope="props">
+                    <v-tooltip bottom v-if="props.header.sortable !== false">
+                        <span slot="activator">{{ props.header.text }}</span>
+                        <span>Sorteer op {{ props.header.text }}</span>
+                    </v-tooltip>
+
+                    <span v-else>{{ props.header.text }}</span>
+                </template>
+
+                <template slot="items" slot-scope="props">
+                    <tr>
+                        <td>{{ props.item.name }}</td>
+                        <td class="text-xs-right">{{ props.item.plant_count }}</td>
+                        <td>
+                            <v-btn icon @click.nativ="editItem( props.item )">
+                                <v-icon color="green">edit</v-icon>
+                            </v-btn>
+
+                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                                <v-icon color="red">delete</v-icon>
+                            </v-btn>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+
+            <div class="text-xs-center">
+                <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+            </div>
+        </v-card>
 
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">

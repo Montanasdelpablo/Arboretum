@@ -391,86 +391,99 @@
 
         <v-btn flat :to="{ name: 'plantPrint' }">
             <v-icon>print</v-icon>
-            Lijst afdrukken
+            Planten afdrukken
         </v-btn>
 
-        <!-- Data table -->
-        <v-data-table
-            :headers="headers"
-            :items="items"
-            :totalItems="totalItems"
-            item-key="id"
-            :loading="loading"
-            :pagination.sync="pagination"
-            no-data-text="Geen data"
-            no-result-text="Geen resultaten gevonden"
-            rows-per-page-text="Rijen per pagina"
-        >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-            <template slot="header" slot-scope="props">
-                <tr>
-                    <th
-                        v-for="header in props.headers"
-                        :key="header.text"
-                    >
-                        <v-icon small>arrow_upward</v-icon>
-                        {{ header.text }}
-                    </th>
-                    <th>Acties</th>
-                </tr>
-            </template>
+        <v-card>
+            <v-card-title>
+                <span class="headline">{{ this.$route.meta.title }}</span>
 
-            <template slot="items" slot-scope="props">
-                <tr>
-                    <td>{{ props.item.follow_number }}</td>
-                    <td>{{ props.item.purchase_number }}</td>
-                    <td>{{ props.item.type_id ? props.item.type.name : '' }}</td>
-                    <td>{{ props.item.sex_id ? props.item.sex.name : '' }}</td>
-                    <td>{{ props.item.specie_id ? props.item.specie.name : '' }}</td>
-                    <td>{{ props.item.subspecie_id ? props.item.subspecie.name : '' }}</td>
-                    <td>{{ props.item.group_id ? props.item.group.name : '' }}</td>
-                    <td>{{ props.item.name_id ? props.item.name.name : '' }}</td>
-                    <td>{{ props.item.synonym_id ? props.item.synonym.name : '' }}</td>
-                    <td>{{ props.item.crossing_id ? props.item.crossing.name : '' }}</td>
-                    <td>{{ props.item.winner_id ? props.item.winner.name : '' }}</td>
-                    <td>{{ props.item.treetype_id ? props.item.treetype.name : '' }}</td>
-                    <td>{{ props.item.priority_id ? props.item.priority.name : '' }}</td>
-                    <td>{{ props.item.place }}</td>
-                    <td>{{ props.item.latitude }}</td>
-                    <td>{{ props.item.longitude }}</td>
-                    <td>
-                        <v-icon v-if="props.item.replant" class="green--text">check_box</v-icon>
-                        <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
-                    </td>
-                    <td>{{ props.item.moved }}</td>
-                    <td>
-                        <v-icon v-if="props.item.dead" class="green--text">check_box</v-icon>
-                        <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
-                    </td>
-                    <td>{{ props.item.supplier_id ? props.item.supplier.name : '' }}</td>
-                    <td>{{ props.item.planted }}</td>
-                    <td>{{ props.item.bloom_colors.map( color => color.name ).join( ', ' ) }}</td>
-                    <td>{{ props.item.months.map( month => month.name ).join( ', ' ) }}</td>
-                    <td>{{ props.item.macule_colors.map( color => color.name ).join( ', ' ) }}</td>
-                    <td>{{ props.item.size_id ? props.item.size.name : '' }}</td>
-                    <td>{{ props.item.note }}</td>
-                    <td>{{ props.item.description }}</td>
-                    <td>
-                        <v-btn icon @click.nativ="editItem( props.item )">
-                            <v-icon color="green">edit</v-icon>
-                        </v-btn>
+                <v-spacer></v-spacer>
 
-                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                            <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Zoeken in planten..."
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
 
-        <div class="text-xs-center">
+            <!-- Data table -->
+            <v-data-table
+                :headers="headers"
+                :items="items"
+                :search="search"
+                :totalItems="totalItems"
+                item-key="id"
+                :loading="loading"
+                :pagination.sync="pagination"
+                no-data-text="Geen data"
+                no-result-text="Geen resultaten gevonden"
+                rows-per-page-text="Rijen per pagina"
+            >
+                <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                <template slot="headerCell" slot-scope="props">
+                    <v-tooltip bottom v-if="props.header.sortable !== false">
+                        <span slot="activator">{{ props.header.text }}</span>
+                        <span>Sorteer op {{ props.header.text }}</span>
+                    </v-tooltip>
+
+                    <span v-else>{{ props.header.text }}</span>
+                </template>
+
+                <template slot="items" slot-scope="props">
+                    <tr>
+                        <td>{{ props.item.follow_number }}</td>
+                        <td>{{ props.item.purchase_number }}</td>
+                        <td>{{ props.item.type_id ? props.item.type.name : '' }}</td>
+                        <td>{{ props.item.sex_id ? props.item.sex.name : '' }}</td>
+                        <td>{{ props.item.specie_id ? props.item.specie.name : '' }}</td>
+                        <td>{{ props.item.subspecie_id ? props.item.subspecie.name : '' }}</td>
+                        <td>{{ props.item.group_id ? props.item.group.name : '' }}</td>
+                        <td>{{ props.item.name_id ? props.item.name.name : '' }}</td>
+                        <td>{{ props.item.synonym_id ? props.item.synonym.name : '' }}</td>
+                        <td>{{ props.item.crossing_id ? props.item.crossing.name : '' }}</td>
+                        <td>{{ props.item.winner_id ? props.item.winner.name : '' }}</td>
+                        <td>{{ props.item.treetype_id ? props.item.treetype.name : '' }}</td>
+                        <td>{{ props.item.priority_id ? props.item.priority.name : '' }}</td>
+                        <td>{{ props.item.place }}</td>
+                        <td>{{ props.item.latitude }}</td>
+                        <td>{{ props.item.longitude }}</td>
+                        <td>
+                            <v-icon v-if="props.item.replant" class="green--text">check_box</v-icon>
+                            <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
+                        </td>
+                        <td>{{ props.item.moved }}</td>
+                        <td>
+                            <v-icon v-if="props.item.dead" class="green--text">check_box</v-icon>
+                            <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
+                        </td>
+                        <td>{{ props.item.supplier_id ? props.item.supplier.name : '' }}</td>
+                        <td>{{ props.item.planted }}</td>
+                        <td>{{ props.item.bloom_colors.map( color => color.name ).join( ', ' ) }}</td>
+                        <td>{{ props.item.months.map( month => month.name ).join( ', ' ) }}</td>
+                        <td>{{ props.item.macule_colors.map( color => color.name ).join( ', ' ) }}</td>
+                        <td>{{ props.item.size_id ? props.item.size.name : '' }}</td>
+                        <td>{{ props.item.note }}</td>
+                        <td>{{ props.item.description }}</td>
+                        <td>
+                            <v-btn icon @click.nativ="editItem( props.item )">
+                                <v-icon color="green">edit</v-icon>
+                            </v-btn>
+
+                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                                <v-icon color="red">delete</v-icon>
+                            </v-btn>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+
+            <div class="text-xs-center">
             <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
         </div>
+        </v-card>
 
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 0" style="max-width: 400px">
@@ -497,6 +510,7 @@
 		data()
 		{
 			return {
+				search: '',
 				pagination: {},
 				loading: false,
 				deleteItem: {},
