@@ -1,9 +1,9 @@
 <template>
     <resource
         :headers="headers"
-        name="Krusing"
+        name="Maand"
         :form="form"
-        controller="crossing"
+        controller="month"
         :dataset="dataset"
     />
 </template>
@@ -29,7 +29,7 @@
 				],
 				headers: [
 					{
-						text: 'Kruising',
+						text: 'Maand',
 						align: 'left',
 						value: 'name'
 					},

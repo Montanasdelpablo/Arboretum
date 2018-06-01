@@ -164,7 +164,7 @@ class SupplierController extends Controller
 			'addition' => 'nullable|string',
 			'zip_code' => 'nullable|string',
 			'city' => 'nullable|string',
-			'phone_number' => 'nullable|integer',
+			'phone_number' => 'nullable|string|min:10|max:13',
 			'website'=> 'nullable|string|url'
 		]);
 	}

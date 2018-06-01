@@ -21,15 +21,22 @@
                                 <v-flex xs12 sm6 md4 v-for="(field, i) in form" :key="i">
                                     <v-select
                                         v-if="field.type === 'select'"
-                                        v-model="form[field.name]"
+                                        v-model="formData[field.name]"
                                         :label="field.label"
                                         :required="field.required"
                                         :error-messages="errors[field.name]"
+                                        autocomplete
+                                        :items="field.items"
+                                        item-text="name"
+                                        item-value="id"
+                                        :no-data="`Geen ${field.name.toLowerCase()} gevonden`"
+                                        cache-items
+                                        :search-input.sync="field.search"
                                     />
 
                                     <v-switch
                                         v-if="field.type === 'switch'"
-                                        v-model="form[field.name]"
+                                        v-model="formData[field.name]"
                                         :label="field.label"
                                         :required="field.required"
                                         :error-messages="errors[field.name]"
@@ -37,17 +44,31 @@
 
                                     <v-checkbox
                                         v-if="field.type === 'checkbox'"
-                                        v-model="form[field.name]"
+                                        v-model="formData[field.name]"
                                         :label="field.label"
                                         :required="field.required"
                                         :error-messages="errors[field.name]"
                                     />
 
                                     <v-text-field
-                                        v-else
-                                        v-model="form[field.name]"
+                                        v-if="field.type === 'number'"
+                                        v-model.number="formData[field.name]"
+                                        :type="field.type"
                                         :label="field.label"
                                         :required="field.required"
+                                        :maxlength="field.maxLength"
+                                        :minlength="field.minLength"
+                                        :error-messages="errors[field.name]"
+                                    />
+
+                                    <v-text-field
+                                        v-else
+                                        v-model="formData[field.name]"
+                                        :type="field.type"
+                                        :label="field.label"
+                                        :required="field.required"
+                                        :maxlength="field.maxLength"
+                                        :minlength="field.minLength"
                                         :error-messages="errors[field.name]"
                                     />
                                 </v-flex>
@@ -84,6 +105,7 @@
 
             <!-- Data table -->
             <v-data-table
+                :search="search"
                 :headers="headers"
                 :items="items"
                 :totalItems="totalItems"
@@ -112,7 +134,22 @@
                             :class="{'text-xs-right' : header.align === 'right'}"
                             :key="i"
                         >
-                            {{ props.item[header.value] }}
+                            <span v-if="props.item[header.value] && header.url">
+                                <a :href="props.item[header.value]" target="_blank">{{ props.item[header.value] }}</a>
+                            </span>
+
+                            <span
+                                v-if="props.item[header.value] instanceof Object && props.item[header.value].length > 0"
+                            >
+                                {{ props.item[header.value].map( item => item.name ).join( ', ' ) }}
+                            </span>
+
+                            <span v-if="header.boolean">
+                                <v-icon v-if="props.item[header.value]" class="green--text">check_box</v-icon>
+                            <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
+                            </span>
+
+                            <span v-else>{{ props.item[header.value] }}</span>
                         </td>
 
                         <td v-else>
@@ -202,6 +239,7 @@
 		data()
 		{
 			return {
+				search: '',
 				pagination: {},
 				loading: false,
 				deleteItem: {},
