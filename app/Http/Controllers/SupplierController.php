@@ -42,7 +42,16 @@ class SupplierController extends Controller
 		$this->validation( $request );
 
 		$created = Supplier::create([
-			'name' => $request->input('name')
+			'name' => $request->input('name'),
+			'street' => $request->input('street'),
+			'number' => $request->input('number'),
+			'addition' => $request->input('addition'),
+			'zip_code' => $request->input('zip_code'),
+			'city' => $request->input('city'),
+			'phone_number' => $request->input('phone_number'),
+			'website' => $request->input('website'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
 		if( $created )
@@ -94,7 +103,8 @@ class SupplierController extends Controller
 			'zip_code' => $request->input('zip_code'),
 			'city' => $request->input('city'),
 			'phone_number' => $request->input('phone_number'),
-			'website' => $request->input('website')
+			'website' => $request->input('website'),
+			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
 		if( $updated )

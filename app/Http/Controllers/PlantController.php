@@ -50,7 +50,6 @@ class PlantController extends Controller
 			$request->merge( [ 'image' => $this->convertImage( $request->file('image') ) ] );
 			$path = $request->file('image')->store('plants');
 			$request->merge( [ 'image' => $path ] );
-
 		}
 
 		$created = Plant::create( [
@@ -79,13 +78,15 @@ class PlantController extends Controller
 			'priority_id'     => $request->input( 'priority_id' ),
 			'supplier_id'     => $request->input( 'supplier_id' ),
 			'size_id'         => $request->input( 'size_id' ),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
 		] );
 
 
 
 		// Add bloom colors
-		if( !empty( $request->bloom_color ) ) {
-			$created->bloom_colors()->attach( $request->bloom_color );
+		if( !empty( $request->bloom_colors ) ) {
+			$created->bloom_colors()->attach( $request->bloom_colors );
 		}
 
 		// Add bloom date
@@ -94,8 +95,8 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( !empty( $request->macule_color ) ) {
-			$created->macule_colors()->attach( $request->macule_color );
+		if( !empty( $request->macule_colors ) ) {
+			$created->macule_colors()->attach( $request->macule_colors );
 		}
 
 		if( $created ) {
@@ -167,21 +168,73 @@ class PlantController extends Controller
 			'priority_id'     => $request->input( 'priority_id' ),
 			'supplier_id'     => $request->input( 'supplier_id' ),
 			'size_id'         => $request->input( 'size_id' ),
+			'updated_at' => date('Y-m-d H:i:s')
 		] );
 
 		// Add bloom colors
-		if( !empty( $request->bloom_color ) ) {
-			$plant->bloom_colors()->sync( $request->bloom_color );
+		if( !empty( $request->bloom_colors ) ) {
+			$colors = [];
+
+			/*
+			 * $request->bloom_color can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->bloom_colors as $bloom_color )
+			{
+				if( is_array( $bloom_color ) )
+				{
+					$colors[] = $bloom_color[ 'id' ];
+				} else {
+					$colors = $request->bloom_colors;
+				}
+			}
+
+			$plant->bloom_colors()->sync( $colors );
 		}
 
 		// Add bloom date
 		if( !empty( $request->months ) ) {
-			$plant->months()->sync( $request->months );
+			$months = [];
+
+			/*
+			 * $request->months can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->months as $month )
+			{
+				if( is_array( $month ) )
+				{
+					$months[] = $month[ 'id' ];
+				} else {
+					$months = $request->months;
+				}
+			}
+
+			$plant->months()->sync( $months );
 		}
 
 		// Add bloom date
-		if( !empty( $request->macule_color ) ) {
-			$plant->macule_colors()->sync( $request->macule_color );
+		if( !empty( $request->macule_colors ) ) {
+			$colors = [];
+
+			/*
+			 * $request->bloom_color can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->macule_colors as $macule_color )
+			{
+				if( is_array( $macule_color ) )
+				{
+					$colors[] = $macule_color[ 'id' ];
+				} else {
+					$colors = $request->macule_colors;
+				}
+			}
+
+			$plant->macule_colors()->sync( $colors );
 		}
 
 		if( $updated ) {
@@ -260,9 +313,9 @@ class PlantController extends Controller
 			'priority_id'     => 'nullable|integer|exists:priorities,id',
 			'supplier_id'     => 'nullable|integer|exists:suppliers,id',
 			'size_id'         => 'nullable|integer|exists:sizes,id',
-			'bloom_color'     => 'nullable|array',
+			'bloom_colors'     => 'nullable|array',
 			'months'          => 'nullable|array',
-			'macule_color'    => 'nullable|array',
+			'macule_colors'    => 'nullable|array',
 		] );
 	}
 
@@ -353,7 +406,11 @@ class PlantController extends Controller
 
 			$bloom_color_ids = [];
 			foreach( $bloom_colors as $key => $value ) {
-				$bloom_color_ids[] = \App\Color::firstOrCreate( [ 'name' => $value ] )[ 'id' ];
+				$bloom_color_ids[] = \App\Color::firstOrCreate([
+					'name' => $value,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s')
+				])[ 'id' ];
 			}
 			/***********************************************************************/
 
@@ -383,7 +440,11 @@ class PlantController extends Controller
 
 			$macule_color_ids = [];
 			foreach( $macule_colors as $key => $value ) {
-				$macule_color_ids[] = \App\Color::firstOrCreate( [ 'name' => $value ] )[ 'id' ];
+				$macule_color_ids[] = \App\Color::firstOrCreate([
+					'name' => $value,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s')
+				])[ 'id' ];
 			}
 			/******************************************************************************/
 
@@ -413,7 +474,11 @@ class PlantController extends Controller
 
 			$month_ids = [];
 			foreach( $months as $key => $value ) {
-				$month_ids[] = \App\Month::firstOrCreate( [ 'name' => $value ] )[ 'id' ];
+				$month_ids[] = \App\Month::firstOrCreate([
+					'name' => $value,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s')
+				])[ 'id' ];
 			}
 			/*********************************************************************/
 

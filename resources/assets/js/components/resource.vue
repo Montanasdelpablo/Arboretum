@@ -1,5 +1,73 @@
 <template>
     <div>
+        <!-- Create/ edit dialog -->
+        <v-dialog v-model="dialog" max-width="500px">
+            <v-btn slot="activator" color="primary">
+                <v-icon>add</v-icon>
+                {{ name }} toevoegen
+            </v-btn>
+
+            <v-card>
+                <form @submit.prevent="store">
+                    <v-card-title>
+                        <span class="headline">
+                            {{ name }} {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}
+                        </span>
+                    </v-card-title>
+
+                    <v-card-text>
+                        <v-container grid-list-md>
+                            <v-layout wrap>
+                                <v-flex xs12 sm6 md4 v-for="(field, i) in form" :key="i">
+                                    <v-select
+                                        v-if="field.type === 'select'"
+                                        v-model="form[field.name]"
+                                        :label="field.label"
+                                        :required="field.required"
+                                        :error-messages="errors[field.name]"
+                                    />
+
+                                    <v-switch
+                                        v-if="field.type === 'switch'"
+                                        v-model="form[field.name]"
+                                        :label="field.label"
+                                        :required="field.required"
+                                        :error-messages="errors[field.name]"
+                                    />
+
+                                    <v-checkbox
+                                        v-if="field.type === 'checkbox'"
+                                        v-model="form[field.name]"
+                                        :label="field.label"
+                                        :required="field.required"
+                                        :error-messages="errors[field.name]"
+                                    />
+
+                                    <v-text-field
+                                        v-else
+                                        v-model="form[field.name]"
+                                        :label="field.label"
+                                        :required="field.required"
+                                        :error-messages="errors[field.name]"
+                                    />
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card-text>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
+                        <v-btn color="primary" flat type="submit">
+                            {{ name }}
+                            {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
+                        </v-btn>
+                    </v-card-actions>
+                </form>
+            </v-card>
+        </v-dialog>
+
+        <!-- Data table -->
         <v-data-table
             :headers="headers"
             :items="items"
@@ -19,6 +87,7 @@
                         <v-icon small>arrow_upward</v-icon>
                         {{ header.text }}
                     </th>
+
                     <th>Acties</th>
                 </tr>
             </template>
@@ -26,9 +95,9 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td
-                        v-for="header in (headers.splice(headers.length, 1))"
+                        v-for="(header, i) in headers"
                         :class="{'text-xs-right' : header.align === 'right'}"
-                        :key="header.id"
+                        :key="i"
                     >
                         {{ props.item[header.value] }}
                     </td>
@@ -58,8 +127,11 @@
                 </v-card-title>
 
                 <v-card-text>
-                    Weet je zeker dat je de volgende {{ name }} wil verwijderen:
-                    <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je de volgende {{ name.toLowerCase() }} wil verwijderen:
+
+                    <strong>
+                        {{ deleteItem.name }}
+                    </strong>?
                 </v-card-text>
 
                 <v-card-actions>
@@ -70,7 +142,11 @@
         </v-dialog>
 
         <!-- Chart -->
-        <bar-chart :labels="labels" :datasets="datasets" v-if="dataset" />
+        <bar-chart
+            v-if="dataset"
+            :labels="labels"
+            :datasets="datasets"
+        />
     </div>
 </template>
 
@@ -97,7 +173,7 @@
                 required: true,
             },
             form: {
-		    	type: Object,
+		    	type: Array,
                 required: true,
 			},
             dataset: {
@@ -114,9 +190,20 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
+                formData: {},
 			}
 		},
 		computed: {
+			/**
+             * Get all errors
+             *
+             * @returns
+             */
+			errors()
+			{
+				return this.$store.getters.errors;
+			},
+
 			/**
 			 * Get all items
 			 *
@@ -171,18 +258,31 @@
 			{
 				if( this.dataset )
                 {
-				return this.dataset.map( data => {
-					return {
-						label: data.label,
-                        backgroundColor: data.color ? data.color : '#fff',
-                        data: this.items.map( item => {
-                        	return item[data.item];
-                        })
-                    }
-				});} else {
+				    return this.dataset.map( data => {
+                        return {
+                            label: data.label,
+                            backgroundColor: data.color ? data.color : '#fff',
+                            data: this.items.map( item => {
+                                return item[data.item];
+                            })
+                        }
+				    });
+                } else {
 					return [];
                 }
-			}
+			},
+
+            /**
+             * Return headers without actions
+             */
+            tableFields()
+            {
+            	console.log(this.headers);
+            	let fields = this.headers; // Prevents overwrite of this.headers
+            	fields.pop();
+            	console.log(fields);
+                return fields;
+            }
 		},
 		methods: {
 			/**
@@ -205,12 +305,12 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`, this.form ).then( () =>
-				{
+				this.$store.dispatch(
+					this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`, this.formData ).then( () => {
 					if( this.errors.length === 0 )
 					{
 						this.data(); // Refresh data
-						this.form = {};
+						this.formData = {};
 						this.itemEdit = null;
 						this.dialog = false; // Close dialog
 					}
@@ -220,7 +320,7 @@
 			editItem( item )
 			{
 				this.itemEdit = item.id;
-				this.form = Object.assign( this.form, item );
+				this.formData = Object.assign( this.formData, item );
 				this.dialog = true; // Open dialog
 			},
 
@@ -239,10 +339,13 @@
 				} );
 			},
 
+			/**
+             * Close dialog
+			 */
 			close()
 			{
 				this.dialog = false;
-				this.form = {};
+				this.formData = {};
 				this.itemEdit = null;
 			},
 		},

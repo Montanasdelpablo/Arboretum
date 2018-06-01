@@ -97,6 +97,8 @@ class UserController extends Controller
 			'last_name'  => $request->input( 'last_name' ),
 			'email'      => $request->input( 'email' ),
 			'password'   => $request->input( 'password' ),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
 		] );
 
 		//return $user;
@@ -181,6 +183,7 @@ class UserController extends Controller
 				'first_name' => $request->input( 'first_name' ),
 				'last_name'  => $request->input( 'last_name' ),
 				'email'      => $request->input( 'email' ),
+				'updated_at' => date('Y-m-d H:i:s')
 			] );
 		} else {
 			$request->validate( [
@@ -193,6 +196,7 @@ class UserController extends Controller
 				'first_name' => $request->input( 'first_name' ),
 				'last_name'  => $request->input( 'last_name' ),
 				'email'      => $request->input( 'email' ),
+				'updated_at' => date('Y-m-d H:i:s')
 			] );
 		}
 

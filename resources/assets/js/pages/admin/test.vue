@@ -1,53 +1,20 @@
 <template>
-    <div>
-        <!-- Create/ edit dialog -->
-        <v-dialog v-model="dialog" max-width="500px">
-            <v-btn slot="activator" color="primary">
-                <v-icon>add</v-icon>
-                Kleur toevoegen
-            </v-btn>
-
-            <v-card>
-                <form @submit.prevent="store">
-                    <v-card-title>
-                        <span class="headline">Kleur {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.name" label="Naam" required/>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Kleur {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
-                    </v-card-actions>
-                </form>
-            </v-card>
-        </v-dialog>
-
-        <data-table
+        <resource
             :headers="headers"
             name="Kleur"
             :form="form"
             controller="color"
+            :dataset="dataset"
         />
-    </div>
 </template>
 
 <script>
-    import dataTable from '@/components/dashboard-table';
+    import resource from '@/components/resource';
 
 	export default
 	{
 		components: {
-			dataTable
+			resource
         },
 
 		data()
@@ -55,7 +22,13 @@
 			return {
 				itemEdit: null,
                 dialog: false,
-				form: {},
+				form: [
+					{
+						label: 'Naam',
+						type: 'text',
+						required: true,
+					}
+                ],
 				headers: [
 					{
 						text: 'Kleur',
@@ -71,13 +44,19 @@
 						text: 'Maculekleur',
 						align: 'right',
 						value: 'macule_colors_count'
+					}
+				],
+                dataset: [
+					{
+						label: 'Bloeikleur',
+						color: '#313D76',
+						item: 'bloom_colors_count'
 					},
 					{
-						text: 'Acties',
-						align: 'left',
-						value: '',
-						sortable: false,
-					},
+						label: 'Maculekleur',
+						color: '#78B856',
+						item: 'macule_colors_count'
+					}
 				]
 			}
 		},

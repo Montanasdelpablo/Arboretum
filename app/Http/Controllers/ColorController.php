@@ -43,7 +43,9 @@ class ColorController extends Controller
     	$this->validation( $request );
 
         $created = Color::create([
-        	'name' => $request->input('name')
+        	'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
         if( $created )
@@ -88,7 +90,8 @@ class ColorController extends Controller
         $this->validation( $request );
 
         $updated = $color->update([
-			'name' => $request->input('name')
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
         if( $updated )

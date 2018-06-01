@@ -42,7 +42,9 @@ class SizeController extends Controller
 		$this->validation( $request );
 
 		$created = Size::create([
-			'name' => $request->input('name')
+			'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
 		if( $created )
@@ -87,7 +89,8 @@ class SizeController extends Controller
 		$this->validation( $request );
 
 		$updated = $size->update([
-			'name' => $request->input('name')
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
 		if( $updated )

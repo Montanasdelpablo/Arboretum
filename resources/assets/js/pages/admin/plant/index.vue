@@ -172,7 +172,12 @@
                                 </v-flex>
 
                                 <v-flex xs12>
-                                    <v-text-field v-model="form.control" label="Controle" type="date"/>
+                                    <v-text-field
+                                        v-model="form.control"
+                                        label="Controle"
+                                        type="date"
+                                        :error-messages="errors.control"
+                                    />
                                 </v-flex>
 
                                 <v-flex xs12>
@@ -291,7 +296,6 @@
                                         item-text="name"
                                         item-value="id"
                                         no-data="Geen kleur gevonden"
-                                        cache-items
                                         :error-messages="errors.bloom_color"
                                         :search-input.sync="colorIndex"
                                     />
@@ -307,7 +311,6 @@
                                         item-text="name"
                                         item-value="id"
                                         no-data="Geen maand gevonden"
-                                        cache-items
                                         :error-messages="errors.months"
                                         :search-input.sync="monthIndex"
                                     />
@@ -323,7 +326,6 @@
                                         item-text="name"
                                         item-value="id"
                                         no-data="Geen kleur gevonden"
-                                        cache-items
                                         :error-messages="errors.macule_color"
                                         :search-input.sync="colorIndex"
                                     />
@@ -500,11 +502,15 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
-				form: {
+				defaultForm: {
 					dead: false,
 					replant: false,
-                    image: null
+					image: null,
+					bloom_colors: [],
+					months: [],
+					macule_colors: []
 				},
+				form: {},
 				headers: [
 					{
 						text: 'Volgnummer',
@@ -783,17 +789,13 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () =>
-				{
-					this.data(); // Refresh data
-					this.form = {
-						dead: false,
-						replant: false
-					};
-					this.itemEdit = null;
+				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () => {
 
 					if( this.errors.length === 0 )
 					{
+						this.data(); // Refresh data
+						this.form = this.defaultForm;
+						this.itemEdit = null;
 						this.dialog = false; // Close dialog
 					}
 				} );
@@ -824,7 +826,7 @@
 			close()
 			{
 				this.dialog = false;
-				this.form = {};
+				this.form = this.defaultForm;
 				this.itemEdit = null;
 			},
 
