@@ -5,6 +5,12 @@
             Afdrukken
         </v-btn>
 
+
+        <v-btn flat :to="{ name: 'plantIndex' }">
+            <v-icon>arrow_back</v-icon>
+            Terug
+        </v-btn>
+
         <img src="@/images/main_logo.png" alt="Arboretum Eenrum" class="logo-img" />
 
         <v-data-table
@@ -36,9 +42,7 @@
                 <tr>
                     <td class="text-xs-right">{{ props.item.purchase_number }}</td>
                     <td>
-                        {{ props.item.sex ? props.item.sex.name : '' }}
-                        {{ props.item.specie ? props.item.specie.name : '' }}
-                        {{ props.item.subspecie ? props.item.subspecie.name : '' }}
+                        {{ props.item.latin_name }}
                     </td>
                     <td>{{ props.item.name ? props.item.name.name : '' }}</td>
                     <td>{{ props.item.place }}</td>
@@ -65,7 +69,7 @@
                     {
                     	text: 'Latijnse naam',
                         align: 'left',
-                        value: 'sex.name',
+                        value: 'latin_name',
                     },
                     {
                     	text: 'Nederlandse naam',
