@@ -2,7 +2,10 @@
     <v-app>
         <!-- Toolbar -->
         <v-toolbar dark fixed color="primary">
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
+            <v-tooltip bottom>
+                <v-toolbar-side-icon @click.stop="drawer = !drawer" slot="activator"/>
+                <span>Menu</span>
+            </v-tooltip>
 
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 

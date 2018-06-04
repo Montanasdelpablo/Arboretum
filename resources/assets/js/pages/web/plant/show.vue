@@ -5,9 +5,7 @@
                 <v-layout row wrap>
                     <v-flex xs12>
                         <h1 class="display-4">
-                            {{ plant.sex ? plant.sex.name : '' }}
-                            {{ plant.specie ? plant.specie.name : '' }}
-                            {{ plant.subspecie ? plant.subspecie.name : '' }}
+                            {{ plant.latin_name }}
                         </h1>
                     </v-flex>
 

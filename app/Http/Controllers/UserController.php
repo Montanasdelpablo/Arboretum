@@ -21,6 +21,9 @@ class UserController extends Controller
 
 	public function login( Request $request )
 	{
+		// Decode password for validation
+		$request->merge( [ 'password' => base64_decode( $request->input( 'password' ) ) ] );
+
 		$request->validate([
 			'email' => 'required|email|string|exists:users',
 			'password' => 'required|string|min:6'
@@ -37,7 +40,7 @@ class UserController extends Controller
 			$token = $user->createToken( config( 'app.name' ) )->accessToken;
 			$user->update( [ 'api_token' => $token ] );
 
-			return response()->json( [ 'success' => true, 'token' => $token, 'user' => $user ], 200 );
+			return response()->json( [ 'success' => true, 'message' => 'You are logged in', 'token' => $token, 'user' => $user ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Email and password combination not found' ], 401 );
 		}
@@ -80,6 +83,9 @@ class UserController extends Controller
 	 */
 	public function register( Request $request )
 	{
+		// Decode password for validation
+		$request->merge( [ 'password' => base64_decode( $request->input( 'password' ) ) ] );
+
 		// Validate input
 		$request->validate( [
 			'first_name' => 'required|string',
@@ -171,6 +177,9 @@ class UserController extends Controller
 		// Check if a password has been send
 		if( !empty( $request->input('password') ) )
 		{
+			// Decode password for validation
+			$request->merge( [ 'password' => base64_decode( $request->input( 'password' ) ) ] );
+
 			$request->validate( [
 				'first_name' => 'required|string',
 				'last_name'  => 'required|string',
@@ -179,9 +188,11 @@ class UserController extends Controller
 			] );
 
 			$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
+
 			$updated = $user->update( [
 				'first_name' => $request->input( 'first_name' ),
 				'last_name'  => $request->input( 'last_name' ),
+				'password' => $request->input( 'password' ),
 				'email'      => $request->input( 'email' ),
 				'updated_at' => date('Y-m-d H:i:s')
 			] );

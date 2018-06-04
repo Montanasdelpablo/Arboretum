@@ -36,9 +36,7 @@
 
                     <v-card-title>
                         <h3 class="title">
-                            {{ plant.sex ? plant.sex.name : '' }}
-                            {{ plant.specie ? plant.specie.name : '' }}
-                            {{ plant.subspecie ? plant.subspecie.name : '' }}
+                            {{ plant.latin_name }}
                         </h3>
                     </v-card-title>
 
@@ -81,7 +79,7 @@
                 form: {
                 	rowsPerPage: 4,
                     ascending: true,
-                    orderBy: 'sex.name',
+                    orderBy: 'name.name',
                     page: 1
                 },
                 rowsPerPage: [
@@ -126,6 +124,10 @@
                         value: 'name.name'
                     },
                     {
+                    	text: 'Latijnse naam',
+                        value: 'latin_name'
+                    },
+                    {
                         text: 'Kruising ouders',
                         value: 'crossing.name'
                     },
@@ -161,7 +163,7 @@
                     items = this.form.rowsPerPage,
                     firstItem = ( page - 1 ) * items,
                     lastItem = firstItem + items,
-                    orderBy = this.form.orderBy.split( '.' ),
+                    orderBy = this.form.orderBy,
                     ascending = this.form.ascending;
 
 				if( plants.length > 0 )
@@ -169,11 +171,11 @@
 					// OrderBy
 					plants.sort( ( a, b ) =>
 					{
-						if( a[orderBy[0]] != null && b[orderBy[0]] != null )
+						if( a[orderBy] != null && b[orderBy] != null )
 						{
 
-							let valueA = a[orderBy[0]][orderBy[1]].toUpperCase();
-							let valueB = b[orderBy[0]][orderBy[1]].toUpperCase();
+							let valueA = a[orderBy].toUpperCase();
+							let valueB = b[orderBy].toUpperCase();
 
 							if( valueA < valueB )
 							{

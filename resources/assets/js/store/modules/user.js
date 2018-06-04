@@ -57,10 +57,9 @@ export default {
 
 	actions: {
 		/**
-		 * Get all users from API
+		 * Logout user
 		 *
-		 * @param context
-		 * @param pagination
+		 * @param state
 		 */
 		userLogout( state )
 		{
@@ -68,8 +67,16 @@ export default {
 			sessionStorage.removeItem( 'token' );
 		},
 
+		/**
+		 * Login user
+		 *
+		 * @param context
+		 * @param data
+		 * @returns {Promise<any>}
+		 */
 		userLogin( context, data )
 		{
+			data = Object.assign( data, { password: btoa( data.password ) } ); // base64 encode
 
 			// Returns request
 			return fetch( '/api/login', {
@@ -129,8 +136,17 @@ export default {
 				.catch( error => console.error( 'userIndex', error ) );
 		},
 
+		/**
+		 * Register user
+		 *
+		 * @param context
+		 * @param data
+		 * @returns {Promise<any>}
+		 */
 		userRegister( context, data )
 		{
+			data = Object.assign( data, { password: btoa( data.password ) } ); // base64 encode
+
 			// Returns request/response
 			return fetch( '/api/register', {
 				headers: {
@@ -151,6 +167,13 @@ export default {
 				.catch( error => console.error( 'userRegister', error ) );
 		},
 
+		/**
+		 * Get all users
+		 *
+		 * @param context
+		 * @param pagination
+		 * @returns {Promise<any>}
+		 */
 		userIndex( context, pagination )
 		{
 			// Set url
@@ -243,6 +266,11 @@ export default {
 		 */
 		userUpdate( context, data )
 		{
+			if( data.password )
+			{
+				data = Object.assign( data, {password: btoa( data.password )} ); // base64 encode
+			}
+
 			return fetch( `/api/users/${data.id}`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',
