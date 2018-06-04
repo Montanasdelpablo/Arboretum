@@ -8,6 +8,7 @@ module.exports = env => {
 	return {
 		entry: {
 			'main': './resources/assets/js/main.js',
+			'print': './resources/assets/scss/print.scss'
 		},
 		output: {
 			path: __dirname,
@@ -38,6 +39,7 @@ module.exports = env => {
 				},
 				{
 					test: /\.css$/,
+					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/'],
 					use: [
 						'vue-style-loader',
 						{
@@ -51,7 +53,39 @@ module.exports = env => {
 					]
 				},
 				{
+					test: /\.css$/,
+					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/js/'],
+					use: ExtractTextPlugin.extract( {
+						fallback: 'style-loader',
+						use: [
+							{
+								loader: 'css-loader',
+								options: {
+									minimize: !env.dev
+								}
+							}
+						]
+					})
+				},
+				{
+					test: /\.styl$/,
+					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/js/'],
+					use: ExtractTextPlugin.extract( {
+						fallback: 'style-loader',
+						use: [
+							{
+								loader: 'css-loader',
+								options: {
+									minimize: !env.dev
+								}
+							},
+							'stylus-loader'
+						]
+					})
+				},
+				{
 					test: /\.scss$/,
+					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/'],
 					use: [
 						'vue-style-loader',
 						{
@@ -66,19 +100,36 @@ module.exports = env => {
 					]
 				},
 				{
+					test: /\.scss$/,
+					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/js/'],
+					use: ExtractTextPlugin.extract( {
+						fallback: 'style-loader',
+						use: [
+							{
+								loader: 'css-loader',
+								options: {
+									minimize: !env.dev
+								}
+							},
+							'sass-loader'
+						]
+					})
+				},
+				{
 					test: /\.(jpg|jpeg|gif|png|svg)$/,
 					exclude: ['/node_modules/', '/public/'],
 					use: [
-						{
+						/*{
 							loader: 'responsive-loader',
 							options: {
 								adapter: require('responsive-loader/sharp'),
 								sizes: [600, 960, 1280, 1920],
 								placeholder: true,
 								placeholderSize: 50,
-								name: '/public/images/[hash]-[width].[ext]',
+								outPath: '/public/images/[hash]-[width].[ext]',
+								publicPath: '/images/[hash]-[width].[ext]'
 							}
-						},
+						},*/
 						{
 							loader: 'file-loader',
 							options: {
@@ -88,8 +139,7 @@ module.exports = env => {
 							}
 						}
 					],
-
-				}
+				},
 			]
 		},
 		resolve: {

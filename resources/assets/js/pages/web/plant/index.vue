@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md fluid style="margin-top:64px">
+    <v-container grid-list-md fluid>
         <v-layout row wrap>
             <v-flex xs12 md2>
                 <v-select
@@ -47,7 +47,7 @@
                     <v-card-actions>
                         <v-btn
                             flat
-                            color="primary"
+                            color="secondary"
                            :to="{ name: 'plantShow', params: { id: plant.id }}"
                         >
                             Lees meer
@@ -63,9 +63,11 @@
             </v-flex>
         </v-layout>
 
-        <v-layout justify-center>
-            <v-flex xs12 md6>
-                <v-pagination :length="pages" v-model="form.page"></v-pagination>
+        <v-layout>
+            <v-flex xs12>
+                <div class="text-xs-center">
+                    <v-pagination :length="pages" v-model="form.page" total-visible="7" />
+                </div>
             </v-flex>
         </v-layout>
     </v-container>

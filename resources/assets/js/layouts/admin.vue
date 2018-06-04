@@ -1,12 +1,28 @@
 <template>
     <v-app dark>
         <!-- Toolbar -->
-        <v-toolbar color="primary">
+        <v-toolbar fixed color="primary">
             <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
 
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
             <v-spacer/>
+
+            <v-toolbar-items>
+                <v-tooltip bottom>
+                    <v-btn slot="activator" flat :to="{ name: 'index' }">
+                        <v-icon>public</v-icon>
+                    </v-btn>
+                    <span>Naar website</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                    <v-btn slot="activator" flat :to="{ name: 'manual' }">
+                        <v-icon>help</v-icon>
+                    </v-btn>
+                    <span>Handleiding</span>
+                </v-tooltip>
+            </v-toolbar-items>
         </v-toolbar>
 
         <!-- Navigation -->
@@ -14,37 +30,30 @@
             <v-toolbar flat class="transparent">
                 <v-list>
                     <v-list-tile avatar>
-                        <v-list-tile-avatar>
-                            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-                        </v-list-tile-avatar>
+                        <!--TODO fix layout-->
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                <!--<div v-if="userProfile['first_name'] && userProfile['last_name']">
-                                    {{ userProfile['first_name'] }} {{ userProfile['last_name'] }}
-                                </div>-->
-
-                                <v-menu>
-                                    <v-icon slot="activator">expand_more</v-icon>
-
-                                    <v-list>
-                                        <v-list-tile>
-                                            <v-list-tile-action>
-                                                <v-icon>edit</v-icon>
-                                            </v-list-tile-action>
-                                            <v-list-tile-title>
-                                                Bewerk profiel
-                                            </v-list-tile-title>
-                                        </v-list-tile>
-                                        <v-list-tile @click.stop="logout">
-                                            <v-list-tile-action>
-                                                <v-icon>exit_to_app</v-icon>
-                                            </v-list-tile-action>
-                                            <v-list-tile-title>Logout</v-list-tile-title>
-                                        </v-list-tile>
-                                    </v-list>
-                                </v-menu>
+                                <div v-if="userProfile && userProfile.first_name &&
+                                userProfile.last_name">
+                                    {{ userProfile.first_name }} {{ userProfile.last_name }}
+                                </div>
                             </v-list-tile-title>
                         </v-list-tile-content>
+
+                        <v-list-tile-action>
+                            <v-menu>
+                                <v-icon slot="activator">expand_more</v-icon>
+
+                                <v-list>
+                                    <v-list-tile @click.stop="logout">
+                                        <v-list-tile-action>
+                                            <v-icon>exit_to_app</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-title>Logout</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                        </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
             </v-toolbar>
@@ -100,10 +109,18 @@
             </v-list>
         </v-navigation-drawer>
 
+        <div class="filler" style="margin-top:64px; width: 100%" />
+
         <!-- Alerts -->
         <v-container fluid>
-            <v-alert dismissible v-on:click="hideAlert" v-model="alert" :type="success ? 'success' : 'error'"
-                     :value="message && message.length > 1" transition="scale-transition">
+            <v-alert
+                dismissible
+                v-on:click="hideAlert"
+                v-model="alert"
+                :type="success ? 'success' : 'error'"
+                :value="message && message.length > 1"
+                transition="scale-transition"
+            >
                 {{ message }}
             </v-alert>
 
@@ -120,7 +137,7 @@
 		metaInfo()
 		{
 			return {
-				title: this.$route.meta.title
+				title: this.title()
 			}
 		},
 
@@ -142,7 +159,7 @@
 			 */
 			title()
 			{
-				return this.$route.meta.title;
+				return `${this.$route.meta.title} | Dashboard`;
 			},
 
 			/**
@@ -236,7 +253,7 @@
 						icon: ''
 					},
 					{
-						title: 'Variaties',
+						title: 'Variëteiten',
 						to: 'subspecieIndex',
 						icon: ''
 					},
@@ -254,7 +271,17 @@
 						title: 'Gebruikers',
 						to: 'userIndex',
 						icon: 'person'
-					}
+					},
+                    {
+                    	title: 'Website',
+                        to: 'index',
+                        icon: 'public'
+                    },
+                    {
+                    	title: 'Handleiding',
+                        to: 'manual',
+                        icon: 'help'
+                    }
 				]
 			}
 		}

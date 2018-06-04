@@ -21,39 +21,34 @@ class UserController extends Controller
 
 	public function login( Request $request )
 	{
-		// validate the info, create rules for the inputs
 		$request->validate([
-			'email'    => 'required|email', // make sure the email is an actual email
-			'password' => 'required|string|min:3' // password can only be alphanumeric and has to be greater than 3 characters
+			'email' => 'required|email|string|exists:users',
+			'password' => 'required|string|min:6'
 		]);
 
-		// create our user data for the authentication
 		$attempt = Auth::attempt( [
-				'email' => $request->input( 'email' ),
-				'password' => $request->input( 'password' )
+			'email' => $request->input( 'email' ),
+			'password' => $request->input( 'password' )
 		]);
 
-		// If $attempt returns true
-	  if($attempt){
-				// Grab current user
-				$user = Auth::user();
-				// Build token
-				$token = $user->createToken( config( 'app.name' ) )->accessToken;
-				// Update model with token
-				$user->update( [ 'api_token' => $token ] );
-				// Return response 201 with data
-		 		return response()->json( [ 'success' => true, 'token' => $token, 'message' => 'Logged in succesfully', 'user' => $user], 201);
-		} else {
-				// Return response 400
-		  	return response()->json( [ 'success' => false, 'message' => 'Not logged in'], 400);
-		}
-	 }
+		if( $attempt )
+		{
+			$user = Auth::user();
+			$token = $user->createToken( config( 'app.name' ) )->accessToken;
+			$user->update( [ 'api_token' => $token ] );
 
-	public function forgotpw (Request $request){
+			return response()->json( [ 'success' => true, 'token' => $token, 'user' => $user ], 200 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Email and password combination not found' ], 401 );
+		}
+	}
+
+	public function forgotpw( Request $request )
+	{
 		// Still todo!
 
 		// validate email
-		$request->validatie([
+		$request->validatie( [
 			'email' => 'required|email',
 		] );
 		// gather password from user using email above
@@ -80,39 +75,42 @@ class UserController extends Controller
 
 	/**
 	 * @param \Illuminate\Http\Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function register( Request $request )
 	{
-		//print_r($request->all());
-		//print_r($request->input('first_name'));
-
 		// Validate input
 		$request->validate( [
 			'first_name' => 'required|string',
-			'last_name' => 'required|string',
-			'email'    => 'required|string|email|unique:users,email',
-			'password' => 'required',
+			'last_name'  => 'required|string',
+			'email'      => 'required|string|email|unique:users,email',
+			'password'   => 'required|string|min:6',
 		] );
 
 		// Hash password first (Hash::make)
 		$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
 
 		// Create user
-		$user = User::create([
-			'first_name' => $request->input('first_name'),
-			'last_name' => $request->input('last_name'),
-			'email' => $request->input('email'),
-			'password' => $request->input('password')
-		]);
+		$user = User::create( [
+			'first_name' => $request->input( 'first_name' ),
+			'last_name'  => $request->input( 'last_name' ),
+			'email'      => $request->input( 'email' ),
+			'password'   => $request->input( 'password' ),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		] );
 
 		//return $user;
-		if(empty($user = Auth::user())){
+		if( empty( $user = Auth::user() ) )
+		{
 			// Return response 201 with data
-			return response()->json( [ 'success' => true, 'message' => 'Created account succesfully'], 201);
-		} else {
+			return response()->json( [ 'success' => true, 'message' => 'Created account succesfully' ], 201 );
+		} else
+		{
 			// Return response 400 with data
-		  return response()->json( [ 'success' => false, 'message' => 'Not created account'], 400);
-		  }
+			return response()->json( [ 'success' => false, 'message' => 'Not created account' ], 400 );
+		}
 	}
 
 	/**
@@ -133,12 +131,10 @@ class UserController extends Controller
 	 */
 	public function store( Request $request )
 	{
-		// Validate input
-		$this->validation( $request );
 
 		// Hash password
 		$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
-		
+
 		// Create new user
 		$created = User::create( $request->all() );
 
@@ -188,19 +184,44 @@ class UserController extends Controller
 	 */
 	public function update( Request $request, User $user )
 	{
-		// Validate input
-		$this->validation( $request );
+		// Check if a password has been send
+		if( !empty( $request->input('password') ) )
+		{
+			$request->validate( [
+				'first_name' => 'required|string',
+				'last_name'  => 'required|string',
+				'password' => 'required|string|min:6',
+				'email'      => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'users' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
+			] );
 
-		// Update with input
-		$updated = $user->update( $request->all() );
+			$request->merge( [ 'password' => Hash::make( $request->input( 'password' ) ) ] );
+			$updated = $user->update( [
+				'first_name' => $request->input( 'first_name' ),
+				'last_name'  => $request->input( 'last_name' ),
+				'email'      => $request->input( 'email' ),
+				'updated_at' => date('Y-m-d H:i:s')
+			] );
+		} else {
+			$request->validate( [
+				'first_name' => 'required|string',
+				'last_name'  => 'required|string',
+				'email'      => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'users' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
+			] );
+
+			$updated = $user->update( [
+				'first_name' => $request->input( 'first_name' ),
+				'last_name'  => $request->input( 'last_name' ),
+				'email'      => $request->input( 'email' ),
+				'updated_at' => date('Y-m-d H:i:s')
+			] );
+		}
 
 		// If updated
 		if( $updated )
 		{
-			// Return respose 200 with data
+			// Return response 200 with data
 			return response()->json( [ 'success' => true, 'message' => 'User updated', 'result' => $updated ], 200 );
-		} else
-		{
+		} else {
 			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'User not updated' ], 400 );
 		}
@@ -227,19 +248,20 @@ class UserController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = User::where( 'email', 'like', '%'.$search.'%' )
+			->orWhere( 'first_name', 'like', '%'.$search.'%' )
+			->orRhere( 'last_name', 'like', '%'.$search.'%' )
 			->orWhere( 'id', $search )
 			->get();
 
 		return response()->json( $results );
-	}
-
-	private function validation( Request $request )
-	{
-		$request->validate( [
-			'email' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'email' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:users,email',
-		] );
 	}
 }

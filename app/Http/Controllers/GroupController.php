@@ -41,7 +41,11 @@ class GroupController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Group::create( $request->all() );
+		$created = Group::create([
+			'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +88,10 @@ class GroupController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $group->update( $request->all() );
+		$updated = $group->update([
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $updated )
 		{
@@ -114,6 +121,12 @@ class GroupController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = Group::where('name', 'like', '%'.$search.'%')
@@ -123,6 +136,11 @@ class GroupController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([

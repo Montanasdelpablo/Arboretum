@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Plant;
+use Faker\Provider\Image;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
@@ -34,10 +35,24 @@ class PlantController extends Controller
 	 */
 	public function store( Request $request )
 	{
+		// Convert base64 image into file
+		if( !empty( $request->file( 'image' ) ) ) {
+			$request->merge( [ 'image' => $this->convertImage( $request->input( 'image' ) ) ] );
+		}
+
 		$this->validation( $request );
 
+		// Upload image and add path into request array
+		if( !empty( $request->file( 'image' ) ) ) {
+			$request->merge( [ 'image' => $this->convertImage( $request->file( 'image' ) ) ] );
+			$path = $request->file( 'image' )->store( 'plants' );
+			$request->merge( [ 'image' => $path ] );
+		}
+
+		$latin = $this->latinName( $request );
+
 		$created = Plant::create( [
-			'name_id'            => $request->input( 'name' ),
+			'latin_name'      => $latin ? $latin : null,
 			'follow_number'   => $request->input( 'follow_number' ),
 			'purchase_number' => $request->input( 'purchase_number' ),
 			'control'         => $request->input( 'control' ),
@@ -50,10 +65,11 @@ class PlantController extends Controller
 			'planted'         => $request->input( 'planted' ),
 			'note'            => $request->input( 'note' ),
 			'description'     => $request->input( 'description' ),
+			'name_id'         => $request->input( 'name_id' ),
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
 			'specie_id'       => $request->input( 'specie_id' ),
-			'subspecie_id'      => $request->input( 'subspecie_id' ),
+			'subspecie_id'    => $request->input( 'subspecie_id' ),
 			'group_id'        => $request->input( 'group_id' ),
 			'synonym_id'      => $request->input( 'synonym_id' ),
 			'crossing_id'     => $request->input( 'crossing_id' ),
@@ -62,31 +78,28 @@ class PlantController extends Controller
 			'priority_id'     => $request->input( 'priority_id' ),
 			'supplier_id'     => $request->input( 'supplier_id' ),
 			'size_id'         => $request->input( 'size_id' ),
+			'created_at'      => date( 'Y-m-d H:i:s' ),
+			'updated_at'      => date( 'Y-m-d H:i:s' ),
 		] );
 
 		// Add bloom colors
-		if( !empty( $request->bloom_color ) )
-		{
-			$created->bloom_colors()->attach( $request->bloom_color );
+		if( !empty( $request->bloom_colors ) ) {
+			$created->bloom_colors()->attach( $request->bloom_colors );
 		}
 
 		// Add bloom date
-		if( !empty( $request->months ) )
-		{
+		if( !empty( $request->months ) ) {
 			$created->months()->attach( $request->months );
 		}
 
 		// Add bloom date
-		if( !empty( $request->macule_color ) )
-		{
-			$created->macule_colors()->attach( $request->macule_color );
+		if( !empty( $request->macule_colors ) ) {
+			$created->macule_colors()->attach( $request->macule_colors );
 		}
 
-		if( $created )
-		{
+		if( $created ) {
 			return response()->json( [ 'success' => true, 'message' => 'Plant created', 'result' => $created ], 201 );
-		} else
-		{
+		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Plant not created' ], 400 );
 		}
 	}
@@ -127,8 +140,10 @@ class PlantController extends Controller
 	{
 		$this->validation( $request );
 
+		$latin = $this->latinName( $request );
+
 		$updated = $plant->update( [
-			'name_id'            => $request->input( 'name' ),
+			'latin_name'      => $latin ? $latin : null,
 			'follow_number'   => $request->input( 'follow_number' ),
 			'purchase_number' => $request->input( 'purchase_number' ),
 			'control'         => $request->input( 'control' ),
@@ -141,10 +156,11 @@ class PlantController extends Controller
 			'planted'         => $request->input( 'planted' ),
 			'note'            => $request->input( 'note' ),
 			'description'     => $request->input( 'description' ),
+			'name_id'         => $request->input( 'name_id' ),
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
 			'specie_id'       => $request->input( 'specie_id' ),
-			'subspecie_id'      => $request->input( 'subspecie_id' ),
+			'subspecie_id'    => $request->input( 'subspecie_id' ),
 			'group_id'        => $request->input( 'group_id' ),
 			'synonym_id'      => $request->input( 'synonym_id' ),
 			'crossing_id'     => $request->input( 'crossing_id' ),
@@ -153,31 +169,72 @@ class PlantController extends Controller
 			'priority_id'     => $request->input( 'priority_id' ),
 			'supplier_id'     => $request->input( 'supplier_id' ),
 			'size_id'         => $request->input( 'size_id' ),
+			'updated_at'      => date( 'Y-m-d H:i:s' ),
 		] );
 
 		// Add bloom colors
-		if( !empty( $request->bloom_color ) )
-		{
-			$plant->bloom_colors()->sync( $request->bloom_color );
+		if( !empty( $request->bloom_colors ) ) {
+			$colors = [];
+
+			/*
+			 * $request->bloom_color can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->bloom_colors as $bloom_color ) {
+				if( is_array( $bloom_color ) ) {
+					$colors[] = $bloom_color[ 'id' ];
+				} else {
+					$colors = $request->bloom_colors;
+				}
+			}
+
+			$plant->bloom_colors()->sync( $colors );
 		}
 
 		// Add bloom date
-		if( !empty( $request->months ) )
-		{
-			$plant->months()->sync( $request->months );
+		if( !empty( $request->months ) ) {
+			$months = [];
+
+			/*
+			 * $request->months can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->months as $month ) {
+				if( is_array( $month ) ) {
+					$months[] = $month[ 'id' ];
+				} else {
+					$months = $request->months;
+				}
+			}
+
+			$plant->months()->sync( $months );
 		}
 
 		// Add bloom date
-		if( !empty( $request->macule_color ) )
-		{
-			$plant->macule_colors()->sync( $request->macule_color );
+		if( !empty( $request->macule_colors ) ) {
+			$colors = [];
+
+			/*
+			 * $request->bloom_color can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->macule_colors as $macule_color ) {
+				if( is_array( $macule_color ) ) {
+					$colors[] = $macule_color[ 'id' ];
+				} else {
+					$colors = $request->macule_colors;
+				}
+			}
+
+			$plant->macule_colors()->sync( $colors );
 		}
 
-		if( $updated )
-		{
+		if( $updated ) {
 			return response()->json( [ 'success' => true, 'message' => 'Plant updated', 'result' => $updated ], 200 );
-		} else
-		{
+		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Plant not updated' ], 400 );
 		}
 	}
@@ -194,15 +251,20 @@ class PlantController extends Controller
 	{
 		$destroyed = $plant->delete();
 
-		if( $destroyed )
-		{
+		if( $destroyed ) {
 			return response()->json( [ 'success' => true, 'message' => 'Plant deleted', 'result' => $plant ], 200 );
-		} else
-		{
+		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Plant not deleted' ], 400 );
 		}
 	}
 
+	/**
+	 * Search for resource in storage
+	 *
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = Plant::where( 'name', 'like', '%'.$search.'%' )
@@ -212,26 +274,32 @@ class PlantController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate( [
-			'name_id'            => 'nullable|integer|exists:names,id',
-			'follow_number'   => 'nullable|integer',
-			'purchase_number' => 'nullable|integer',
+			'name_id'         => 'nullable|integer|exists:names,id',
+			'follow_number'   => 'integer',
+			'purchase_number' => 'integer',
 			'control'         => 'nullable|string|date',
 			'place'           => 'string',
 			'latitude'        => 'string',
 			'longitude'       => 'string',
 			'replant'         => 'nullable|boolean',
 			'moved'           => 'nullable|string|date',
-			'dead'            => 'boolean',
-			'planted'         => 'string|date',
+			'dead'            => 'nullable|boolean',
+			'planted'         => 'nullable|string|date',
 			'note'            => 'nullable|string',
 			'description'     => 'nullable|string',
+			'image'           => 'nullable|image',
 			'type_id'         => 'nullable|integer|exists:types,id',
 			'sex_id'          => 'nullable|integer|exists:sexes,id',
 			'specie_id'       => 'nullable|integer|exists:species,id',
-			'subspecie_id'      => 'nullable|integer|exists:subspecies,id',
+			'subspecie_id'    => 'nullable|integer|exists:subspecies,id',
 			'group_id'        => 'nullable|integer|exists:groups,id',
 			'synonym_id'      => 'nullable|integer|exists:synonyms,id',
 			'crossing_id'     => 'nullable|integer|exists:crossings,id',
@@ -240,203 +308,237 @@ class PlantController extends Controller
 			'priority_id'     => 'nullable|integer|exists:priorities,id',
 			'supplier_id'     => 'nullable|integer|exists:suppliers,id',
 			'size_id'         => 'nullable|integer|exists:sizes,id',
-			'bloom_color'     => 'nullable|array',
+			'bloom_colors'    => 'nullable|array',
 			'months'          => 'nullable|array',
-			'macule_color'    => 'nullable|array',
+			'macule_colors'   => 'nullable|array',
 		] );
 	}
 
+	/**
+	 * Convert image from base64 to actual file
+	 *
+	 * @param $image
+	 *
+	 * @return bool|string
+	 */
+	private function convertImage( $image )
+	{
+		$base64Str = substr( $image, strpos( $image, ',' ) + 1 );
+		print_r( base64_decode( $base64Str ) );
+
+		return base64_decode( $base64Str );
+	}
+
+	/**
+	 * Return latin name
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 *
+	 * @return string
+	 */
+	public function latinName( Request $request )
+	{
+		$sex = null;
+		if( !empty( $request->input( 'sex_id' ) ) )
+		{
+			$sex = \App\Sex::find( $request->input( 'sex_id' ) )->name;
+		}
+
+		$specie = null;
+		if( !empty( $request->input( 'specie_id' ) ) )
+		{
+			$specie = \App\Specie::find( $request->input( 'specie_id' ) )->name;
+		}
+
+		$subspecie = null;
+		if( !empty( $request->input( 'subspecie_id' ) ) )
+		{
+			$subspecie = \App\Subspecie::find( $request->input( 'subspecie_id' ) )->name;
+		}
+
+		// Create latin name
+		return $sex.' '.$specie.' '.$subspecie;
+	}
+
+	/**
+	 * Import from a json file
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function import( Request $request )
 	{
 		set_time_limit( 0 );
 		$plants = [];
+		$date = date( 'Y-m-d H:i:s' );
 
 		$i = 0;
-		foreach( $request->all() as $plant )
-		{
+		foreach( $request->all() as $plant ) {
+			$type = !is_null( $plant[ 'type plant' ] ) ? \App\Type::firstOrCreate( [ 'name' => $plant[ 'type plant' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$sex = !is_null( $plant[ 'geslachtsnaam' ] ) ? \App\Sex::firstOrCreate( [ 'name' => $plant[ 'geslachtsnaam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$specie = !is_null( $plant[ 'soortnaam' ] ) ? \App\Specie::firstOrCreate( [ 'name' => $plant[ 'soortnaam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$subspecie = !is_null( $plant[ 'ssp/variëteitsnaam' ] ) ? \App\Subspecie::firstOrCreate( [ 'name' => $plant[ 'ssp/variëteitsnaam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$group = !is_null( $plant[ 'group' ] ) ? \App\Group::firstOrCreate( [ 'name' => $plant[ 'group' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$synonym = !is_null( $plant[ 'synoniem' ] ) ? \App\Synonym::firstOrCreate( [ 'name' => $plant[ 'synoniem' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$crossing = !is_null( $plant [ 'kruizings ouders' ] ) ? \App\Crossing::firstOrCreate( [ 'name' => $plant[ 'kruizings ouders' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$winner = !is_null( $plant[ 'winner' ] ) ? \App\Winner::firstOrCreate( [ 'name' => $plant[ 'winner' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$treetypes = [ '=' => 'Loofboom', 'x' => 'Naaldboom', 'X' => 'Naaldboom', '+' => 'Boom', 'R' => 'Rhododendron' ];
+			$treetype = !is_null( $plant[ 'boomtype' ] ) ? \App\Treetype::firstOrCreate( [ 'name' => $treetypes[ $plant[ 'boomtype' ] ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$priority = !is_null( $plant[ 'belang' ] ) ? \App\Priority::firstOrCreate( [ 'name' => $plant[ 'belang' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$supplier = !is_null( $plant[ 'leverancier' ] ) ? \App\Supplier::firstOrCreate( [ 'name' => $plant[ 'leverancier' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$size = !is_null( $plant[ 'grootte' ] ) ? \App\Size::firstOrCreate( [ 'name' => ucfirst( $plant[ 'grootte' ] ), 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$name = !is_null( $plant[ 'neder naam' ] ) ? \App\Name::firstOrCreate( [ 'name' => $plant[ 'neder naam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$latin = $plant[ 'geslachtsnaam' ].' '.$plant[ 'soortnaam' ].' '.$plant[ 'ssp/variëteitsnaam' ];
+
 			$default = [
-				'follow_number'   => $plant[ 'volgnr' ] != null ? $plant[ 'volgnr' ] : null,
-				'purchase_number' => $plant[ 'aankoopnr' ] != null ? $plant[ 'aankoopnr' ] : null,
-				'control'         => $plant['controle'] != null ? explode( ' ', $plant[ 'controle' ] )[ 0 ] : null ,
-				'place'           => $plant[ 'plaats' ] != null ? $plant[ 'plaats' ] : null,
-				'latitude'        => $plant[ 'xcoor' ] != null ? $plant[ 'xcoor' ] : null,
-				'longitude'       => $plant[ 'ycoor' ] != null ? $plant[ 'ycoor' ] : null,
-				'replant'         => $plant[ 'verplanten' ] != null ? $plant[ 'verplanten' ] : null,
-				'moved'           => $plant[ 'verzet' ] != null ? $plant[ 'verzet' ] : null,
-				'dead'            => $plant[ 'dood' ] != null ? $plant[ 'dood' ] : null,
-				'planted'         => $plant['pootdatum'] != null ? explode( ' ', $plant[ 'pootdatum' ] )[ 0 ] : null,
+				'follow_number'   => !is_null( $plant[ 'volgnr' ] ) ? $plant[ 'volgnr' ] : null,
+				'purchase_number' => !is_null( $plant[ 'aankoopnr' ] ) ? $plant[ 'aankoopnr' ] : null,
+				'latin_name'      => $latin ? $latin : null,
+				'control'         => !is_null( $plant[ 'controle' ] ) ? explode( ' ', $plant[ 'controle' ] )[ 0 ] : null,
+				'place'           => !is_null( $plant[ 'plaats' ] ) ? $plant[ 'plaats' ] : null,
+				'latitude'        => !is_null( $plant[ 'xcoor' ] ) ? $plant[ 'xcoor' ] : null,
+				'longitude'       => !is_null( $plant[ 'ycoor' ] ) ? $plant[ 'ycoor' ] : null,
+				'replant'         => !is_null( $plant[ 'verplanten' ] ) ? $plant[ 'verplanten' ] : null,
+				'moved'           => !is_null( $plant[ 'verzet' ] ) ? $plant[ 'verzet' ] : null,
+				'dead'            => !is_null( $plant[ 'dood' ] ) ? $plant[ 'dood' ] : null,
+				'planted'         => !is_null( $plant[ 'pootdatum' ] ) ? explode( ' ', $plant[ 'pootdatum' ] )[ 0 ] : null,
 				'note'            => $plant[ 'opmerk 1' ].' '.$plant[ 'opmerk 2' ],
-				'created_at' => date( 'Y-m-d H:i:s' ),
-				'updated_at' => date( 'Y-m-d H:i:s' )
+				'created_at'      => $date,
+				'updated_at'      => $date,
 			];
 
-			$type = $plant[ 'type plant' ] != null ? \App\Type::firstOrCreate( [ 'name' => $plant[ 'type plant' ] ] )['id'] : null;
-			$sex = $plant[ 'geslachtsnaam' ] != null ? \App\Sex::firstOrCreate( [ 'name' => $plant[ 'geslachtsnaam' ] ] )['id'] : null;
-			$specie = $plant[ 'soortnaam' ] != null ? \App\Specie::firstOrCreate( [ 'name' => $plant[ 'soortnaam' ] ] )['id'] : null;
-			$variety = $plant[ 'ssp/variëteitsnaam' ] != null ? \App\Subspecie::firstOrCreate( [ 'name' => $plant[ 'ssp/variëteitsnaam' ] ] )[ 'id'] : null;
-			$group = $plant[ 'group' ] != null ? \App\Group::firstOrCreate( [ 'name' => $plant[ 'group' ] ] )['id'] : null;
-			$synonym = $plant[ 'synoniem' ] != null ? \App\Synonym::firstOrCreate( [ 'name' => $plant[ 'synoniem' ] ] )['id'] : null;
-			$crossing = $plant[ 'kruizings ouders' ] != null ? \App\Crossing::firstOrCreate( [ 'name' => $plant[ 'kruizings ouders' ] ] )['id'] : null;
-			$winner = $plant[ 'winner' ] != null ? \App\Winner::firstOrCreate( [ 'name' => $plant[ 'winner' ] ] )['id'] : null;
-			$treetypes = [ '=' => 'Loofboom', 'x' => 'Naaldboom', 'X' => 'Naaldboom', '+' => 'Boom', 'R' => 'Rhododendron' ];
-			$treetype = $plant[ 'boomtype' ] != null ? \App\Treetype::firstOrCreate( [ 'name' => $treetypes[ $plant[ 'boomtype' ] ] ] )['id'] : null;
-			$priority = $plant[ 'belang' ] != null ? \App\Priority::firstOrCreate( [ 'name' => $plant[ 'belang' ] ] )['id'] : null;
-			$supplier = $plant[ 'leverancier' ] != null ? \App\Supplier::firstOrCreate( [ 'name' => $plant[ 'leverancier' ] ] )['id'] : null;
-			$size = $plant[ 'grootte' ] != null ? \App\Size::firstOrCreate( [ 'name' => ucfirst( $plant[ 'grootte' ] ) ] )['id'] : null;
-			$name = $plant[ 'neder naam' ] != null ? \App\Name::firstOrCreate( [ 'name' => $plant[ 'neder naam' ] ] )['id'] : null;
-
 			$ids = [
-				'name_id'     => $name,
-				'type_id'     => $type,
-				'sex_id'      => $sex,
-				'specie_id'   => $specie,
-				'subspecie_id'  => $variety,
-				'group_id'    => $group,
-				'synonym_id'  => $synonym,
-				'crossing_id' => $crossing,
-				'winner_id'   => $winner,
-				'treetype_id' => $treetype,
-				'priority_id' => $priority,
-				'supplier_id' => $supplier,
-				'size_id'     => $size,
+				'name_id'      => $name,
+				'type_id'      => $type,
+				'sex_id'       => $sex,
+				'specie_id'    => $specie,
+				'subspecie_id' => $subspecie,
+				'group_id'     => $group,
+				'synonym_id'   => $synonym,
+				'crossing_id'  => $crossing,
+				'winner_id'    => $winner,
+				'treetype_id'  => $treetype,
+				'priority_id'  => $priority,
+				'supplier_id'  => $supplier,
+				'size_id'      => $size,
 			];
 
 			$bloom_colors = [];
-			if( strpos( $plant[ 'blkleur' ], '-' ) !== false )
-			{
+			if( strpos( $plant[ 'blkleur' ], '-' ) !== false ) {
 				$colors = explode( '-', $plant[ 'blkleur' ] );
-				foreach( $colors as $key => $value )
-				{
+				foreach( $colors as $key => $value ) {
 					$bloom_colors[] = ucfirst( $value );
 				}
-			} else
-			{
-				if( strpos( $plant[ 'blkleur' ], ' ' ) !== false )
-				{
+			} else {
+				if( strpos( $plant[ 'blkleur' ], ' ' ) !== false ) {
 					$colors = explode( ' ', $plant[ 'blkleur' ] );
-					foreach( $colors as $key => $value )
-					{
+					foreach( $colors as $key => $value ) {
 						$bloom_colors[] = ucfirst( $value );
 					}
-				} else
-				{
-					if( strpos( $plant[ 'blkleur' ], '/' ) !== false )
-					{
+				} else {
+					if( strpos( $plant[ 'blkleur' ], '/' ) !== false ) {
 						$colors = explode( '/', $plant[ 'blkleur' ] );
-						foreach( $colors as $key => $value )
-						{
+						foreach( $colors as $key => $value ) {
 							$bloom_colors[] = ucfirst( $value );
 						}
-					} else
-					{
+					} else {
 						$bloom_colors[] = ucfirst( $plant[ 'blkleur' ] );
 					}
 				}
 			}
 
 			$bloom_color_ids = [];
-			foreach( $bloom_colors as $key => $value )
-			{
-				$bloom_color_ids[] = \App\Color::firstOrCreate( [ 'name' => $value ] )['id'];
+			foreach( $bloom_colors as $key => $value ) {
+				$bloom_color_ids[] = \App\Color::firstOrCreate( [
+					'name'       => $value,
+					'created_at' => $date,
+					'updated_at' => $date,
+				] )[ 'id' ];
 			}
 			/***********************************************************************/
 
 			$macule_colors = [];
-			if( strpos( $plant[ 'maculekl' ], '-' ) !== false )
-			{
+			if( strpos( $plant[ 'maculekl' ], '-' ) !== false ) {
 				$colors = explode( '-', $plant[ 'maculekl' ] );
-				foreach( $colors as $key => $value )
-				{
+				foreach( $colors as $key => $value ) {
 					$macule_colors[] = ucfirst( $value );
 				}
-			} else
-			{
-				if( strpos( $plant[ 'maculekl' ], ' ' ) !== false )
-				{
+			} else {
+				if( strpos( $plant[ 'maculekl' ], ' ' ) !== false ) {
 					$colors = explode( ' ', $plant[ 'maculekl' ] );
-					foreach( $colors as $key => $value )
-					{
+					foreach( $colors as $key => $value ) {
 						$macule_colors[] = ucfirst( $value );
 					}
-				} else
-				{
-					if( strpos( $plant[ 'maculekl' ], '/' ) !== false )
-					{
+				} else {
+					if( strpos( $plant[ 'maculekl' ], '/' ) !== false ) {
 						$colors = explode( '/', $plant[ 'maculekl' ] );
-						foreach( $colors as $key => $value )
-						{
+						foreach( $colors as $key => $value ) {
 							$macule_colors[] = ucfirst( $value );
 						}
-					} else
-					{
+					} else {
 						$macule_colors[] = ucfirst( $plant[ 'maculekl' ] );
 					}
 				}
 			}
 
 			$macule_color_ids = [];
-			foreach( $macule_colors as $key => $value )
-			{
-				$macule_color_ids[] = \App\Color::firstOrCreate( [ 'name' => $value ] )['id'];
+			foreach( $macule_colors as $key => $value ) {
+				$macule_color_ids[] = \App\Color::firstOrCreate( [
+					'name'       => $value,
+					'created_at' => $date,
+					'updated_at' => $date,
+				] )[ 'id' ];
 			}
 			/******************************************************************************/
 
 			$months = [];
-			if( strpos( $plant[ 'bltijd' ], '-' ) !== false )
-			{
+			if( strpos( $plant[ 'bltijd' ], '-' ) !== false ) {
 				$colors = explode( '-', $plant[ 'bltijd' ] );
-				foreach( $colors as $key => $value )
-				{
+				foreach( $colors as $key => $value ) {
 					$months[] = ucfirst( $value );
 				}
-			} else
-			{
-				if( strpos( $plant[ 'bltijd' ], ' ' ) !== false )
-				{
+			} else {
+				if( strpos( $plant[ 'bltijd' ], ' ' ) !== false ) {
 					$colors = explode( ' ', $plant[ 'bltijd' ] );
-					foreach( $colors as $key => $value )
-					{
+					foreach( $colors as $key => $value ) {
 						$months[] = ucfirst( $value );
 					}
-				} else
-				{
-					if( strpos( $plant[ 'bltijd' ], '/' ) !== false )
-					{
+				} else {
+					if( strpos( $plant[ 'bltijd' ], '/' ) !== false ) {
 						$colors = explode( '/', $plant[ 'bltijd' ] );
-						foreach( $colors as $key => $value )
-						{
+						foreach( $colors as $key => $value ) {
 							$months[] = ucfirst( $value );
 						}
-					} else
-					{
+					} else {
 						$months[] = ucfirst( $plant[ 'bltijd' ] );
 					}
 				}
 			}
 
 			$month_ids = [];
-			foreach( $months as $key => $value )
-			{
-				$month_ids[] = \App\Month::firstOrCreate( [ 'name' => $value ] )['id'];
+			foreach( $months as $key => $value ) {
+				$month_ids[] = \App\Month::firstOrCreate( [
+					'name'       => $value,
+					'created_at' => $date,
+					'updated_at' => $date,
+				] )[ 'id' ];
 			}
 			/*********************************************************************/
 
 			$create = array_merge( $default, $ids );
 
-			$plant = Plant::create($create);
+			$plant = Plant::create( $create );
 
-			if( !empty( $bloom_color_ids ) )
-			{
+			if( !empty( $bloom_color_ids ) ) {
 				$plant->bloom_colors()->attach( $bloom_color_ids );
 			}
 
-			if( !empty( $macule_color_ids ) )
-			{
+			if( !empty( $macule_color_ids ) ) {
 				$plant->macule_colors()->attach( $macule_color_ids );
 			}
 
-			if( !empty( $month_ids ) )
-			{
+			if( !empty( $month_ids ) ) {
 				$plant->months()->attach( $month_ids );
 			}
 

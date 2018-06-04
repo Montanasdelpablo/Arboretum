@@ -1,7 +1,6 @@
 <template>
     <div>
 
-
         <!-- Create/ edit dialog -->
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
@@ -15,26 +14,37 @@
                         <span class="headline">Gebruiker {{ this.itemEdit !== null ? 'bewerken' : 'toevoegen' }}</span>
                     </v-card-title>
 
-                    <v-card-text v-if="this.itemEdit == null">
+                    <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.email" label="Email" required />
-                                    <v-text-field v-model="form.password" label="Wachtwoord" required />
-                                    <v-text-field v-model="form.first_name" label="Voornaam"  />
-                                    <v-text-field v-model="form.last_name" label="Achternaam"  />
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
+                                    <v-text-field
+                                        v-model="form.email"
+                                        label="Email"
+                                        required
+                                        :error-messages="errors.email"
+                                    />
 
-                    <v-card-text v-if="this.itemEdit">
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="form.email" label="Email" required />
-                                    <v-text-field v-model="form.first_name" label="Voornaam"  />
-                                    <v-text-field v-model="form.last_name" label="Achternaam"  />
+                                    <v-text-field
+                                        type="password"
+                                        v-model="form.password"
+                                        label="Wachtwoord"
+                                        :required="this.itemEdit === null"
+                                        :error-messages="errors.password"
+                                    />
+
+                                    <v-text-field
+                                        v-model="form.first_name"
+                                        label="Voornaam"
+                                        required
+                                        :error-messages="errors.first_name"
+                                    />
+                                    <v-text-field
+                                        v-model="form.last_name"
+                                        label="Achternaam"
+                                        required
+                                        :error-messages="errors.last_name"
+                                    />
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -43,55 +53,73 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }} </v-btn>
+                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' :
+                                                                  'toevoegen' }}
+                        </v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
         </v-dialog>
 
-        <!-- Data table -->
-        <v-data-table
-            :headers="headers"
-            :items="items"
-            :totalItems="totalItems"
-            item-key="id"
-            :loading="loading"
-            :pagination.sync="pagination"
-            no-data-text="Geen data"
-            no-result-text="Geen resultaten gevonden"
-            rows-per-page-text="Rijen per pagina"
-        >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-            <template slot="header" slot-scope="props">
-                <tr>
-                    <th
-                        v-for="header in props.headers"
-                        :key="header.text"
-                    >
-                        <v-icon small>arrow_upward</v-icon>
-                        {{ header.text }}
-                    </th>
-                    <th>Acties</th>
-                </tr>
-            </template>
+        <v-card>
+            <v-card-title>
+                <span class="headline">{{ this.$route.meta.title }}</span>
 
-            <template slot="items" slot-scope="props">
-                <tr>
-                    <td>{{ props.item.email }}</td>
-                    <td class="text-xs-left">{{ props.item.first_name }}</td>
-                    <td class="text-xs-left">{{ props.item.last_name }}</td>
-                    <td>
-                        <v-btn icon @click.nativ="editItem( props.item )">
-                            <v-icon color="green">edit</v-icon>
-                        </v-btn>
+                <v-spacer></v-spacer>
 
-                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                            <v-icon color="red">delete</v-icon>
-                        </v-btn>
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Zoeken in gebruikers..."
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
+
+            <!-- Data table -->
+            <v-data-table
+                :headers="headers"
+                :items="items"
+                :totalItems="totalItems"
+                item-key="id"
+                :loading="loading"
+                :pagination.sync="pagination"
+                no-data-text="Geen data"
+                no-result-text="Geen resultaten gevonden"
+                rows-per-page-text="Rijen per pagina"
+            >
+                <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                <template slot="headerCell" slot-scope="props">
+                    <v-tooltip bottom v-if="props.header.sortable !== false">
+                        <span slot="activator">{{ props.header.text }}</span>
+                        <span>Sorteer op {{ props.header.text }}</span>
+                    </v-tooltip>
+
+                    <span v-else>{{ props.header.text }}</span>
+                </template>
+
+                <template slot="items" slot-scope="props">
+                    <tr>
+                        <td>{{ props.item.email }}</td>
+                        <td class="text-xs-left">{{ props.item.first_name }}</td>
+                        <td class="text-xs-left">{{ props.item.last_name }}</td>
+                        <td>
+                            <v-btn icon @click.nativ="editItem( props.item )">
+                                <v-icon color="green">edit</v-icon>
+                            </v-btn>
+
+                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                                <v-icon color="red">delete</v-icon>
+                            </v-btn>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+
+            <div class="text-xs-center">
+                <v-pagination v-model="pagination.page" :length="pages" total-visible="7"/>
+            </div>
+        </v-card>
 
         <!-- Delete dialog -->
         <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
@@ -116,11 +144,8 @@
 
 <script>
 
-	export default
-	{
-    components: {
-
-		},
+	export default {
+		components: {},
 
 		data()
 		{
@@ -142,7 +167,7 @@
 						align: 'left',
 						value: 'first_name'
 					},
-          {
+					{
 						text: 'Achternaam',
 						align: 'left',
 						value: 'last_name'
@@ -157,6 +182,10 @@
 			}
 		},
 		computed: {
+			errors()
+			{
+				return this.$store.getters.errors;
+			},
 			/**
 			 * Get all items
 			 *
@@ -165,7 +194,7 @@
 			 */
 			items()
 			{
-        return this.$store.getters.userIndex;
+				return this.$store.getters.userIndex;
 			},
 
 			/**
@@ -177,11 +206,22 @@
 				return this.$store.getters.userTotal;
 			},
 
+			pages()
+			{
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
+				{
+					return 0;
+				}
+
+				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
+			},
+
 			labels()
 			{
-				return this.items.map( item => {
+				return this.items.map( item =>
+				{
 					return item.email;
-				})
+				} )
 			},
 
 			datasets()
@@ -190,9 +230,10 @@
 					{
 						label: 'Gebruikers',
 						backgroundColor: '#fff',
-						data: this.items.map( item => {
+						data: this.items.map( item =>
+						{
 							return item.user_count
-						})
+						} )
 					}
 				];
 			},
@@ -203,32 +244,32 @@
 			 */
 			data()
 			{
-        // Grab data
+				// Grab data
 				this.loading = true;
-				this.$store.dispatch( 'userIndex', this.pagination ).then( () => {
+				this.$store.dispatch( 'userIndex', this.pagination ).then( () =>
+				{
 					this.loading = false;
-				});
+				} );
 			},
-
 
 			store()
 			{
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userStore', this.form ).then(
-					() =>
+				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () => {
+					if( this.errors.length === 0 )
 					{
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
 						this.dialog = false; // Close dialog
-					});
+					}
+				} );
 			},
 
 			editItem( item )
 			{
-				delete item.user_count;
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog
@@ -246,19 +287,20 @@
 				{
 					this.data(); // Refresh data
 					this.deleteItem = {};
-				});
+				} );
 			},
 
 			close()
 			{
-        this.dialog = false;
-        this.form = {};
-        this.itemEdit = null;
+				this.dialog = false;
+				this.form = {};
+				this.itemEdit = null;
 			}
 		},
 		watch: {
 			pagination: {
-				handler() {
+				handler()
+				{
 					this.data();
 				}
 			}

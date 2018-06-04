@@ -41,7 +41,11 @@ class SpecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Specie::create( $request->all() );
+		$created = Specie::create([
+			'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +88,10 @@ class SpecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $specie->update( $request->all() );
+		$updated = $specie->update([
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $updated )
 		{
@@ -114,6 +121,12 @@ class SpecieController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = Specie::where('name', 'like', '%'.$search.'%')
@@ -123,6 +136,11 @@ class SpecieController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([

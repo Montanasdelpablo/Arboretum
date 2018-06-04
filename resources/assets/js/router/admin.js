@@ -16,7 +16,9 @@ const subspecieIndex = () => import('@/pages/admin/subspecie');
 const winnerIndex = () => import('@/pages/admin/winner');
 const nameIndex = () => import('@/pages/admin/name');
 const userIndex = () => import('@/pages/admin/user');
-const profileIndex = () => import('@/pages/admin/profile');
+const userShow = () => import('@/pages/admin/user/show');
+const manual = () => import('@/pages/admin/manual');
+const plantPrint = () => import('@/pages/admin/plant/print');
 
 const adminRoutes = [
 	{
@@ -66,6 +68,14 @@ const adminRoutes = [
 			title: 'Planten'
 		},
 		component: plantIndex
+	},
+	{
+		path: 'plants/print',
+		name: 'plantPrint',
+		meta: {
+			title: 'Planten printen'
+		},
+		component: plantPrint
 	},
 	{
 		path: 'priorities',
@@ -151,7 +161,7 @@ const adminRoutes = [
 		path: 'names',
 		name: 'nameIndex',
 		meta: {
-			title: 'Names'
+			title: 'Namen'
 		},
 		component: nameIndex
 	},
@@ -159,17 +169,31 @@ const adminRoutes = [
 		path: 'users',
 		name: 'userIndex',
 		meta: {
-			title: 'Users'
+			title: 'Gebruikers'
 		},
 		component: userIndex
 	},
 	{
-		path: 'profile',
-		name: 'profileIndex',
+		path: 'users/:id',
+		name: 'userShow',
 		meta: {
 			title: 'Profile'
 		},
-		component: profileIndex
+		component: userShow
+	},
+	{
+		path: 'manual',
+		name: 'manual',
+		meta: {
+			title: 'Handleiding'
+		},
+		component: manual
+	},
+	{
+		path: 'test',
+		name: 'test',
+		meta: {title: 'Test'},
+		component: () => import('@/pages/admin/test')
 	}
 ];
 

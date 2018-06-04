@@ -42,7 +42,11 @@ class ColorController extends Controller
     {
     	$this->validation( $request );
 
-        $created = Color::create( $request->all() );
+        $created = Color::create([
+        	'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
         if( $created )
 		{
@@ -85,7 +89,10 @@ class ColorController extends Controller
     {
         $this->validation( $request );
 
-        $updated = $color->update( $request->all() );
+        $updated = $color->update([
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
         if( $updated )
 		{
@@ -115,6 +122,12 @@ class ColorController extends Controller
 		}
     }
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
     public function search( $search )
 	{
 		$results = Color::where('name', 'like', '%'.$search.'%')
@@ -124,6 +137,11 @@ class ColorController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([

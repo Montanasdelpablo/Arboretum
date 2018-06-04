@@ -41,7 +41,11 @@ class CrossingController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Crossing::create( $request->all() );
+		$created = Crossing::create([
+			'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +88,10 @@ class CrossingController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $crossing->update( $request->all() );
+		$updated = $crossing->update([
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $updated )
 		{
@@ -114,6 +121,12 @@ class CrossingController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = Crossing::where('name', 'like', '%'.$search.'%')
@@ -123,6 +136,11 @@ class CrossingController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([

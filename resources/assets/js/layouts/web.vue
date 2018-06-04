@@ -7,6 +7,18 @@
             <v-toolbar-title>{{ title() }}</v-toolbar-title>
 
             <v-spacer/>
+
+            <v-toolbar-items>
+                <v-tooltip bottom>
+                    <v-btn slot="activator" flat :to="{ name: loggedIn ? 'dashboard' : 'login' }">
+                        <v-icon v-if="loggedIn">dashboard</v-icon>
+                        <v-icon v-else>person</v-icon>
+                    </v-btn>
+
+                    <span v-if="loggedIn">Naar dashboard</span>
+                    <span v-else>Aanmelden</span>
+                </v-tooltip>
+            </v-toolbar-items>
         </v-toolbar>
 
         <!-- Navigation -->
@@ -54,6 +66,8 @@
             </v-list>
         </v-navigation-drawer>
 
+        <div class="filler" style="margin-top:64px; width: 100%" />
+
         <!-- Content -->
         <router-view></router-view>
     </v-app>
@@ -64,7 +78,7 @@
 		metaInfo()
 		{
 			return {
-				title: this.$route.meta.title
+				title: this.title()
 			}
 		},
 
@@ -88,14 +102,21 @@
                         icon: 'explore',
                         to: ''
                     },
-					{
-						title: 'Aanmelden',
-						icon: 'person',
-						to: ''
-					}
+                    {
+                    	title: this.loggedIn ? 'Dashboard' : 'Aanmelden',
+                        icon: this.loggedIn ? 'dashboard' : 'person',
+                        to: 'login'
+                    }
 				]
 			}
 		},
+
+        computed: {
+			loggedIn()
+            {
+            	return this.$store.getters.userLoggedIn;
+            }
+        },
 
 		methods: {
 			/**
@@ -103,7 +124,7 @@
 			 */
 			title()
 			{
-				return this.$route.meta.title;
+				return `${this.$route.meta.title} | Arboretum Eenrum`;
 			}
 		}
 	}

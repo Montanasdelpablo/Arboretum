@@ -6,7 +6,12 @@ import Meta from 'vue-meta';
 import VueProgressiveImage from 'vue-progressive-image';
 
 Vue.use( Meta );
-Vue.use( Vuetify );
+Vue.use( Vuetify, {
+	theme: {
+		primary: '#78B856',
+		secondary: '#313D76'
+	}
+} );
 Vue.use( VueProgressiveImage );
 
 if( google_api.length === 0 )
@@ -14,7 +19,7 @@ if( google_api.length === 0 )
 	console.error('No Google developer token');
 }
 
-//Vue.component( 'c-image', () => import( '@/components/Image' ) );
+Vue.component( 'c-image', () => import( '@/components/Image' ) );
 
 const token = document.head.querySelector( 'meta[name="csrf-token"]' ).getAttribute( 'content' );
 

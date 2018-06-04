@@ -41,7 +41,18 @@ class SupplierController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Supplier::create( $request->all() );
+		$created = Supplier::create([
+			'name' => $request->input('name'),
+			'street' => $request->input('street'),
+			'number' => $request->input('number'),
+			'addition' => $request->input('addition'),
+			'zip_code' => $request->input('zip_code'),
+			'city' => $request->input('city'),
+			'phone_number' => $request->input('phone_number'),
+			'website' => $request->input('website'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $created )
 		{
@@ -84,7 +95,17 @@ class SupplierController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $supplier->update( $request->all() );
+		$updated = $supplier->update([
+			'name' => $request->input('name'),
+			'street' => $request->input('street'),
+			'number' => $request->input('number'),
+			'addition' => $request->input('addition'),
+			'zip_code' => $request->input('zip_code'),
+			'city' => $request->input('city'),
+			'phone_number' => $request->input('phone_number'),
+			'website' => $request->input('website'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $updated )
 		{
@@ -114,6 +135,12 @@ class SupplierController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = Supplier::where('name', 'like', '%'.$search.'%')
@@ -123,6 +150,11 @@ class SupplierController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([
@@ -132,7 +164,7 @@ class SupplierController extends Controller
 			'addition' => 'nullable|string',
 			'zip_code' => 'nullable|string',
 			'city' => 'nullable|string',
-			'phone_number' => 'nullable|integer',
+			'phone_number' => 'nullable|string|min:10|max:13',
 			'website'=> 'nullable|string|url'
 		]);
 	}

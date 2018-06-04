@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
+        <link rel="stylesheet" href="/css/print.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/map-icons@3.0.3/dist/css/map-icons.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 

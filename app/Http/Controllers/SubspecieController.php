@@ -41,7 +41,11 @@ class SubspecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$created = Subspecie::create( $request->all() );
+		$created = Subspecie::create([
+			'name' => $request->input('name'),
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $created )
 		{
@@ -87,7 +91,10 @@ class SubspecieController extends Controller
 	{
 		$this->validation( $request );
 
-		$updated = $subspecie->update( $request->all() );
+		$updated = $subspecie->update([
+			'name' => $request->input('name'),
+			'updated_at' => date('Y-m-d H:i:s')
+		]);
 
 		if( $updated )
 		{
@@ -117,6 +124,12 @@ class SubspecieController extends Controller
 		}
 	}
 
+	/**
+	 * Search resource in storage
+	 * @param $search
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search( $search )
 	{
 		$results = Subspecie::where('name', 'like', '%'.$search.'%')
@@ -126,6 +139,11 @@ class SubspecieController extends Controller
 		return response()->json( $results, 200 );
 	}
 
+	/**
+	 * Validate input
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 */
 	private function validation( Request $request )
 	{
 		$request->validate([
