@@ -36,6 +36,7 @@
         		mapName: `google-map-${this.mapId}`,
                 map: null,
                 marker: [],
+                location: null,
             }
         },
 
@@ -47,7 +48,8 @@
         methods: {
     		render()
             {
-				const element = document.getElementById(this.mapName);
+				this.currentLocation();
+				const element = document.getElementById( this.mapName );
 
 				const options = {
 					zoom: this.zoom,
@@ -57,6 +59,20 @@
 
 				// Create map
 				this.map = new google.maps.Map(element, options);
+
+				// User location
+                let user = new Marker({
+                    position: new google.maps.LatLng( this.location ),
+                    map: this.map,
+					icon: {
+						path: MAP_PIN,
+						fillColor: '#F44336',
+						fillOpacity: 1,
+						strokeColor: '',
+						strokeWeight: 0
+					},
+					map_icon_label: '<span class="map-icon map-icon-male"></span>'
+                });
 
 				// Add markers
 				if( this.markers.length > 0 )
@@ -72,7 +88,7 @@
 							map: this.map,
                             icon: {
 								path: MAP_PIN,
-								fillColor: '#2196F3',
+								fillColor: marker.color ? marker.color : '#2196F3',
 								fillOpacity: 1,
 								strokeColor: '',
 								strokeWeight: 0
@@ -102,6 +118,7 @@
                     map: this.map
                 });
 
+                // Add water
                 const waterCoords = [
                     { lat: 53.360680, lng: 6.465743 },
                     { lat: 53.361145, lng: 6.465158 },
@@ -114,6 +131,43 @@
 					strokeWeight: 3,
 					map: this.map
 				});
+            },
+
+			/**
+             * Set user location
+			 */
+			currentLocation()
+            {
+            	/*
+            	 * If the browser supports geolocation
+            	 * Else give an error
+            	 */
+				if( navigator.geolocation )
+				{
+					navigator.geolocation.getCurrentPosition(
+						/*
+						 * If there is a position show the user position
+						 * Else give an error and set user position to the center of the map
+						 */
+						( position ) => {
+                            console.log('current', position);
+                            this.location = position;
+                        },
+                        ( error ) => {
+							console.error( error.message );
+							this.location = this.center;
+                        }
+                    );
+				} else {
+					console.error('Browser doesn\'t support geolocation');
+				}
+            }
+        },
+
+        watch: {
+        	markers()
+            {
+        	    this.render();
             }
         }
     }

@@ -19,11 +19,17 @@
                                 src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg"
                                 height="200"
                             >
-                                <img
-                                    :src="`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}`"
-                                    :alt="`QR-code ${plant.id}`"
+                                <v-tooltip
+                                    bottom
                                     style="width:200px;height:200px;position:absolute;right:0"
                                 >
+                                    <img
+                                        slot="activator"
+                                        :src="`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}`"
+                                        :alt="`QR-code ${plant.id}`"
+                                    >
+                                    <span>Scan QR-code met smartphone of tablet</span>
+                                </v-tooltip>
                             </v-card-media>
 
                             <v-card-text>
@@ -34,9 +40,7 @@
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Latijnse naam</v-list-tile-title>
                                                     <v-list-tile-sub-title>
-                                                        {{ plant.sex ? plant.sex.name : '' }}
-                                                        {{ plant.specie ? plant.specie.name : '' }}
-                                                        {{ plant.subspecie ? plant.subspecie.name : '' }}
+                                                        {{ plant.latin_name }}
                                                         <em v-if="plant.name">({{ plant.name.name }})</em>
                                                     </v-list-tile-sub-title>
                                                 </v-list-tile-content>
@@ -117,7 +121,7 @@
 
                                             <v-list-tile v-if="plant.subspecie">
                                                 <v-list-tile-content>
-                                                    <v-list-tile-title>Verieteit</v-list-tile-title>
+                                                    <v-list-tile-title>Variëteit</v-list-tile-title>
                                                     <v-list-tile-sub-title>{{ plant.subspecie.name }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
@@ -137,43 +141,12 @@
 
                     <v-flex xs12>
                         <google-map
-                            :center="{lat:53.361050, lng:6.464806}"
+                            :center="{ lat: 53.361050, lng: 6.464806 }"
                             :zoom="17"
                             map-id="plant"
                             type="satellite"
                             style="width:100%;height:500px"
-                            :markers="[
-                                {
-                                    position: {
-                                        lat: 53.36120299,
-                                        lng: 6.46419855
-                                    }
-                                },
-                                {
-                                    position: {
-                                        lat: 53.36035688,
-                                        lng: 6.46448554
-                                    }
-                                },
-                                {
-                                    position: {
-                                        lat: 53.36151658,
-                                        lng: 6.46638025
-                                    }
-                                },
-                                {
-                                    position: {
-                                        lat: 53.36007006,
-                                        lng: 6.46534807
-                                    }
-                                },
-                                {
-                                    position: {
-                                        lat: 53.36118361,
-                                        lng: 6.46499224
-                                    }
-                                },
-                            ]"
+                            :markers="marker"
                         >
                         </google-map>
                     </v-flex>
@@ -201,6 +174,23 @@
             url()
             {
     		    return `${window.location.hostname}${this.$route.path}`;
+            },
+
+            marker()
+            {
+            	if( this.plant.latitude && this.plant.longitude )
+				{
+					return [
+						{
+							position: {
+								lat: Number( this.plant.latitude ),
+								lng: Number( this.plant.longitude )
+							}
+						}
+					];
+				} else {
+            		return [];
+                }
             }
         },
 
