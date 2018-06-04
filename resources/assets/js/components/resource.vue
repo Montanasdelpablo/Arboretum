@@ -103,6 +103,24 @@
                 />
             </v-card-title>
 
+            <v-menu
+                v-model="contextMenu"
+                :position-x="cMenu.x"
+                :position-y="cMenu.y"
+                offset-y
+                absolute
+            >
+            <v-list>
+                 <v-list-tile @click.nativ="editItem( 'context' )">
+                   <v-list-tile-title> Bewerken </v-list-tile-title>
+                 </v-list-tile>
+                 <v-list-tile @click="deleteFromContext( 'context' )">
+                   <v-list-tile-title > Verwijderen </v-list-tile-title>
+                 </v-list-tile>
+            </v-list>
+
+          </v-menu>
+
             <!-- Data table -->
             <v-data-table
                 :search="search"
@@ -133,6 +151,7 @@
                             v-if="header.value"
                             :class="{'text-xs-right' : header.align === 'right'}"
                             :key="i"
+                            @contextmenu.prevent="showContext(props.item, $event)"
                         >
                             <span v-if="props.item[header.value] && header.url">
                                 <a :href="props.item[header.value]" target="_blank">{{ props.item[header.value] }}</a>
@@ -243,6 +262,14 @@
 				pagination: {},
 				loading: false,
 				deleteItem: {},
+        contextMenu: false,
+        selected: {
+          item: {},
+        },
+        cMenu: {
+          x: 0,
+          y: 0,
+        },
 				itemEdit: null,
 				dialog: false,
                 formData: {},
@@ -328,6 +355,27 @@
 			},
 		},
 		methods: {
+      showContext(item, e){
+        // reset
+        this.cMenu.x = 0;
+        this.cMenu.y = 0;
+        this.contextMenu = false;
+
+        // collect needed data
+        console.log("Item:" + JSON.stringify(item));
+        console.log("X Coordinate:" + e.clientX);
+        console.log("Y Coordinate:" + e.clientY);
+
+        // set coordinates for context menu
+        this.cMenu.x = e.clientX;
+        this.cMenu.y = e.clientY;
+
+        // set selected id
+        this.selected.item = item;
+
+        // set context menu to visible
+        this.contextMenu = true;
+      },
 			/**
 			 * Fetch items
 			 */
@@ -362,9 +410,21 @@
 
 			editItem( item )
 			{
+        if(item == 'context'){
+          // reset
+          this.contextMenu = false;
+
+          let newItem = {};
+          newItem.id = this.selected.item.id;
+          newItem.name = this.selected.item.name;
+
+          // find data for selected item
+          console.log(newItem);
+          item = newItem;
+        }
 				this.itemEdit = item.id;
 				this.formData = Object.assign( this.formData, item );
-				this.dialog = true; // Open dialog
+        this.dialog = true; // Open dialog
 			},
 
 			/**
@@ -381,6 +441,21 @@
 					this.deleteItem = {};
 				} );
 			},
+      deleteFromContext(test){
+        if(test == 'context'){
+          // reset
+          this.contextMenu = false;
+          let newItem = {};
+          newItem.id = this.selected.item.id;
+          newItem.name = this.selected.item.name;
+
+          // set newItem
+          this.deleteItem.id = newItem.id;
+          this.deleteItem.name = newItem.name;
+
+          console.log(this.deleteItem);
+        }
+      },
 
 			/**
              * Close dialog
