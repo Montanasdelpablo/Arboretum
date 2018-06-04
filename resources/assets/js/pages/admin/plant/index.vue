@@ -394,6 +394,11 @@
             Planten afdrukken
         </v-btn>
 
+        <v-btn flat :to="{ name: 'plantMap' }">
+            <v-icon>map</v-icon>
+            Tonen op kaart
+        </v-btn>
+
         <v-card>
             <v-card-title>
                 <span class="headline">{{ this.$route.meta.title }}</span>

@@ -98,7 +98,7 @@
 						text: 'Website',
 						align: 'left',
 						value: 'website',
-						url: true
+						type: 'url'
 					},
 					{
 						text: 'Planten',

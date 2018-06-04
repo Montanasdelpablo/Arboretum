@@ -43,6 +43,7 @@ class PriorityController extends Controller
 
 		$created = Priority::create([
 			'name' => $request->input('name'),
+			'color' => $request->input('color'),
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s')
 		]);
@@ -90,6 +91,7 @@ class PriorityController extends Controller
 
 		$updated = $priority->update([
 			'name' => $request->input('name'),
+			'color' => $request->input('color'),
 			'updated_at' => date('Y-m-d H:i:s')
 		]);
 
@@ -145,6 +147,7 @@ class PriorityController extends Controller
 	{
 		$request->validate([
 			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'priorities' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:priorities',
+			'color' => 'required|string|min:7|max:7'
 		]);
 	}
 }

@@ -17,7 +17,7 @@
 }
 
 @media print {
-	.filler, .toolbar .btn, .datatable__actions, button, nav, .alert {
+	.filler, .toolbar, .btn, .datatable__actions, button, nav, .alert {
 		display: none !important;
 	}
 

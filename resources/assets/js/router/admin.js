@@ -4,6 +4,8 @@ const crossingIndex = () => import('@/pages/admin/crossing');
 const groupIndex = () => import('@/pages/admin/group');
 const monthIndex = () => import('@/pages/admin/month');
 const plantIndex = () => import('@/pages/admin/plant');
+const plantPrint = () => import('@/pages/admin/plant/print');
+const plantMap = () => import('@/pages/admin/plant/map');
 const priorityIndex = () => import('@/pages/admin/priority');
 const sexIndex = () => import('@/pages/admin/sex');
 const sizeIndex = () => import('@/pages/admin/size');
@@ -18,7 +20,6 @@ const nameIndex = () => import('@/pages/admin/name');
 const userIndex = () => import('@/pages/admin/user');
 const userShow = () => import('@/pages/admin/user/show');
 const manual = () => import('@/pages/admin/manual');
-const plantPrint = () => import('@/pages/admin/plant/print');
 
 const adminRoutes = [
 	{
@@ -76,6 +77,14 @@ const adminRoutes = [
 			title: 'Planten printen'
 		},
 		component: plantPrint
+	},
+	{
+		path: 'plants/map',
+		name: 'plantMap',
+		meta: {
+			title: 'Planten op de kaart'
+		},
+		component: plantMap
 	},
 	{
 		path: 'priorities',

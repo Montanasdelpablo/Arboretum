@@ -23,6 +23,7 @@
 				form: [
 					{
 						label: 'Naam',
+						name: 'name',
 						type: 'text',
 						required: true,
 					}

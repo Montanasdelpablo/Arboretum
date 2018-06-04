@@ -1,7 +1,7 @@
 <template>
     <resource
         :headers="headers"
-        name="Beland"
+        name="Belang"
         :form="form"
         controller="priority"
         :dataset="dataset"
@@ -23,9 +23,16 @@
 				form: [
 					{
 						label: 'Naam',
+                        name: 'name',
 						type: 'text',
 						required: true,
-					}
+					},
+                    {
+                    	label: 'Kaart kleur',
+                        name: 'color',
+                        type: 'color',
+                        required: true,
+                    }
 				],
 				headers: [
 					{
@@ -33,6 +40,12 @@
 						align: 'left',
 						value: 'name'
 					},
+                    {
+                    	text: 'Kaart kleur',
+                        align: 'left',
+                        value: 'color',
+                        type: 'color'
+                    },
 					{
 						text: 'Planten',
 						align: 'right',

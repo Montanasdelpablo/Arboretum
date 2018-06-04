@@ -236,7 +236,7 @@
 						text: 'Herplant',
 						align: 'right',
 						value: 'replant',
-                        boolean: true,
+                        type: 'bool',
 					},
 					{
 						text: 'Verplaatst',
@@ -247,7 +247,7 @@
 						text: 'Dood',
 						align: 'right',
 						value: 'dead',
-                        boolean: true
+                        type: 'bool'
 					},
 					{
 						text: 'Leverancier',

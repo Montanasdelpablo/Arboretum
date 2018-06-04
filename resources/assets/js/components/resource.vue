@@ -110,16 +110,16 @@
                 offset-y
                 absolute
             >
-            <v-list>
-                 <v-list-tile @click.nativ="editItem( 'context' )">
-                   <v-list-tile-title> Bewerken </v-list-tile-title>
-                 </v-list-tile>
-                 <v-list-tile @click="deleteFromContext( 'context' )">
-                   <v-list-tile-title > Verwijderen </v-list-tile-title>
-                 </v-list-tile>
-            </v-list>
+                <v-list>
+                    <v-list-tile @click.nativ="editItem( 'context' )">
+                        <v-list-tile-title> Bewerken</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile @click="deleteFromContext( 'context' )">
+                        <v-list-tile-title> Verwijderen</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
 
-          </v-menu>
+            </v-menu>
 
             <!-- Data table -->
             <v-data-table
@@ -146,45 +146,49 @@
                 </template>
 
                 <template slot="items" slot-scope="props">
-                        <td
-                            v-for="(header, i) in headers"
-                            v-if="header.value"
-                            :class="{'text-xs-right' : header.align === 'right'}"
-                            :key="i"
-                            @contextmenu.prevent="showContext(props.item, $event)"
-                        >
-                            <span v-if="props.item[header.value] && header.url">
+                    <td
+                        v-for="(header, i) in headers"
+                        v-if="header.value"
+                        :class="{'text-xs-right' : header.align === 'right'}"
+                        :key="i"
+                        @contextmenu.prevent="showContext(props.item, $event)"
+                    >
+                            <span v-if="header.type && header.type === 'url'">
                                 <a :href="props.item[header.value]" target="_blank">{{ props.item[header.value] }}</a>
                             </span>
 
-                            <span
-                                v-if="props.item[header.value] instanceof Object && props.item[header.value].length > 0"
-                            >
+                        <span
+                            v-if="props.item[header.value] instanceof Object && props.item[header.value].length > 0"
+                        >
                                 {{ props.item[header.value].map( item => item.name ).join( ', ' ) }}
                             </span>
 
-                            <span v-if="header.boolean">
-                                <v-icon v-if="props.item[header.value]" class="green--text">check_box</v-icon>
+                        <span v-if="header.type && header.type === 'bool' || header.type && header.type === 'boolean'">
+                            <v-icon v-if="props.item[header.value]" class="green--text">check_box</v-icon>
                             <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
-                            </span>
+                        </span>
 
-                            <span v-else>{{ props.item[header.value] }}</span>
-                        </td>
+                        <span v-if="header.type && header.type === 'color'">
+                            <div :style="`width: 25px; height: 25px; background: ${props.item[header.value]}`" />
+                        </span>
 
-                        <td v-else>
-                            <v-btn icon @click.native="editItem( props.item )">
-                                <v-icon color="green">edit</v-icon>
-                            </v-btn>
+                        <span v-else>{{ props.item[header.value] }}</span>
+                    </td>
 
-                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                                <v-icon color="red">delete</v-icon>
-                            </v-btn>
-                        </td>
+                    <td v-else>
+                        <v-btn icon @click.native="editItem( props.item )">
+                            <v-icon color="green">edit</v-icon>
+                        </v-btn>
+
+                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                            <v-icon color="red">delete</v-icon>
+                        </v-btn>
+                    </td>
                 </template>
             </v-data-table>
 
             <div class="text-xs-center">
-                <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+                <v-pagination v-model="pagination.page" :length="pages" total-visible="7"/>
             </div>
         </v-card>
 
@@ -222,38 +226,37 @@
 <script>
 	import barChart from '@/components/bar-chart';
 
-	export default
-	{
+	export default {
 		components: {
 			'bar-chart': barChart
 		},
 
-        props: {
-		    headers: {
-		    	type: Array,
-                required: true
-            },
-            name: {
-		    	type: String,
-                required: true,
-            },
-            controller: {
-		    	type: String,
-                required: true,
-            },
-            form: {
-		    	type: Array,
-                required: true,
+		props: {
+			headers: {
+				type: Array,
+				required: true
 			},
-            defaultForm: {
-		    	type: Object,
-                required: false
-            },
-            dataset: {
-		    	type: Array,
-                required: false,
-            }
-        },
+			name: {
+				type: String,
+				required: true,
+			},
+			controller: {
+				type: String,
+				required: true,
+			},
+			form: {
+				type: Array,
+				required: true,
+			},
+			defaultForm: {
+				type: Object,
+				required: false
+			},
+			dataset: {
+				type: Array,
+				required: false,
+			}
+		},
 
 		data()
 		{
@@ -262,25 +265,25 @@
 				pagination: {},
 				loading: false,
 				deleteItem: {},
-        contextMenu: false,
-        selected: {
-          item: {},
-        },
-        cMenu: {
-          x: 0,
-          y: 0,
-        },
+				contextMenu: false,
+				selected: {
+					item: {},
+				},
+				cMenu: {
+					x: 0,
+					y: 0,
+				},
 				itemEdit: null,
 				dialog: false,
-                formData: {},
+				formData: {},
 			}
 		},
 		computed: {
 			/**
-             * Get all errors
-             *
-             * @returns
-             */
+			 * Get all errors
+			 *
+			 * @returns
+			 */
 			errors()
 			{
 				return this.$store.getters.errors;
@@ -320,16 +323,16 @@
 				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
 			},
 
-
 			/**
 			 * Get the labels for the chart
 			 * @returns [labels]
 			 */
 			labels()
 			{
-				return this.items.map( item => {
+				return this.items.map( item =>
+				{
 					return item.name;
-				})
+				} )
 			},
 
 			/**
@@ -339,43 +342,48 @@
 			datasets()
 			{
 				if( this.dataset )
-                {
-				    return this.dataset.map( data => {
-                        return {
-                            label: data.label,
-                            backgroundColor: data.color ? data.color : '#fff',
-                            data: this.items.map( item => {
-                                return item[data.item];
-                            })
-                        }
-				    });
-                } else {
+				{
+					return this.dataset.map( data =>
+					{
+						return {
+							label: data.label,
+							backgroundColor: data.color ? data.color : '#fff',
+							data: this.items.map( item =>
+							{
+								return item[data.item];
+							} )
+						}
+					} );
+				} else
+				{
 					return [];
-                }
+				}
 			},
 		},
 		methods: {
-      showContext(item, e){
-        // reset
-        this.cMenu.x = 0;
-        this.cMenu.y = 0;
-        this.contextMenu = false;
+			showContext( item, e )
+			{
+				// reset
+				this.cMenu.x = 0;
+				this.cMenu.y = 0;
+				this.contextMenu = false;
 
-        // collect needed data
-        console.log("Item:" + JSON.stringify(item));
-        console.log("X Coordinate:" + e.clientX);
-        console.log("Y Coordinate:" + e.clientY);
+				// collect needed data
+				console.log( "Item:" + JSON.stringify( item ) );
+				console.log( "X Coordinate:" + e.clientX );
+				console.log( "Y Coordinate:" + e.clientY );
 
-        // set coordinates for context menu
-        this.cMenu.x = e.clientX;
-        this.cMenu.y = e.clientY;
+				// set coordinates for context menu
+				this.cMenu.x = e.clientX;
+				this.cMenu.y = e.clientY;
 
-        // set selected id
-        this.selected.item = item;
+				// set selected id
+				this.selected.item = item;
 
-        // set context menu to visible
-        this.contextMenu = true;
-      },
+				// set context menu to visible
+				this.contextMenu = true;
+			},
+
 			/**
 			 * Fetch items
 			 */
@@ -385,7 +393,7 @@
 				this.$store.dispatch( `${this.controller}Index`, this.pagination ).then( () =>
 				{
 					this.loading = false;
-				});
+				} );
 			},
 
 			/**
@@ -397,7 +405,8 @@
 
 				// Dispatch different function based for store or update
 				this.$store.dispatch(
-					this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`, this.formData ).then( () => {
+					this.itemEdit !== null ? `${this.controller}Update` : `${this.controller}Store`, this.formData ).then( () =>
+				{
 					if( this.errors.length === 0 )
 					{
 						this.data(); // Refresh data
@@ -410,21 +419,22 @@
 
 			editItem( item )
 			{
-        if(item == 'context'){
-          // reset
-          this.contextMenu = false;
+				if( item == 'context' )
+				{
+					// reset
+					this.contextMenu = false;
 
-          let newItem = {};
-          newItem.id = this.selected.item.id;
-          newItem.name = this.selected.item.name;
+					let newItem = {};
+					newItem.id = this.selected.item.id;
+					newItem.name = this.selected.item.name;
 
-          // find data for selected item
-          console.log(newItem);
-          item = newItem;
-        }
+					// find data for selected item
+					console.log( newItem );
+					item = newItem;
+				}
 				this.itemEdit = item.id;
 				this.formData = Object.assign( this.formData, item );
-        this.dialog = true; // Open dialog
+				this.dialog = true; // Open dialog
 			},
 
 			/**
@@ -441,24 +451,26 @@
 					this.deleteItem = {};
 				} );
 			},
-      deleteFromContext(test){
-        if(test == 'context'){
-          // reset
-          this.contextMenu = false;
-          let newItem = {};
-          newItem.id = this.selected.item.id;
-          newItem.name = this.selected.item.name;
+			deleteFromContext( test )
+			{
+				if( test == 'context' )
+				{
+					// reset
+					this.contextMenu = false;
+					let newItem = {};
+					newItem.id = this.selected.item.id;
+					newItem.name = this.selected.item.name;
 
-          // set newItem
-          this.deleteItem.id = newItem.id;
-          this.deleteItem.name = newItem.name;
+					// set newItem
+					this.deleteItem.id = newItem.id;
+					this.deleteItem.name = newItem.name;
 
-          console.log(this.deleteItem);
-        }
-      },
+					console.log( this.deleteItem );
+				}
+			},
 
 			/**
-             * Close dialog
+			 * Close dialog
 			 */
 			close()
 			{
@@ -468,12 +480,12 @@
 			},
 
 			/**
-             * Reset the formData to the default
+			 * Reset the formData to the default
 			 */
 			resetForm()
 			{
-            	this.formData = this.defaultForm ? this.defaultForm : {}
-            }
+				this.formData = this.defaultForm ? this.defaultForm : {}
+			}
 		},
 
 		watch: {
