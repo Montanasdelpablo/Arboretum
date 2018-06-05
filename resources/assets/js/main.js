@@ -14,10 +14,10 @@ Vue.use( Vuetify, {
 } );
 Vue.use( VueProgressiveImage );
 
-if( google_api.length === 0 )
+/*if( google_api.length === 0 )
 {
 	console.error('No Google developer token');
-}
+}*/
 
 Vue.component( 'c-image', () => import( '@/components/Image' ) );
 

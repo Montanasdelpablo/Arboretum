@@ -153,6 +153,7 @@
                             style="height: 500px; width: 100%; position: relative"
                             :center="{ lat: 53.361050, lng: 6.464806 }"
                             :zoom="18"
+                            :markers="marker"
                         />
                     </v-flex>
                 </v-layout>
