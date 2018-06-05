@@ -159,12 +159,12 @@
 							map_icon_label: '<span class="map-icon map-icon-florist"></span>'
 						} );
 
-						if(this.marker &&  marker.window )
+						/*if(this.marker &&  marker.window )
 						{
 							this.marker.addEvent( 'click', () => {
 								this.infoWindow( marker.window, this.marker );
 							} );
-						}
+						}*/
 					}
 				});
             },

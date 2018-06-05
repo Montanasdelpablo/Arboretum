@@ -9,6 +9,17 @@
             </v-flex>
         </v-layout>
 
+        <v-select
+            label="Belang"
+            v-model="priority"
+            autocomplete
+            :items="priorities"
+            item-text="name"
+            item-value="id"
+            no-data="Geen belangen gevonden gevonden"
+            cache-items
+        />
+
         <google-map
             :center="{ lat: 53.361050, lng: 6.464806 }"
             :zoom="17"
@@ -29,6 +40,13 @@
     		'google-map': GoogleMap
         },
 
+        data()
+        {
+        	return {
+				priority: null,
+			}
+        },
+
     	computed: {
     		plants()
             {
@@ -44,7 +62,7 @@
 			{
 				return this.plants.map( plant => {
 					if( plant.latitude && plant.latitude.indexOf( '.' ) > -1 && plant.longitude &&
-                        plant.longitude.indexOf( '.' ) > -1 )
+                        plant.longitude.indexOf( '.' ) > -1 && plant.priority.id === this.priority )
 					{
 						return {
 							color: plant.priority ? plant.priority.color : '#78B856',

@@ -140,15 +140,20 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <google-map
+                        <!--<google-map
                             :center="{ lat: 53.361050, lng: 6.464806 }"
                             :zoom="17"
                             map-id="plant"
                             type="satellite"
                             style="width:100%;height:500px"
                             :markers="marker"
-                        >
-                        </google-map>
+                        />-->
+
+                        <openlayer
+                            style="height: 500px; width: 100%; position: relative"
+                            :center="{ lat: 53.361050, lng: 6.464806 }"
+                            :zoom="18"
+                        />
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -157,12 +162,14 @@
 </template>
 
 <script>
-	import GoogleMap from '@/components/google-map';
+	/*import GoogleMap from '@/components/google-map';*/
+	import OpenLayer from '@/components/openlayer';
 
     export default
     {
     	components: {
-    	    'google-map': GoogleMap,
+    	    /*'google-map': GoogleMap,*/
+            'openlayer': OpenLayer
         },
 
     	computed: {

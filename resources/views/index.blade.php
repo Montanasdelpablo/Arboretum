@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
         <link rel="stylesheet" href="/css/print.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/map-icons@3.0.3/dist/css/map-icons.min.css">
+        <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
         <meta name="theme-color" content="#1976d2">
@@ -27,6 +28,7 @@
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key={{ config( 'app.GOOGLE_API' ) }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/map-icons@3.0.3/dist/js/map-icons.min.js"></script>
+        <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
         <script src="{{ asset( '/js/main.js' ) }}"></script>
         {{--<script src="/service-worker.js"></script>--}}
     </body>
