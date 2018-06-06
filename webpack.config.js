@@ -1,5 +1,5 @@
 const path = require('path'),
-	ExtractTextPlugin = require('extract-text-webpack-plugin'),
+	MiniCSSExtractPlugin = require('mini-css-extract-plugin'),
 	CleanWebpackPlugin = require('clean-webpack-plugin'),
 	{ VueLoaderPlugin } = require('vue-loader'),
 	swp = require('sw-precache-webpack-plugin');
@@ -27,93 +27,103 @@ module.exports = env => {
 					test: /\.vue$/,
 					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/'],
 					loader: 'vue-loader',
-					options: {
-						loaders: {
-							scss: [
-								'vue-style-loader',
-								'css-loader',
-								'sass-loader',
-							]
-						}
-					}
-				},
-				{
-					test: /\.css$/,
-					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/'],
-					use: [
-						'vue-style-loader',
-						{
-							loader: 'css-loader',
-							options: {
-								minimize: !env.dev,
-								modules: true,
-								localIdentName: '[local]_[hash:base64:8]'
-							}
-						}
-					]
 				},
 				{
 					test: /\.css$/,
 					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/js/'],
-					use: ExtractTextPlugin.extract( {
-						fallback: 'style-loader',
-						use: [
-							{
-								loader: 'css-loader',
-								options: {
-									minimize: !env.dev
+					oneOf: [
+						{
+							resourceQuery: '/module/',
+							use: [
+								'vue-style-loader',
+								{
+									loader: 'css-loader',
+									options: {
+										minimize: !env.dev,
+										modules: true,
+										localIdentName: '[local]_[hash:base64:8]'
+									}
 								}
-							}
-						]
-					})
+							]
+						},
+						{
+							use: [
+								MiniCSSExtractPlugin.loader,
+								{
+									loader: 'css-loader',
+									options: {
+										minimize: !env.dev,
+									}
+								}
+							]
+						}
+					]
 				},
 				{
 					test: /\.styl$/,
 					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/js/'],
-					use: ExtractTextPlugin.extract( {
-						fallback: 'style-loader',
-						use: [
-							{
-								loader: 'css-loader',
-								options: {
-									minimize: !env.dev
-								}
-							},
-							'stylus-loader'
-						]
-					})
-				},
-				{
-					test: /\.scss$/,
-					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/'],
-					use: [
-						'vue-style-loader',
+					oneOf: [
 						{
-							loader: 'css-loader',
-							options: {
-								minimize: !env.dev,
-								modules: true,
-								localIdentName: '[local]_[hash:base64:8]'
-							}
+					 		resourceQuery: '/module/',
+							use:[
+								'vue-style-loader',
+								{
+									loader: 'css-loader',
+									options: {
+										minimize: !env.dev,
+										modules: true,
+										localIdentName: '[local]_[hash:base64:8]'
+									}
+								},
+								'stylus-loader'
+							]
 						},
-						'sass-loader'
+						{
+							use: [
+								MiniCSSExtractPlugin.loader,
+								{
+									loader: 'css-loader',
+									options: {
+										minimize: !env.dev,
+									}
+								},
+								'stylus-loader'
+							]
+						}
 					]
 				},
 				{
 					test: /\.scss$/,
 					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/js/'],
-					use: ExtractTextPlugin.extract( {
-						fallback: 'style-loader',
-						use: [
-							{
-								loader: 'css-loader',
-								options: {
-									minimize: !env.dev
-								}
-							},
-							'sass-loader'
-						]
-					})
+					oneOf: [
+						{
+							resourceQuery: '/module/',
+							use: [
+								'vue-style-loader',
+								{
+									loader: 'css-loader',
+									options: {
+										minimize: !env.dev,
+										modules: true,
+										localIdentName: '[local]_[hash:base64:8]'
+									}
+								},
+								'sass-loader'
+							]
+						},
+						{
+							use: [
+								MiniCSSExtractPlugin.loader,
+								{
+									loader: 'css-loader',
+									options: {
+										minimize: !env.dev,
+									}
+								},
+								'sass-loader'
+							]
+						}
+					]
 				},
 				{
 					test: /\.(jpg|jpeg|gif|png|svg)$/,
@@ -150,7 +160,7 @@ module.exports = env => {
 		},
 		plugins: [
 			new VueLoaderPlugin(),
-			new ExtractTextPlugin( 'public/css/[name].css' ),
+			new MiniCSSExtractPlugin( {filename: 'public/css/[name].css'}),
 			new CleanWebpackPlugin(['./public/js', './public/fonts', './public/css'])
 			/*new swp({
 				cacheId: 'travel-app',

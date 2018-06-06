@@ -149,7 +149,7 @@
                             :markers="marker"
                         />-->
 
-                        <openlayer
+                        <map
                             style="height: 500px; width: 100%; position: relative"
                             :center="{ lat: 53.361050, lng: 6.464806 }"
                             :zoom="18"
@@ -164,13 +164,13 @@
 
 <script>
 	/*import GoogleMap from '@/components/google-map';*/
-	import OpenLayer from '@/components/openlayer';
+	import Map from '@/components/map';
 
     export default
     {
     	components: {
     	    /*'google-map': GoogleMap,*/
-            'openlayer': OpenLayer
+            Map
         },
 
     	computed: {

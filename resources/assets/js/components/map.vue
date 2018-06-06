@@ -1,27 +1,21 @@
 <template>
     <div>
-        <div id="map" class="map" tabindex="0" style="width: 100%; height: 100%; position: absolute" />
+        <div :id="id" class="map" tabindex="0" style="width: 100%; height: 100%; position: absolute" />
         <button id="zoom-out" @click.prevent="zoomOut">Zoom out</button>
         <button id="zoom-in" @click,prevent="zoomIn">Zoom in</button>
     </div>
 </template>
 
 <script>
-    import Map from 'ol/map';
-    import View from 'ol/view';
-    import Vector from 'ol/source/vector';
-    import Style from 'ol/style/style';
-    import Icon from 'ol/style/icon'
-    import Tile from 'ol/layer/tile';
-    import OSM from 'ol/source/osm';
-    import Feature from 'ol/feature';
-    import Point from 'ol/geom/point';
-    import Proj from 'ol/proj';
-    import Control from 'ol/control';
+    import L from 'leaflet';
 
     export default
     {
     	props: {
+    		name: {
+    			type: String,
+                required: true,
+            },
     		center: {
     			type: Object,
                 required: true,
@@ -33,23 +27,14 @@
             markers: {
     			type: Array,
                 required: false,
-            }
+            },
         },
 
         data()
         {
         	return {
         		map: null,
-                markerSource: new Vector(),
-                markerStyle: new Style({
-					image: new Icon( ({
-						anchor: [0.5, 46],
-						anchorXUnits: 'fraction',
-						anchorYUnits: 'pixels',
-						opacity: 0.75,
-						src: 'https://openlayers.org/en/v4.6.4/examples/data/icon.png'
-					}))
-				})
+				userLocation: null,
             }
         },
 
@@ -57,38 +42,20 @@
     	    zoomLevel()
             {
             	return this.zoom;
+            },
+
+            id()
+            {
+            	return `map-${this.name}`;
             }
         },
 
         methods: {
         	render()
             {
-				this.map = new Map({
-					layers: [
-						new Tile({
-							source: new OSM()
-						})
-					],
-					target: 'map',
-					controls: Control.defaults({
-						attributionOptions: {
-							collapsible: false
-						}
-					}),
-					view: new View({
-						center: Proj.fromLonLat( [this.center.lng, this.center.lat] ),
-						zoom: this.zoomLevel
-					})
-				});
-
-				console.log(1);
-				if( this.markers.length > 0 )
-                {
-					console.log(2);
-                	this.markers.map( marker => {
-                	    this.addMarker( marker.position );
-                    });
-                }
+				this.map = L.map( this.id, {
+					center: [this.center.lat, this.center.lng]
+                })
             },
 
             /**
@@ -126,7 +93,45 @@
 				});
 
 				this.markerSource.addFeature(iconFeature);
-            }
+            },
+
+			/**
+			 * Set user location
+			 */
+			getUserLocation()
+			{
+                /*
+                 * If the browser supports geolocation
+                 * Else give an error
+                 */
+				if( navigator.geolocation )
+				{
+					navigator.geolocation.getCurrentPosition(
+                        /*
+                         * If there is a position show the user position
+                         * Else give an error and set user position to the center of the map
+                         */
+						( position ) => {
+							console.log('user', position);
+							this.userLocation = position;
+						},
+						( error ) => {
+							console.error( error.message );
+							this.userLocation = this.center;
+						}
+					);
+				} else {
+					console.error('Browser doesn\'t support geolocation');
+				}
+			},
+
+			/**
+			 * Add user to map
+			 */
+			renderUserLocation()
+			{
+				this.getUserLocation();
+			},
         },
 
         mounted()
@@ -137,7 +142,7 @@
         watch: {
             markers()
             {
-            	this.render();
+            	//this.render();
             }
         }
 	};
