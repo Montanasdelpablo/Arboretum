@@ -149,9 +149,10 @@
                             :markers="marker"
                         />-->
 
-                        <map
+                        <leaflet
+                            name="plantShow"
                             style="height: 500px; width: 100%; position: relative"
-                            :center="{ lat: 53.361050, lng: 6.464806 }"
+                            :center="{ lat: 53.360787, lng: 6.465230 }"
                             :zoom="18"
                             :markers="marker"
                         />
@@ -164,13 +165,12 @@
 
 <script>
 	/*import GoogleMap from '@/components/google-map';*/
-	import Map from '@/components/map';
+	import Leaflet from '@/components/map';
 
     export default
     {
     	components: {
-    	    /*'google-map': GoogleMap,*/
-            Map
+            'leaflet' : Leaflet
         },
 
     	computed: {
@@ -193,7 +193,10 @@
 							position: {
 								lat: Number( this.plant.latitude ),
 								lng: Number( this.plant.longitude )
-							}
+							},
+                            icon: 'leaf',
+                            background: '#313D76',
+                            shape: 'marker'
 						}
 					];
 				} else {

@@ -20,24 +20,23 @@
             cache-items
         />
 
-        <google-map
-            :center="{ lat: 53.361050, lng: 6.464806 }"
-            :zoom="17"
-            map-id="plants"
-            type="satellite"
-            style="width:100%;height:400px"
+        <leaflet
+            :center="{ lat: 53.360787, lng: 6.465230 }"
+            :zoom="18"
+            name="plants"
+            style="width:100%;height:800px"
             :markers="markers"
         />
     </div>
 </template>
 
 <script>
-    import GoogleMap from '@/components/google-map';
+    import Leaflet from '@/components/map';
 
     export default
     {
     	components: {
-    		'google-map': GoogleMap
+    		'leaflet': Leaflet
         },
 
         data()
@@ -61,18 +60,11 @@
 			markers()
 			{
 				return this.plants.map( plant => {
-					if( plant.latitude && plant.latitude.indexOf( '.' ) > -1 && plant.longitude &&
-                        plant.longitude.indexOf( '.' ) > -1 && plant.priority.id === this.priority )
-					{
-						return {
-							color: plant.priority ? plant.priority.color : '#78B856',
-                            window: plant.id,
-							position: {
-								lat: Number( plant.latitude ),
-								lng: Number( plant.longitude ),
-							}
-						}
-					}
+                    return {
+                        background: plant.priority ? plant.priority.color : '#78B856',
+                        window: plant.id,
+                        position: { lat: 53.360787, lng: 6.465230 }
+                    }
 				});
 			}
         },

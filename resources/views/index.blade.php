@@ -6,9 +6,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">{{--
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/map-icons@3.0.3/dist/css/map-icons.min.css">--}}
-        <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+        <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/print.css">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
@@ -30,6 +30,7 @@
         <script src="https://cdn.jsdelivr.net/npm/map-icons@3.0.3/dist/js/map-icons.min.js"></script>
         <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>--}}
         <script src="{{ asset( '/js/main.js' ) }}"></script>
+        <script src="https://marslan390.github.io/BeautifyMarker/leaflet-beautify-marker-icon.js"></script>
         {{--<script src="/service-worker.js"></script>--}}
     </body>
 </html>

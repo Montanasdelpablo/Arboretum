@@ -1,13 +1,11 @@
 <template>
     <div>
-        <div :id="id" class="map" tabindex="0" style="width: 100%; height: 100%; position: absolute" />
-        <button id="zoom-out" @click.prevent="zoomOut">Zoom out</button>
-        <button id="zoom-in" @click,prevent="zoomIn">Zoom in</button>
+        <div :id="id" style="width: 100%; height: 100%; position: absolute; z-index: 1" />
     </div>
 </template>
 
 <script>
-    import L from 'leaflet';
+    import L from 'leaflet/dist/leaflet';
 
     export default
     {
@@ -53,46 +51,54 @@
         methods: {
         	render()
             {
+            	// Make sure there is no map set else remove the map
+            	if( this.map !== null )
+                {
+                	this.map.off();
+                	this.map.remove();
+                }
+
+            	// Initialise map
 				this.map = L.map( this.id, {
-					center: [this.center.lat, this.center.lng]
-                })
-            },
+					center: [ this.center.lat, this.center.lng ],
+                    zoom: this.zoomLevel
+                } );
 
-            /**
-             * Zoom out
-             */
-            zoomOut()
-            {
-				let view = this.map.getView();
-				let zoom = view.getZoom();
-				view.setZoom( zoom - 1 );
-            },
+				// Add tile image provider
+				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo( this.map );
 
-			/**
-             * Zoom in
-			 */
-			zoomIn()
-			{
-				let view = this.map.getView();
-				let zoom = view.getZoom();
-				view.setZoom( zoom + 1 );
+				// Add user to map
+				this.renderUserLocation();
+
+				if( this.markers.length > 0 )
+				{
+					this.markers.map( (marker, i) =>
+					{
+						console.log(i);
+						this.addMarker( marker );
+					} );
+				}
             },
 
 			/**
              * Add a marker to the map
              *
-			 * @param coords
+			 * @param marker
 			 */
-			addMarker( coords )
+			addMarker( marker )
             {
-            	console.log('add');
-				let iconFeature = new Feature({
-					geometry: new Point(
-						Proj.fromLonLat( coords.lng, coords.lat )
-                    ),
-				});
-
-				this.markerSource.addFeature(iconFeature);
+                L.marker( [ marker.position.lat, marker.position.lng ], {
+                	icon: L.BeautifyIcon.icon( {
+                        icon: marker.icon ? marker.icon : 'leaf',
+                        iconShape: marker.shape ? marker.shape : 'marker',
+                        borderWidth: 0,
+                        iconStyle: `width: 50px; height: 50px; background: ${marker.background ? marker.background : '#000'}`,
+                        innerIconStyle: 'color: white; margin-top: 14px; margin-left: -4px; font-size: 23px',
+                    })
+                })
+                    .addTo( this.map );
             },
 
 			/**
@@ -131,6 +137,13 @@
 			renderUserLocation()
 			{
 				this.getUserLocation();
+				let user = {
+					position: this.userLocation,
+					icon: 'male',
+					background: '#B71C1C',
+                };
+
+				this.addMarker( user );
 			},
         },
 
@@ -142,7 +155,7 @@
         watch: {
             markers()
             {
-            	//this.render();
+            	this.render();
             }
         }
 	};
