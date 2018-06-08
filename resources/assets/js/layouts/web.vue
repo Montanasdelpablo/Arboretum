@@ -44,8 +44,12 @@
                             </v-list-tile-content>
                         </v-list-tile>
 
-                        <v-list-tile v-for="(child, i) in item.children" :key="i"
-                                     :to="{ name: child.to, params: child.params }">
+                        <v-list-tile
+                            v-for="(child, i) in item.children"
+                            :key="i"
+                            :to="{ name: child.to, params: child.params }"
+                            :exact="exact( child.to )"
+                        >
                             <v-list-tile-action v-if="child.icon">
                                 <v-icon>{{ child.icon }}</v-icon>
                             </v-list-tile-action>
@@ -56,7 +60,12 @@
                         </v-list-tile>
                     </v-list-group>
 
-                    <v-list-tile v-else :key="item.title" :to="{ name: item.to }">
+                    <v-list-tile
+                        v-else
+                        :key="item.title"
+                        :to="{ name: item.to }"
+                        :exact="exact( item.to )"
+                    >
                         <v-list-tile-action>
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-tile-action>
@@ -128,7 +137,67 @@
 			title()
 			{
 				return `${this.$route.meta.title} | Arboretum Eenrum`;
-			}
+			},
+
+			/**
+			 * Determine if the route active should be exact
+			 *
+			 * @param name
+			 */
+			exact( name )
+			{
+				console.log(name);
+				let routes = this.flattenArray( this.allRoutes( this.$router.options.routes ) );
+				let path = routes.find( e => e.name === name );
+
+				if( path )
+				{
+					return path.path.slice( -1 ) === '/';
+				} else {
+					return false;
+                }
+			},
+
+			/**
+			 * Return all routes in array
+			 *
+			 * @param routes
+			 * @param path
+			 * @returns {Array}
+			 */
+			allRoutes( routes, path = '' )
+			{
+				let router = [];
+				routes.map( route => {
+					router.push({
+						name: route.name,
+						path: path + route.path,
+					});
+
+					if( route.children )
+					{
+						router.push(
+							this.allRoutes( route.children, route.path + ( path.slice( -1 ) === '/' ? '' : '/' ) )
+						);
+					}
+				});
+
+				return router;
+			},
+
+			/**
+			 * Flatten multidimensional array
+			 * @param array
+			 * @returns {*}
+			 */
+			flattenArray( array )
+			{
+				return array.reduce( ( acc, val) =>
+					Array.isArray( val ) ?
+						acc.concat( this.flattenArray( val ) )
+						:
+						acc.concat( val ), [] );
+			},
 		}
 	}
 </script>

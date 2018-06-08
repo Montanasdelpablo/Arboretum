@@ -13,7 +13,7 @@
 
             <v-toolbar-items>
                 <v-tooltip bottom>
-                    <v-btn slot="activator" flat :to="{ name: 'index' }">
+                    <v-btn slot="activator" flat :to="{ name: 'index' }" exact>
                         <v-icon>public</v-icon>
                     </v-btn>
                     <span>Naar website</span>
@@ -36,10 +36,8 @@
                         <!--TODO fix layout-->
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                <div v-if="userProfile && userProfile.first_name &&
-                                userProfile.last_name">
-                                    {{ userProfile.first_name }} {{ userProfile.last_name }}
-                                </div>
+                                <span v-if="userProfile && userProfile.first_name">{{ userProfile.first_name }}</span>
+                                <span v-if="userProfile && userProfile.last_name">{{ userProfile.last_name }}</span>
                             </v-list-tile-title>
                         </v-list-tile-content>
 
@@ -74,8 +72,7 @@
                         </v-flex>
                     </v-layout>
 
-                    <v-list-group v-else-if="item.children" v-model="item.model" :key="item.title"
-                                  :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
+                    <v-list-group v-else-if="item.children" v-model="item.model" :key="item.title" :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
                         <v-list-tile slot="activator">
                             <v-list-tile-content>
                                 <v-list-tile-title>
@@ -88,6 +85,7 @@
                             v-for="( child, i ) in item.children"
                             :key="i"
                             :to="{ name: child.to }"
+                            :exact="exact( child.to )"
                         >
                             <v-list-tile-action>
                                 <v-icon>{{ child.icon }}</v-icon>
@@ -99,7 +97,12 @@
                         </v-list-tile>
                     </v-list-group>
 
-                    <v-list-tile v-else :key="item.title" :to="{ name: item.to }">
+                    <v-list-tile
+                        v-else
+                        :key="item.title"
+                        :to="{ name: item.to }"
+                        :exact="exact( item.to )"
+                    >
                         <v-list-tile-action>
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-tile-action>
@@ -173,6 +176,65 @@
 				this.$store.commit( 'userLogout' );
 				this.$router.push( {name: 'index'} );
 			},
+
+			/**
+             * Determine if the route active should be exact
+             *
+			 * @param name
+			 */
+			exact( name )
+			{
+                let routes = this.flattenArray( this.allRoutes( this.$router.options.routes ) );
+                let path = routes.find( e => e.name === name ).path;
+
+				if( path && path.path )
+				{
+					return path.path.slice( -1 ) === '/';
+				} else {
+					return false;
+				}
+            },
+
+			/**
+             * Return all routes in array
+             *
+			 * @param routes
+			 * @param path
+			 * @returns {Array}
+			 */
+			allRoutes( routes, path = '' )
+            {
+            	let router = [];
+            	routes.map( route => {
+            	    router.push({
+            	        name: route.name,
+                        path: path + route.path,
+                    });
+
+            	    if( route.children )
+                    {
+                    	router.push(
+                    		this.allRoutes( route.children, route.path + ( path.slice( -1 ) === '/' ? '' : '/' ) )
+                        );
+                    }
+                });
+
+            	return router;
+            },
+
+			/**
+             * Flatten multidimensional array
+			 * @param array
+			 * @returns {*}
+			 */
+			flattenArray( array )
+            {
+				return array.reduce( ( acc, val) =>
+                    Array.isArray( val ) ?
+                        acc.concat( this.flattenArray( val ) )
+                    :
+                        acc.concat( val ), [] );
+            },
 
 			hideAlert()
 			{

@@ -28,7 +28,7 @@
                                         :src="`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}`"
                                         :alt="`QR-code ${plant.id}`"
                                     >
-                                    <span>Scan QR-code met smartphone of tablet</span>
+                                    <span>Scan QR-code met QR-code scanner app op smartphone of tablet</span>
                                 </v-tooltip>
                             </v-card-media>
 
