@@ -1,26 +1,3 @@
-const dashboard = () => import('@/pages/admin/index');
-const colorIndex = () => import('@/pages/admin/color');
-const crossingIndex = () => import('@/pages/admin/crossing');
-const groupIndex = () => import('@/pages/admin/group');
-const monthIndex = () => import('@/pages/admin/month');
-const plantIndex = () => import('@/pages/admin/plant');
-const plantPrint = () => import('@/pages/admin/plant/print');
-const plantMap = () => import('@/pages/admin/plant/map');
-const priorityIndex = () => import('@/pages/admin/priority');
-const sexIndex = () => import('@/pages/admin/sex');
-const sizeIndex = () => import('@/pages/admin/size');
-const specieIndex = () => import('@/pages/admin/specie');
-const supplierIndex = () => import('@/pages/admin/supplier');
-const synonymIndex = () => import('@/pages/admin/synonym');
-const treetypeIndex = () => import('@/pages/admin/treetype');
-const typeIndex = () => import('@/pages/admin/type');
-const subspecieIndex = () => import('@/pages/admin/subspecie');
-const winnerIndex = () => import('@/pages/admin/winner');
-const nameIndex = () => import('@/pages/admin/name');
-const userIndex = () => import('@/pages/admin/user');
-const userShow = () => import('@/pages/admin/user/show');
-const manual = () => import('@/pages/admin/manual');
-
 const adminRoutes = [
 	{
 		path: '',
@@ -28,7 +5,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Overzicht'
 		},
-		component: dashboard
+		component: () => import( '@/pages/admin' )
 	},
 	{
 		path: 'colors',
@@ -36,7 +13,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Kleuren',
 		},
-		component: colorIndex
+		component: () => import( '@/pages/admin/color' )
 	},
 	{
 		path: 'crossings',
@@ -44,7 +21,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Kruisingen'
 		},
-		component: crossingIndex
+		component: () => import( '@/pages/admin/crossing' )
 	},
 	{
 		path: 'groups',
@@ -52,7 +29,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Groepen'
 		},
-		component: groupIndex
+		component: () => import( '@/pages/admin/group' )
 	},
 	{
 		path: 'months',
@@ -60,7 +37,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Maanden'
 		},
-		component: monthIndex
+		component: () => import( '@/pages/admin/color' )
 	},
 	{
 		path: 'plants',
@@ -68,7 +45,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Planten'
 		},
-		component: plantIndex
+		component: () => import( '@/pages/admin/plant' )
 	},
 	{
 		path: 'plants/print',
@@ -76,7 +53,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Planten printen'
 		},
-		component: plantPrint
+		component: () => import( '@/pages/admin/plant/print' )
 	},
 	{
 		path: 'plants/map',
@@ -84,7 +61,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Planten op de kaart'
 		},
-		component: plantMap
+		component: () => import( '@/pages/admin/plant/map' )
 	},
 	{
 		path: 'priorities',
@@ -92,7 +69,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Belangen'
 		},
-		component: priorityIndex
+		component: () => import( '@/pages/admin/priority' )
 	},
 	{
 		path: 'sexes',
@@ -100,7 +77,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Geslachten'
 		},
-		component: sexIndex
+		component: () => import( '@/pages/admin/sex' )
 	},
 	{
 		path: 'sizes',
@@ -108,7 +85,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Groottes'
 		},
-		component: sizeIndex
+		component: () => import( '@/pages/admin/size' )
 	},
 	{
 		path: 'species',
@@ -116,7 +93,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Soorten'
 		},
-		component: specieIndex
+		component: () => import( '@/pages/admin/specie' )
 	},
 	{
 		path: 'suppliers',
@@ -124,7 +101,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Leveranciers'
 		},
-		component: supplierIndex
+		component: () => import( '@/pages/admin/supplier' )
 	},
 	{
 		path: 'synonyms',
@@ -132,7 +109,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Synoniemen'
 		},
-		component: synonymIndex
+		component: () => import( '@/pages/admin/synonym' )
 	},
 	{
 		path: 'treetypes',
@@ -140,7 +117,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Boom types'
 		},
-		component: treetypeIndex
+		component: () => import( '@/pages/admin/treetype' )
 	},
 	{
 		path: 'types',
@@ -148,7 +125,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Types'
 		},
-		component: typeIndex
+		component: () => import( '@/pages/admin/type' )
 	},
 	{
 		path: 'subspecies',
@@ -156,7 +133,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Variëteiten'
 		},
-		component: subspecieIndex
+		component: () => import( '@/pages/admin/subspecie' )
 	},
 	{
 		path: 'winners',
@@ -164,7 +141,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Winners'
 		},
-		component: winnerIndex
+		component: () => import( '@/pages/admin/winner' )
 	},
 	{
 		path: 'names',
@@ -172,7 +149,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Namen'
 		},
-		component: nameIndex
+		component: () => import( '@/pages/admin/name' )
 	},
 	{
 		path: 'users',
@@ -180,7 +157,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Gebruikers'
 		},
-		component: userIndex
+		component: () => import( '@/pages/admin/user' )
 	},
 	{
 		path: 'users/:id',
@@ -188,7 +165,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Profile'
 		},
-		component: userShow
+		component: () => import( '@/pages/admin/user/show' )
 	},
 	{
 		path: 'manual',
@@ -196,12 +173,14 @@ const adminRoutes = [
 		meta: {
 			title: 'Handleiding'
 		},
-		component: manual
+		component: () => import( '@/pages/admin/manual' )
 	},
 	{
 		path: 'test',
 		name: 'test',
-		meta: {title: 'Test'},
+		meta: {
+			title: 'Test'
+		},
 		component: () => import('@/pages/admin/test')
 	}
 ];

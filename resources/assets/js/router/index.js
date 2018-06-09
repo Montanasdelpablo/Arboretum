@@ -5,28 +5,23 @@ import Router from 'vue-router';
 import webRoutes from './web';
 import adminRoutes from './admin';
 
-// Define constants for layouts first than pages
-const web = () => import('@/layouts/web');
-
-const admin = () => import('@/layouts/admin');
-
 Vue.use( Router );
 
 const routes = [
 	{
 		path: '/',
-		component: web,
+		component: () => import('@/layouts/web'),
 		children: webRoutes
 	},
 	{
 		path: '/dashboard',
-		component: admin,
+		component: () => import('@/layouts/admin'),
 		props: true,
 		meta: {
 			title: 'Dashboard',
 			auth: true
 		},
-		children: adminRoutes
+		children: adminRoutes 
 	}
 ];
 

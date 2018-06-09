@@ -32,7 +32,10 @@
             <v-flex sm12 md3 v-if="plantIndex.length > 0" v-for="plant in plantIndex" :key="plant.id">
                 <v-card hover>
                     <!-- Image -->
-                    <v-card-media src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg" height="200px"/>
+                    <v-card-media 
+                        :src="plant.image ? plant.image : 'https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg'" 
+                        height="200px"
+                    />
 
                     <v-card-title>
                         <h3 class="title">

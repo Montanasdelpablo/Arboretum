@@ -1,33 +1,31 @@
 <template>
-    <div>
-        <span class="headline">Belang</span>
-        <v-layout row wrap>
-            <v-flex v-for="priority in priorities" xs1 :key="priority.id">
-                <div :style="`width: 25px; height: 25px; background: ${priority.color}; text-align: center;`">
-                    {{ priority.name }}
-                </div>
-            </v-flex>
-        </v-layout>
+   <v-layout row wrap>
+       <v-flex xs12>
+            <v-btn flat :to="{ name: 'plantIndex' }">
+                <v-icon>arrow_back</v-icon>
+                Terug
+            </v-btn>
+       </v-flex>
 
-        <v-select
-            label="Belang"
-            v-model="priority"
-            autocomplete
-            :items="priorities"
-            item-text="name"
-            item-value="id"
-            no-data="Geen belangen gevonden gevonden"
-            cache-items
-        />
+       <v-flex xs12>
+            <span class="headline">Belang</span>
+            <v-layout row wrap>
+                <v-flex v-for="priority in priorities" xs1 :key="priority.id">
+                    <div :style="`width: 25px; height: 25px; background: ${priority.color}; text-align: center;`">
+                        {{ priority.name }}
+                    </div>
+                </v-flex>
+            </v-layout>
 
-        <leaflet
-            :center="{ lat: 53.360787, lng: 6.465230 }"
-            :zoom="18"
-            name="plants"
-            style="width:100%;height:800px"
-            :markers="markers"
-        />
-    </div>
+            <leaflet
+                :center="{ lat: 53.360787, lng: 6.465230 }"
+                :zoom="18"
+                name="plants"
+                style="width:100%;height:800px"
+                :markers="markers"
+            />
+       </v-flex>
+    </v-layout>
 </template>
 
 <script>

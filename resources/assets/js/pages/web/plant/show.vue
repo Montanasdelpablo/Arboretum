@@ -16,7 +16,7 @@
                     <v-flex xs12 md6>
                         <v-card>
                             <v-card-media
-                                src="https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg"
+                                :src="plant.image ? plant.image : 'https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg'"
                                 height="200"
                             >
                                 <v-tooltip

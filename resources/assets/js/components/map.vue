@@ -74,9 +74,7 @@
 
 				if( this.markers.length > 0 )
 				{
-					this.markers.map( (marker, i) =>
-					{
-						console.log(i);
+					this.markers.map( marker => {
 						this.addMarker( marker );
 					} );
 				}
@@ -138,7 +136,7 @@
 			{
 				this.getUserLocation();
 				let user = {
-					position: this.userLocation,
+					position: this.userLocation ? this.userLocation : this.center,
 					icon: 'male',
 					background: '#B71C1C',
                 };

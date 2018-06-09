@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Plant;
-use Faker\Provider\Image;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class PlantController extends Controller
 {
@@ -36,18 +37,12 @@ class PlantController extends Controller
 	public function store( Request $request )
 	{
 		// Convert base64 image into file
-		if( !empty( $request->file( 'image' ) ) ) {
+		if( $request->filled( 'image' ) )
+		{
 			$request->merge( [ 'image' => $this->convertImage( $request->input( 'image' ) ) ] );
 		}
 
 		$this->validation( $request );
-
-		// Upload image and add path into request array
-		if( !empty( $request->file( 'image' ) ) ) {
-			$request->merge( [ 'image' => $this->convertImage( $request->file( 'image' ) ) ] );
-			$path = $request->file( 'image' )->store( 'plants' );
-			$request->merge( [ 'image' => $path ] );
-		}
 
 		$latin = $this->latinName( $request );
 
@@ -65,6 +60,7 @@ class PlantController extends Controller
 			'planted'         => $request->input( 'planted' ),
 			'note'            => $request->input( 'note' ),
 			'description'     => $request->input( 'description' ),
+			'image' 		  => $request->input( 'image' ),
 			'name_id'         => $request->input( 'name_id' ),
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
@@ -83,24 +79,66 @@ class PlantController extends Controller
 		] );
 
 		// Add bloom colors
-		if( !empty( $request->bloom_colors ) ) {
-			$created->bloom_colors()->attach( $request->bloom_colors );
+		if( $request->filled( 'bloom_colors' ) ) 
+		{
+			$colors = [];
+
+			/*
+			 * $request->bloom_color can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->bloom_colors as $bloom_color ) {
+				if( is_array( $bloom_color ) ) {
+					$colors[] = $bloom_color[ 'id' ];
+				} else {
+					$colors = $request->bloom_colors;
+				}
+			}
+
+			$created->bloom_colors()->attach( $colors );
 		}
 
 		// Add bloom date
-		if( !empty( $request->months ) ) {
-			$created->months()->attach( $request->months );
+		if( $request->filled( 'months' ) ) 
+		{
+			$months = [];
+
+			/*
+			 * $request->months can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->months as $month ) {
+				if( is_array( $month ) ) {
+					$months[] = $month[ 'id' ];
+				} else {
+					$months = $request->months;
+				}
+			}
+
+			$created->months()->attach( $months );
 		}
 
 		// Add bloom date
-		if( !empty( $request->macule_colors ) ) {
-			$created->macule_colors()->attach( $request->macule_colors );
-		}
+		if( $request->filled( 'macule_colors' ) ) 
+		{
+			$colors = [];
 
-		if( $created ) {
-			return response()->json( [ 'success' => true, 'message' => 'Plant created', 'result' => $created ], 201 );
-		} else {
-			return response()->json( [ 'success' => false, 'message' => 'Plant not created' ], 400 );
+			/*
+			 * $request->bloom_color can be an array of just numbers but can also be a multidimensional array containing all relative info for a color
+			 * Thus it needs to be checked if the color only is an integer or an array
+			 * If the color is an array only parse the id else parse the complete array
+			 */
+			foreach( $request->macule_colors as $macule_color ) {
+				if( is_array( $macule_color ) ) {
+					$colors[] = $macule_color[ 'id' ];
+				} else {
+					$colors = $request->macule_colors;
+				}
+			}
+
+			$created->macule_colors()->attach( $colors );
 		}
 	}
 
@@ -138,6 +176,16 @@ class PlantController extends Controller
 	 */
 	public function update( Request $request, Plant $plant )
 	{
+		// Convert base64 image into file
+		if( $request->filled( 'image' ) )
+		{
+			// Delete old file
+			File::delete( public_path().$plant->image );
+			$request->merge( [ 'image' => $this->convertImage( $request->input( 'image' ) ) ] );
+		} else {
+			$request->merge( [ 'image' => $plant->image ] );
+		}
+
 		$this->validation( $request );
 
 		$latin = $this->latinName( $request );
@@ -156,6 +204,7 @@ class PlantController extends Controller
 			'planted'         => $request->input( 'planted' ),
 			'note'            => $request->input( 'note' ),
 			'description'     => $request->input( 'description' ),
+			'image' 		  => $request->input('image'),
 			'name_id'         => $request->input( 'name_id' ),
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
@@ -173,7 +222,8 @@ class PlantController extends Controller
 		] );
 
 		// Add bloom colors
-		if( !empty( $request->bloom_colors ) ) {
+		if( $request->filled( 'bloom_colors' ) ) 
+		{
 			$colors = [];
 
 			/*
@@ -193,7 +243,8 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( !empty( $request->months ) ) {
+		if( $request->filled( 'months' ) ) 
+		{
 			$months = [];
 
 			/*
@@ -213,7 +264,8 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( !empty( $request->macule_colors ) ) {
+		if( $request->filled( 'macule_colors' ) ) 
+		{
 			$colors = [];
 
 			/*
@@ -249,6 +301,12 @@ class PlantController extends Controller
 	 */
 	public function destroy( Plant $plant )
 	{
+		// Delete image
+		if( !empty( $plant->image ) )
+		{
+			File::delete( public_path().$plant->image );
+		}
+
 		$destroyed = $plant->delete();
 
 		if( $destroyed ) {
@@ -295,7 +353,7 @@ class PlantController extends Controller
 			'planted'         => 'nullable|string|date',
 			'note'            => 'nullable|string',
 			'description'     => 'nullable|string',
-			'image'           => 'nullable|image',
+			'image'           => 'nullable',
 			'type_id'         => 'nullable|integer|exists:types,id',
 			'sex_id'          => 'nullable|integer|exists:sexes,id',
 			'specie_id'       => 'nullable|integer|exists:species,id',
@@ -321,12 +379,13 @@ class PlantController extends Controller
 	 *
 	 * @return bool|string
 	 */
-	private function convertImage( $image )
+	public function convertImage( $image )
 	{
-		$base64Str = substr( $image, strpos( $image, ',' ) + 1 );
-		print_r( base64_decode( $base64Str ) );
+		$pngUrl = '/images/'.md5( date( 'Y-m-d H:i:s' ) ).'.png';
+		$path = public_path().$pngUrl;
 
-		return base64_decode( $base64Str );
+		$uploaded = Image::make( file_get_contents( $image ) )->save( $path );
+		return $pngUrl;
 	}
 
 	/**

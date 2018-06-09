@@ -22,15 +22,9 @@
 
     <body>
         <div id="app"></div>
-{{--
-        <script>
-			var google_api = '{{ config( 'app.GOOGLE_API' ) }}';
-        </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ config( 'app.GOOGLE_API' ) }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/map-icons@3.0.3/dist/js/map-icons.min.js"></script>
-        <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>--}}
+
         <script src="{{ asset( '/js/main.js' ) }}"></script>
-        <script src="https://marslan390.github.io/BeautifyMarker/leaflet-beautify-marker-icon.js"></script>
+        <script src="//marslan390.github.io/BeautifyMarker/leaflet-beautify-marker-icon.js"></script>
         {{--<script src="/service-worker.js"></script>--}}
     </body>
 </html>

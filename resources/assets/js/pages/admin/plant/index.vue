@@ -364,17 +364,16 @@
                                     />
                                 </v-flex>
 
-                                <!--<v-flex xs12>
-                                    <v-text-field
-                                        v-model="form.image"
-                                        label="Afbeelding"
+                                <v-flex xs12>
+
+                                    <input
                                         type="file"
-                                        :error-message="errors.image"
-                                    />
-                                    <input type="file" @change="getImage" accept="image/*">
+                                        accept="image/*"
+                                        @change="getImage"
+                                    >
 
                                     <img :src="form.image" v-if="form.image" width="100%">
-                                </v-flex>-->
+                                </v-flex>
                             </v-layout>
                         </v-container>
                     </v-card-text>
@@ -422,7 +421,7 @@
                 absolute
             >
             <v-list>
-                 <v-list-tile @click.nativ="editItem( 'context' )">
+                 <v-list-tile @click.native="editItem( 'context' )">
                    <v-list-tile-title> Bewerken </v-list-tile-title>
                  </v-list-tile>
                  <v-list-tile @click="deleteFromContext( 'context' )">
@@ -491,7 +490,11 @@
                         <td>{{ props.item.note }}</td>
                         <td>{{ props.item.description }}</td>
                         <td>
-                            <v-btn icon @click.nativ="editItem( props.item )">
+                            <v-icon v-if="props.item.image" class="green--text">check_box</v-icon>
+                            <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
+                        </td>
+                        <td>
+                            <v-btn icon @click.native="editItem( props.item )">
                                 <v-icon color="green">edit</v-icon>
                             </v-btn>
 
@@ -504,8 +507,8 @@
             </v-data-table>
 
             <div class="text-xs-center">
-            <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
-        </div>
+                <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+            </div>
         </v-card>
 
         <!-- Delete dialog -->
@@ -539,14 +542,14 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
-        contextMenu: false,
-        selected: {
-          item: {},
-        },
-        cMenu: {
-          x: 0,
-          y: 0,
-        },
+                contextMenu: false,
+                selected: {
+                    item: {},
+                },
+                cMenu: {
+                    x: 0,
+                    y: 0,
+                },
 				defaultForm: {
 					dead: false,
 					replant: false,
@@ -620,7 +623,7 @@
 					{
 						text: 'Belang',
 						align: 'right',
-						value: 'priority.name'
+						value: 'priority.name' 
 					},
 					{
 						text: 'Plaats',
@@ -696,6 +699,11 @@
 						align: 'right',
 						value: 'description'
 					},
+                    {
+                    	text: 'Afbeelding',
+                        align: 'right',
+                        value: 'image'
+                    },
 					{
 						text: 'Acties',
 						align: 'left',
@@ -817,27 +825,23 @@
 			}
 		},
 		methods: {
-      showContext(item, e){
-        // reset
-        this.cMenu.x = 0;
-        this.cMenu.y = 0;
-        this.contextMenu = false;
+            showContext(item, e){
+                // reset
+                this.cMenu.x = 0;
+                this.cMenu.y = 0;
+                this.contextMenu = false;
 
-        // collect needed data
-        console.log("Item:" + JSON.stringify(item));
-        console.log("X Coordinate:" + e.clientX);
-        console.log("Y Coordinate:" + e.clientY);
+                // set coordinates for context menu
+                this.cMenu.x = e.clientX;
+                this.cMenu.y = e.clientY;
 
-        // set coordinates for context menu
-        this.cMenu.x = e.clientX;
-        this.cMenu.y = e.clientY;
+                // set selected id
+                this.selected.item = item;
 
-        // set selected id
-        this.selected.item = item;
+                // set context menu to visible
+                this.contextMenu = true;
+            },
 
-        // set context menu to visible
-        this.contextMenu = true;
-      },
 			/**
 			 * Fetch items
 			 */
