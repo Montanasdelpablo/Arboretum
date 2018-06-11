@@ -53,6 +53,8 @@ Download of clone vervolgens alle bestanden van de [repository](https://github.c
 7. In `.env` moet je vervolgens de gegevens voor de database invullen. Dit zijn de alle waarden waar `DB_` voor staat **behalve** `DB_CONNECTION`. Voor het testen van de API zullen dit andere gegevens zijn dan wanneer de API online staat bij de hosting.
 8. Run command: `php artisan config:clear`.
 9. Run command: `php artisan config:cache`.
+10. Wanneer je klaar bent met testen moet je in `.env`, `APP_DEBUG` op false zetten, het command `npm run prod1` uitvoeren en stap 8 en 9 opnieuw uitvoeren.
+11. Je kunt nu alles online zetten.
 
 Stap 8 en 9 zijn altijd nodig wanneer je gegevens wijzigd in het `.env` bestand.
 
@@ -79,11 +81,11 @@ Voor alle routes gaan we ervan uit dat deze de volgende prefix heeft: `voorbeeld
 Alle routes verwachten in ieder geval de volgende headers:
 
 	X-Requested-With: XMLHttpRequest
-	X-CSRF-token: window.token //optioneel
+	X-CSRF-token: //optioneel
 	Content-Type: application/json
 	Accept: application/json
 
-<Laravel error voorbeeld toevoegen>
+**Note** Alle resultaten die onder return staan zijn alleen als voorbeeld bedoeld. De daadwerkelijke return kan dus afwijken.
 
 ### Kleuren
 
@@ -3369,7 +3371,7 @@ Alle routes verwachten in ieder geval de volgende headers:
 ---
 
 - url: users/{id}
-- id: integer (id)
+- id: integer
 - method: put
 - body: first_name (required|string), last_name (required|string), email (required|email|string|exists:users), password (nullable|string|min:6) // base64 encoded so it is not plain text. After submit it is decoded for validation
 - extra header: `Authorization: Bearer <api_token>`

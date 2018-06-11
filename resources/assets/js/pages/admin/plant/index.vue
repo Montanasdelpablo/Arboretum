@@ -381,7 +381,8 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
+                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' :
+                                                                  'toevoegen' }}
                         </v-btn>
                     </v-card-actions>
                 </form>
@@ -420,16 +421,16 @@
                 offset-y
                 absolute
             >
-            <v-list>
-                 <v-list-tile @click.native="editItem( 'context' )">
-                   <v-list-tile-title> Bewerken </v-list-tile-title>
-                 </v-list-tile>
-                 <v-list-tile @click="deleteFromContext( 'context' )">
-                   <v-list-tile-title > Verwijderen </v-list-tile-title>
-                 </v-list-tile>
-            </v-list>
+                <v-list>
+                    <v-list-tile @click.native="editItem( 'context' )">
+                        <v-list-tile-title> Bewerken</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile @click="deleteFromContext( 'context' )">
+                        <v-list-tile-title> Verwijderen</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
 
-          </v-menu>
+            </v-menu>
 
             <!-- Data table -->
             <v-data-table
@@ -507,7 +508,7 @@
             </v-data-table>
 
             <div class="text-xs-center">
-                <v-pagination v-model="pagination.page" :length="pages" total-visible="7" />
+                <v-pagination v-model="pagination.page" :length="pages" total-visible="7"/>
             </div>
         </v-card>
 
@@ -542,14 +543,14 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
-                contextMenu: false,
-                selected: {
-                    item: {},
-                },
-                cMenu: {
-                    x: 0,
-                    y: 0,
-                },
+				contextMenu: false,
+				selected: {
+					item: {},
+				},
+				cMenu: {
+					x: 0,
+					y: 0,
+				},
 				defaultForm: {
 					dead: false,
 					replant: false,
@@ -623,7 +624,7 @@
 					{
 						text: 'Belang',
 						align: 'right',
-						value: 'priority.name' 
+						value: 'priority.name'
 					},
 					{
 						text: 'Plaats',
@@ -669,7 +670,7 @@
 						text: 'Bloeikleur',
 						align: 'right',
 						value: '',
-                        sortable: false
+						sortable: false
 					},
 					{
 						text: 'Bloeitijd',
@@ -699,11 +700,11 @@
 						align: 'right',
 						value: 'description'
 					},
-                    {
-                    	text: 'Afbeelding',
-                        align: 'right',
-                        value: 'image'
-                    },
+					{
+						text: 'Afbeelding',
+						align: 'right',
+						value: 'image'
+					},
 					{
 						text: 'Acties',
 						align: 'left',
@@ -742,9 +743,9 @@
 			pages()
 			{
 				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
-                {
-                	return 0;
-                }
+				{
+					return 0;
+				}
 
 				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
 			},
@@ -825,22 +826,23 @@
 			}
 		},
 		methods: {
-            showContext(item, e){
-                // reset
-                this.cMenu.x = 0;
-                this.cMenu.y = 0;
-                this.contextMenu = false;
+			showContext( item, e )
+			{
+				// reset
+				this.cMenu.x = 0;
+				this.cMenu.y = 0;
+				this.contextMenu = false;
 
-                // set coordinates for context menu
-                this.cMenu.x = e.clientX;
-                this.cMenu.y = e.clientY;
+				// set coordinates for context menu
+				this.cMenu.x = e.clientX;
+				this.cMenu.y = e.clientY;
 
-                // set selected id
-                this.selected.item = item;
+				// set selected id
+				this.selected.item = item;
 
-                // set context menu to visible
-                this.contextMenu = true;
-            },
+				// set context menu to visible
+				this.contextMenu = true;
+			},
 
 			/**
 			 * Fetch items
@@ -859,8 +861,8 @@
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () => {
-
+				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () =>
+				{
 					if( this.errors.length === 0 )
 					{
 						this.data(); // Refresh data
@@ -873,78 +875,81 @@
 
 			editItem( item )
 			{
-        if(item == 'context'){
-          // reset
-          this.contextMenu = false;
-          let newItem = {};
-          newItem.id = this.selected.item.id;
-          newItem.latin_name = this.selected.item.latin_name;
-          newItem.follow_number = this.selected.item.follow_number;
-          newItem.purchase_number = this.selected.item.purchase_number;
-          newItem.control = this.selected.item.control;
-          newItem.place = this.selected.item.place;
-          newItem.latitude = this.selected.item.latitude;
-          newItem.longitude = this.selected.item.longitude;
-          newItem.replant = this.selected.item.replant;
-          newItem.moved = this.selected.item.moved;
-          newItem.dead = this.selected.item.dead;
-          newItem.planted = this.selected.item.planted;
-          newItem.note = this.selected.item.note;
-          newItem.description = this.selected.item.description;
-          newItem.image = this.selected.item.image;
-          newItem.name_id = this.selected.item.name_id;
-          newItem.type_id = this.selected.item.type_id;
-          newItem.sex_id = this.selected.item.sex_id;
-          newItem.specie_id = this.selected.item.specie_id;
-          newItem.subspecie_id = this.selected.item.subspecie_id;
-          newItem.group_id = this.selected.item.group_id;
-          newItem.synonym_id = this.selected.item.synonym_id;
-          newItem.crossing_id = this.selected.item.crossing_id;
-          newItem.winner_id = this.selected.item.winner_id;
-          newItem.treetype_id = this.selected.item.treetype_id;
-          newItem.priority_id = this.selected.item.priority_id;
-          newItem.supplier_id = this.selected.item.supplier_id;
-          newItem.size_id = this.selected.item.size_id;
-          newItem.name = this.selected.item.name;
-          newItem.bloom_colors = this.selected.item.bloom_colors;
-          newItem.macule_colors = this.selected.item.macule_colors;
-          newItem.crossing = this.selected.item.crossing;
-          newItem.group = this.selected.item.group;
-          newItem.months = this.selected.item.months;
-          newItem.priority = this.selected.item.priority;
-          newItem.sex = this.selected.item.sex;
-          newItem.size = this.selected.item.size;
-          newItem.specie = this.selected.item.specie;
-          newItem.supplier = this.selected.item.supplier;
-          newItem.synonym = this.selected.item.synonym;
-          newItem.treetype = this.selected.item.treetype;
-          newItem.type = this.selected.item.type;
-          newItem.subspecie = this.selected.item.subspecie;
-          newItem.winner = this.selected.item.winner;
+				if( item === 'context' )
+				{
+					// reset
+					this.contextMenu = false;
+					let newItem = {};
+					newItem.id = this.selected.item.id;
+					newItem.latin_name = this.selected.item.latin_name;
+					newItem.follow_number = this.selected.item.follow_number;
+					newItem.purchase_number = this.selected.item.purchase_number;
+					newItem.control = this.selected.item.control;
+					newItem.place = this.selected.item.place;
+					newItem.latitude = this.selected.item.latitude;
+					newItem.longitude = this.selected.item.longitude;
+					newItem.replant = this.selected.item.replant;
+					newItem.moved = this.selected.item.moved;
+					newItem.dead = this.selected.item.dead;
+					newItem.planted = this.selected.item.planted;
+					newItem.note = this.selected.item.note;
+					newItem.description = this.selected.item.description;
+					newItem.image = this.selected.item.image;
+					newItem.name_id = this.selected.item.name_id;
+					newItem.type_id = this.selected.item.type_id;
+					newItem.sex_id = this.selected.item.sex_id;
+					newItem.specie_id = this.selected.item.specie_id;
+					newItem.subspecie_id = this.selected.item.subspecie_id;
+					newItem.group_id = this.selected.item.group_id;
+					newItem.synonym_id = this.selected.item.synonym_id;
+					newItem.crossing_id = this.selected.item.crossing_id;
+					newItem.winner_id = this.selected.item.winner_id;
+					newItem.treetype_id = this.selected.item.treetype_id;
+					newItem.priority_id = this.selected.item.priority_id;
+					newItem.supplier_id = this.selected.item.supplier_id;
+					newItem.size_id = this.selected.item.size_id;
+					newItem.name = this.selected.item.name;
+					newItem.bloom_colors = this.selected.item.bloom_colors;
+					newItem.macule_colors = this.selected.item.macule_colors;
+					newItem.crossing = this.selected.item.crossing;
+					newItem.group = this.selected.item.group;
+					newItem.months = this.selected.item.months;
+					newItem.priority = this.selected.item.priority;
+					newItem.sex = this.selected.item.sex;
+					newItem.size = this.selected.item.size;
+					newItem.specie = this.selected.item.specie;
+					newItem.supplier = this.selected.item.supplier;
+					newItem.synonym = this.selected.item.synonym;
+					newItem.treetype = this.selected.item.treetype;
+					newItem.type = this.selected.item.type;
+					newItem.subspecie = this.selected.item.subspecie;
+					newItem.winner = this.selected.item.winner;
 
-          // find data for selected item
-          console.log(newItem);
-          item = newItem;
-        }
+					// find data for selected item
+					console.log( newItem );
+					item = newItem;
+				}
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog
 			},
-      deleteFromContext(test){
-        if(test == 'context'){
-          // reset
-          this.contextMenu = false;
-          let newItem = {};
-          newItem.id = this.selected.item.id;
-          newItem.name = this.selected.item.email;
+			deleteFromContext( test )
+			{
+				if( test === 'context' )
+				{
+					// reset
+					this.contextMenu = false;
+					let newItem = {};
+					newItem.id = this.selected.item.id;
+					newItem.name = this.selected.item.email;
 
-          // set newItem
-          this.deleteItem.id = newItem.id;
-          this.deleteItem.name = ""
+					// set newItem
+					this.deleteItem.id = newItem.id;
+					this.deleteItem.name = "";
 
-          console.log(this.deleteItem);
-        }
-      },
+					console.log( this.deleteItem );
+				}
+			},
 			/**
 			 * Delete item
 			 *
@@ -1042,16 +1047,17 @@
 				this.$store.dispatch( 'monthIndex' );
 			},
 
-            getImage( e )
-            {
-            	let image = e.target.files[0];
-            	const reader = new FileReader();
+			getImage( e )
+			{
+				let image = e.target.files[0];
+				const reader = new FileReader();
 
-            	reader.readAsDataURL( image );
-            	reader.onload = e => {
-            		this.form.image = e.target.result;
-                }
-            }
+				reader.readAsDataURL( image );
+				reader.onload = e =>
+				{
+					this.form.image = e.target.result;
+				}
+			}
 		},
 
 		watch: {

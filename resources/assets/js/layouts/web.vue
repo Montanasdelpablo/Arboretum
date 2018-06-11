@@ -146,7 +146,6 @@
 			 */
 			exact( name )
 			{
-				console.log(name);
 				let routes = this.flattenArray( this.allRoutes( this.$router.options.routes ) );
 				let path = routes.find( e => e.name === name );
 

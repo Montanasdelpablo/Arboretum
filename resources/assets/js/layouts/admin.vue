@@ -178,64 +178,67 @@
 			},
 
 			/**
-             * Determine if the route active should be exact
-             *
+			 * Determine if the route active should be exact
+			 *
 			 * @param name
 			 */
 			exact( name )
 			{
-                let routes = this.flattenArray( this.allRoutes( this.$router.options.routes ) );
-                let path = routes.find( e => e.name === name ).path;
+				let routes = this.flattenArray( this.allRoutes( this.$router.options.routes ) );
+				let path = routes.find( e => e.name === name );
 
-				if( path && path.path )
+				if( path )
 				{
 					return path.path.slice( -1 ) === '/';
 				} else {
 					return false;
 				}
-            },
+			},
 
 			/**
-             * Return all routes in array
-             *
+			 * Return all routes in array
+			 *
 			 * @param routes
 			 * @param path
 			 * @returns {Array}
 			 */
 			allRoutes( routes, path = '' )
-            {
-            	let router = [];
-            	routes.map( route => {
-            	    router.push({
-            	        name: route.name,
-                        path: path + route.path,
-                    });
+			{
+				let router = [];
+				routes.map( route => {
+					router.push({
+						name: route.name,
+						path: path + route.path,
+					});
 
-            	    if( route.children )
-                    {
-                    	router.push(
-                    		this.allRoutes( route.children, route.path + ( path.slice( -1 ) === '/' ? '' : '/' ) )
-                        );
-                    }
-                });
+					if( route.children )
+					{
+						router.push(
+							this.allRoutes( route.children, route.path + ( path.slice( -1 ) === '/' ? '' : '/' ) )
+						);
+					}
+				});
 
-            	return router;
-            },
+				return router;
+			},
 
 			/**
-             * Flatten multidimensional array
+			 * Flatten multidimensional array
 			 * @param array
 			 * @returns {*}
 			 */
 			flattenArray( array )
-            {
+			{
 				return array.reduce( ( acc, val) =>
-                    Array.isArray( val ) ?
-                        acc.concat( this.flattenArray( val ) )
-                    :
-                        acc.concat( val ), [] );
-            },
+					Array.isArray( val ) ?
+						acc.concat( this.flattenArray( val ) )
+						:
+						acc.concat( val ), [] );
+			},
 
+			/**
+             * Hide a alert
+			 */
 			hideAlert()
 			{
 				this.$store.commit( 'hideAlert' );

@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md fluid style="margin-top:64px">
+    <v-container grid-list-md fluid>
         <v-layout row wrap>
             <v-flex xs12>
                 <v-layout row wrap>
@@ -10,7 +10,7 @@
                     </v-flex>
 
                     <v-flex xs12 md6>
-                        <p>Beschrijving{{ plant.description }}</p>
+                        {{ plant.description }}
                     </v-flex>
 
                     <v-flex xs12 md6>
@@ -140,15 +140,6 @@
                     </v-flex>
 
                     <v-flex xs12>
-                        <!--<google-map
-                            :center="{ lat: 53.361050, lng: 6.464806 }"
-                            :zoom="17"
-                            map-id="plant"
-                            type="satellite"
-                            style="width:100%;height:500px"
-                            :markers="marker"
-                        />-->
-
                         <leaflet
                             name="plantShow"
                             style="height: 500px; width: 100%; position: relative"
@@ -164,7 +155,6 @@
 </template>
 
 <script>
-	/*import GoogleMap from '@/components/google-map';*/
 	import Leaflet from '@/components/map';
 
     export default
@@ -174,18 +164,33 @@
         },
 
     	computed: {
-    		plant()
+			/**
+             * Get all plants
+             *
+			 * @returns {Document.plantShow|default.mutations.plantShow|default.actions.plantShow|default.getters.plantShow|default.methods.plantShow}
+			 */
+			plant()
             {
             	return this.$store.getters.plantShow;
             },
 
-            url()
-            {
+			/**
+             * Generate url for QR-code
+             *
+			 * @returns {string}
+			 */
+			url()
+			{
     		    return `${window.location.hostname}${this.$route.path}`;
             },
 
-            marker()
-            {
+			/**
+             * Generate the plant marker
+             *
+			 * @returns {*}
+			 */
+			marker()
+			{
             	if( this.plant.latitude && this.plant.longitude )
 				{
 					return [

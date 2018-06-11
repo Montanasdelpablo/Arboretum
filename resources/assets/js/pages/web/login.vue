@@ -103,6 +103,9 @@
 		},
 
 		methods: {
+			/**
+             * Login user
+			 */
 			login()
 			{
 				this.$store.dispatch( 'userLogin', this.loginForm ).then( () =>
@@ -117,19 +120,10 @@
 				} );
 			},
 
-			forgotPassword()
-			{
-				let user = {
-					email: this.forgotEmail
-				};
-
-				this.$store.dispatch( 'forgotPassword', user ).then( () =>
-				{
-					//this.data(); // Refresh data
-				} );
-			},
-
-            hideAlert()
+			/**
+             * Hide the alert
+			 */
+			hideAlert()
 			{
 				this.$store.commit( 'hideAlert' );
 			}

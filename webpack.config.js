@@ -39,7 +39,7 @@ module.exports = env => {
 								{
 									loader: 'css-loader',
 									options: {
-										minimize: !env.dev,
+										minimize: process.env.NODE_ENV == 'production',
 										modules: true,
 										localIdentName: '[local]_[hash:base64:8]'
 									}
@@ -52,7 +52,7 @@ module.exports = env => {
 								{
 									loader: 'css-loader',
 									options: {
-										minimize: !env.dev,
+										minimize: process.env.NODE_ENV == 'production',
 									}
 								}
 							]
@@ -70,7 +70,7 @@ module.exports = env => {
 								{
 									loader: 'css-loader',
 									options: {
-										minimize: !env.dev,
+										minimize: process.env.NODE_ENV == 'production',
 										modules: true,
 										localIdentName: '[local]_[hash:base64:8]'
 									}
@@ -84,7 +84,7 @@ module.exports = env => {
 								{
 									loader: 'css-loader',
 									options: {
-										minimize: !env.dev,
+										minimize: process.env.NODE_ENV == 'production',
 									}
 								},
 								'stylus-loader'
@@ -103,7 +103,7 @@ module.exports = env => {
 								{
 									loader: 'css-loader',
 									options: {
-										minimize: !env.dev,
+										minimize: process.env.NODE_ENV == 'production',
 										modules: true,
 										localIdentName: '[local]_[hash:base64:8]'
 									}
@@ -117,7 +117,7 @@ module.exports = env => {
 								{
 									loader: 'css-loader',
 									options: {
-										minimize: !env.dev,
+										minimize: process.env.NODE_ENV == 'production',
 									}
 								},
 								'sass-loader'
@@ -165,7 +165,7 @@ module.exports = env => {
 			/*new swp({
 				cacheId: 'travel-app',
 				filename: 'service-worker.js',
-				minify: !env.dev,
+				minify: process.env.NODE_ENV == 'production',
 				staticFileGlobs: [
 					'public/**.{css,eot,svg,ttf,woff,woff2,js,html}',
 					'https://maps.googleapis.com/maps/api/js?key=AIzaSyDuy_qF0zXiupeh0-NKW78LoCamYYFR6kU',

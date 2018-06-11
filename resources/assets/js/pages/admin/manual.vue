@@ -5,6 +5,16 @@
                 <h2 class="headline" id="top">Inhoudsopgave</h2>
 
                 <v-list>
+                    <v-list-tile href="#menu">
+                        <v-list-tile-content>
+                            <v-list-tile-title>Menu</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile href="#title-bar">
+                        <v-list-tile-content>
+                            <v-list-tile-title>Titel balk</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
                     <v-list-tile href="#priority">
                         <v-list-tile-content>
                             <v-list-tile-title>Belang</v-list-tile-title>
@@ -94,6 +104,36 @@
             </v-flex>
 
             <v-flex xs12 md6>
+                <section id="menu">
+                    <h1 class="display-4">Menu</h1>
+
+                    <p style="margin-top:32px">
+                        Om het menu te openen klik je op het hamburger menu wat altijd linksboven in de hoek staat.
+                        Via het menu kun je naar de andere pagina's.
+                        <img src="@/images/menu.png" alt="menu">
+                    </p>
+                </section>
+
+                <section id="title-bar">
+                    <h1 class="display-4">Titelbalk</h1>
+
+                    <p style="margin-top:32px">
+                        In de titel balk staat naast het menu en de title nog een of meerdere andere iconen.
+                    </p>
+
+                    <p>
+                        Wanneer je in het dashboard bent staan hier de iconen voor de handleiding en om terug te gaan
+                        naar de website.
+                        <img src="@/images/dashboard.png" alt="Dashboard title bar" width="100%">
+                    </p>
+
+                    <p>
+                        Wanneer je op de website bent staan hier de iconen om aan te melden of wanneer aangemeld om
+                        naar het dashboard te gaan. Afhankelijk van of je aangemeld bent veranderd het icoon ook.
+                        <img src="@/images/website.png" alt="Website title bar" width="100%">
+                    </p>
+                </section>
+
                 <section id="priority">
                     <h1 class="display-4">Belangen</h1>
 

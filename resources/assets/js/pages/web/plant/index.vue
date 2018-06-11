@@ -24,26 +24,43 @@
                     :items="ascending"
                 />
             </v-flex>
+
+            <v-btn flat color="primary" :to="{ name: 'webPlantPrint' }">
+                <v-icon>print</v-icon>
+                Planten afdrukken
+            </v-btn>
         </v-layout>
 
         <v-divider />
 
         <v-layout row wrap>
             <v-flex sm12 md3 v-if="plantIndex.length > 0" v-for="plant in plantIndex" :key="plant.id">
-                <v-card hover>
+                <v-card hover :to="{ name: 'plantShow', params: { id: plant.id }}">
                     <!-- Image -->
-                    <v-card-media 
-                        :src="plant.image ? plant.image : 'https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg'" 
+                    <v-card-media
+                        :src="plant.image ? plant.image : 'https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg'"
                         height="200px"
-                    />
+                        class="white--text"
+                    >
+                        <v-container fill-height fluid>
+                            <v-layout fill-height>
+                                <v-flex xs12 align-end flexbox>
+                                    <span class="headline">{{ plant.latin_name }}</span>
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card-media>
 
-                    <v-card-title>
-                        <h3 class="title">
-                            {{ plant.latin_name }}
-                        </h3>
-                    </v-card-title>
-
-                    <v-card-text>{{ plant.description }}</v-card-text>
+                    <v-card-text>
+                        <v-list>
+                            <v-list-tile v-if="plant.name">
+                                <v-list-tile-title>Nederlandse naam: {{ plant.name.name }}</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile v-if="plant.place">
+                                <v-list-tile-title>Locatie: {{ plant.place }}</v-list-tile-title>
+                            </v-list-tile>
+                        </v-list>
+                    </v-card-text>
 
                     <v-card-actions>
                         <v-btn
@@ -159,6 +176,11 @@
         },
 
 		computed: {
+			/**
+             * Get all plants based on the filter
+             *
+			 * @returns {*}
+			 */
 			plantIndex()
 			{
 				let plants = this.$store.getters.plantIndex,
@@ -176,21 +198,40 @@
 					{
 						if( a[orderBy] != null && b[orderBy] != null )
 						{
+                            if( orderBy.indexOf('.') > -1 )
+                            {
+                                orderBy = orderBy.split('.');
+                                let valueA = a[orderBy[0]][orderBy[1]].toUpperCase();
+                                let valueB = b[orderBy[0]][orderBy[1]].toUpperCase();
 
-							let valueA = a[orderBy].toUpperCase();
-							let valueB = b[orderBy].toUpperCase();
+								if( valueA < valueB )
+								{
+									return -1
+								}
 
-							if( valueA < valueB )
+								if( valueA > valueB )
+								{
+									return 1
+								}
+
+								return 0;
+                            } else
 							{
-								return -1
-							}
+								let valueA = a[orderBy].toUpperCase();
+								let valueB = b[orderBy].toUpperCase();
 
-							if( valueA > valueB )
-							{
-								return 1
-							}
+								if( valueA < valueB )
+								{
+									return -1
+								}
 
-							return 0;
+								if( valueA > valueB )
+								{
+									return 1
+								}
+
+								return 0;
+							}
 						}
 						return false;
 					} );
@@ -206,8 +247,12 @@
 				return plants;
 			},
 
-            pages()
-            {
+			/**
+             * Calculate the amount of pages
+			 * @returns {number}
+			 */
+			pages()
+			{
 				return Math.ceil( this.$store.getters.plantIndex.length / this.form.rowsPerPage );
             }
 		},

@@ -110,7 +110,7 @@
                  */
 				if( navigator.geolocation )
 				{
-					navigator.geolocation.getCurrentPosition(
+					navigator.geolocation.watchPosition(
                         /*
                          * If there is a position show the user position
                          * Else give an error and set user position to the center of the map

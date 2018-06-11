@@ -1,11 +1,5 @@
 import { store } from '@/store/store';
 
-const index = () => import('@/pages/web/index');
-
-const plantIndex = () => import('@/pages/web/plant/index');
-const plantShow = () => import('@/pages/web/plant/show');
-const login = () => import('@/pages/web/login');
-
 const webRoutes = [
 	{
 		path: '',
@@ -13,7 +7,7 @@ const webRoutes = [
 		meta: {
 			title: 'Home'
 		},
-		component: index
+		component: () => import('@/pages/web/index')
 	},
 	{
 		path: 'planten',
@@ -21,7 +15,7 @@ const webRoutes = [
 		meta: {
 			title: 'Planten'
 		},
-		component: plantIndex,
+		component: () => import('@/pages/web/plant'),
 	},
 	{
 		path: 'planten/:id',
@@ -29,7 +23,15 @@ const webRoutes = [
 		meta: {
 			title: 'Plant'
 		},
-		component: plantShow
+		component: () => import('@/pages/web/plant/show')
+	},
+	{
+		path: 'planten/print',
+		name: 'webPlantPrint',
+		meta: {
+			title: 'Planten afdrukken'
+		},
+		component: () => import('@/pages/web/plant/print')
 	},
 	{
 		path: 'locatie',
@@ -53,7 +55,7 @@ const webRoutes = [
 				next();
 			}
 		},
-		component: login
+		component: () => import('@/pages/web/login')
 	},
 
 ];
