@@ -107,14 +107,12 @@ class UserController extends Controller
 			'updated_at' => date('Y-m-d H:i:s')
 		] );
 
-		//return $user;
-		if( empty( $user = Auth::user() ) )
+
+		if( $user )
 		{
-			// Return response 201 with data
-			return response()->json( [ 'success' => true, 'message' => 'Created account succesfully' ], 201 );
+			return response()->json( [ 'success' => true, 'message' => 'Created account succesfully', 'result' => $user ], 201 );
 		} else
 		{
-			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'Not created account' ], 400 );
 		}
 	}
@@ -269,7 +267,7 @@ class UserController extends Controller
 	{
 		$results = User::where( 'email', 'like', '%'.$search.'%' )
 			->orWhere( 'first_name', 'like', '%'.$search.'%' )
-			->orRhere( 'last_name', 'like', '%'.$search.'%' )
+			->orWhere( 'last_name', 'like', '%'.$search.'%' )
 			->orWhere( 'id', $search )
 			->get();
 

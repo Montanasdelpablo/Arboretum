@@ -18,7 +18,7 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 	Route::get( '/crossings/{crossing}/edit', 'CrossingController@edit' );
 	Route::put( '/crossings/{crossing}', 'CrossingController@update' );
 	Route::get( '/crossings/{search}/search', 'CrossingController@search' );
-	Route::delete( '/colors/{color}', 'ColorController@destroy' );
+	Route::delete( '/crossings/{crossing}', 'CrossingController@destroy' );
 
 	// Groups
 	Route::get( '/groups', 'GroupController@index' );
@@ -27,7 +27,7 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 	Route::get( '/groups/{group}/edit', 'GroupController@edit' );
 	Route::put( '/groups/{group}', 'GroupController@update' );
 	Route::get( '/groups/{search}/search', 'GroupController@search' );
-	Route::delete( '/colors/{color}', 'ColorController@destroy' );
+	Route::delete( '/groups/{group}', 'GroupController@destroy' );
 
 	// Months
 	Route::get( '/months', 'MonthController@index' );
@@ -118,13 +118,13 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 	Route::delete( '/types/{type}', 'TypeController@destroy' );
 
 	// Subspecies
-	Route::get( '/subspecies', 'subspecieController@index' );
-	Route::post( '/subspecies', 'subspecieController@store' );
-	Route::get( '/subspecies/{subspecie}', 'subspecieController@show' );
-	Route::get( '/subspecies/{subspecie}/edit', 'subspecieController@edit' );
-	Route::put( '/subspecies/{subspecie}', 'subspecieController@update' );
-	Route::get( '/subspecies/{search}/search', 'subspecieController@search' );
-	Route::delete( '/subspecies/{subspecie}', 'subspecieController@destroy' );
+	Route::get( '/subspecies', 'SubspecieController@index' );
+	Route::post( '/subspecies', 'SubspecieController@store' );
+	Route::get( '/subspecies/{subspecie}', 'SubspecieController@show' );
+	Route::get( '/subspecies/{subspecie}/edit', 'SubspecieController@edit' );
+	Route::put( '/subspecies/{subspecie}', 'SubspecieController@update' );
+	Route::get( '/subspecies/{search}/search', 'SubspecieController@search' );
+	Route::delete( '/subspecies/{subspecie}', 'SubspecieController@destroy' );
 
 	// Winners
 	Route::get( '/winners', 'WinnerController@index' );
@@ -161,4 +161,4 @@ Route::get( '/plants', 'PlantController@index' );
 Route::post( '/login', 'UserController@login' );
 Route::post( '/forgotpassword', 'UserController@forgotpw' );
 Route::get( '/plants/{plant}', 'PlantController@show' );
-Route::post( '/plants/import', 'PlantController@import' );
+//Route::post( '/plants/import', 'PlantController@import' );

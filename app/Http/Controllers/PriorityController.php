@@ -147,7 +147,7 @@ class PriorityController extends Controller
 	{
 		$request->validate([
 			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'priorities' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:priorities',
-			'color' => 'required|string|min:7|max:7'
+			'color' => 'required|string|min:4|max:7'
 		]);
 	}
 }

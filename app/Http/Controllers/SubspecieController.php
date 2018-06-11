@@ -147,7 +147,7 @@ class SubspecieController extends Controller
 	private function validation( Request $request )
 	{
 		$request->validate([
-			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'varieties' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:varieties',
+			'name' => $request->input( 'id' ) ? [ 'required', 'string', Rule::unique( 'subspecies' )->ignore( $request->input( 'id' ) ) ] : 'required|string|unique:subspecies',
 		]);
 	}
 }

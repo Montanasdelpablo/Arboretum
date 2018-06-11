@@ -16,3 +16,4 @@ yarn-error.log
 /public/images
 package-lock.json
 /public/mix-manifest.json
+/.git

@@ -79,7 +79,7 @@ class PlantController extends Controller
 		] );
 
 		// Add bloom colors
-		if( $request->filled( 'bloom_colors' ) ) 
+		if( $request->filled( 'bloom_colors' ) )
 		{
 			$colors = [];
 
@@ -100,7 +100,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'months' ) ) 
+		if( $request->filled( 'months' ) )
 		{
 			$months = [];
 
@@ -121,7 +121,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'macule_colors' ) ) 
+		if( $request->filled( 'macule_colors' ) )
 		{
 			$colors = [];
 
@@ -139,6 +139,12 @@ class PlantController extends Controller
 			}
 
 			$created->macule_colors()->attach( $colors );
+		}
+
+		if( $created ) {
+			return response()->json( [ 'success' => true, 'message' => 'Plant created', 'result' => $created ], 201 );
+		} else {
+			return response()->json( [ 'success' => false, 'message' => 'Plant not created' ], 400 );
 		}
 	}
 
@@ -222,7 +228,7 @@ class PlantController extends Controller
 		] );
 
 		// Add bloom colors
-		if( $request->filled( 'bloom_colors' ) ) 
+		if( $request->filled( 'bloom_colors' ) )
 		{
 			$colors = [];
 
@@ -243,7 +249,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'months' ) ) 
+		if( $request->filled( 'months' ) )
 		{
 			$months = [];
 
@@ -264,7 +270,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'macule_colors' ) ) 
+		if( $request->filled( 'macule_colors' ) )
 		{
 			$colors = [];
 
@@ -325,7 +331,7 @@ class PlantController extends Controller
 	 */
 	public function search( $search )
 	{
-		$results = Plant::where( 'name', 'like', '%'.$search.'%' )
+		$results = Plant::where( 'name_id', 'like', '%'.$search.'%' )
 			->orWhere( 'id', $search )
 			->get();
 
@@ -341,8 +347,8 @@ class PlantController extends Controller
 	{
 		$request->validate( [
 			'name_id'         => 'nullable|integer|exists:names,id',
-			'follow_number'   => 'integer',
-			'purchase_number' => 'integer',
+			'follow_number'   => 'integer|unique:plants,follow_number',
+			'purchase_number' => 'integer|unique:plants,purchase_number',
 			'control'         => 'nullable|string|date',
 			'place'           => 'string',
 			'latitude'        => 'string',
