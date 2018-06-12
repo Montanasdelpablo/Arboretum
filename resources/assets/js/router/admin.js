@@ -48,6 +48,14 @@ const adminRoutes = [
 		component: () => import( '@/pages/admin/plant' )
 	},
 	{
+		path: 'plants/:id',
+		name: 'plantShow',
+		meta: {
+			title: 'Plant'
+		},
+		component: () => import( '@/pages/admin/plant/show' )
+	},
+	{
 		path: 'plants/print',
 		name: 'plantPrint',
 		meta: {

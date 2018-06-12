@@ -122,6 +122,11 @@ export default
 		 */
 		plantShow( context, id )
 		{
+			if( isNaN( id ) )
+			{
+				return false;
+			}
+
 			return fetch( `/api/plants/${id}`, {
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest',

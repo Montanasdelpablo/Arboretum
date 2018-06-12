@@ -11,7 +11,7 @@
 
                     <v-flex xs12 md6>
                         <v-flex xs12>
-                            <v-btn color="primary" :to="{ name: 'webPlantIndex' }">
+                            <v-btn color="primary" :to="{ name: 'plantIndex' }">
                                 <v-icon>arrow_back</v-icon>
                                 Terug
                             </v-btn>
@@ -166,41 +166,41 @@
 <script>
 	import Leaflet from '@/components/map';
 
-    export default
-    {
-    	components: {
-            'leaflet' : Leaflet
-        },
+	export default
+	{
+		components: {
+			'leaflet' : Leaflet
+		},
 
-    	computed: {
+		computed: {
 			/**
-             * Get all plants
-             *
+			 * Get all plants
+			 *
 			 * @returns {Document.plantShow|default.mutations.plantShow|default.actions.plantShow|default.getters.plantShow|default.methods.plantShow}
 			 */
 			plant()
-            {
-            	return this.$store.getters.plantShow;
-            },
+			{
+				return this.$store.getters.plantShow;
+			},
 
 			/**
-             * Generate url for QR-code
-             *
+			 * Generate url for QR-code
+			 *
 			 * @returns {string}
 			 */
 			url()
 			{
-    		    return `${window.location.hostname}${this.$route.path}`;
-            },
+				return `${window.location.hostname}${this.$route.path}`;
+			},
 
 			/**
-             * Generate the plant marker
-             *
+			 * Generate the plant marker
+			 *
 			 * @returns {*}
 			 */
 			marker()
 			{
-            	if( this.plant.latitude && this.plant.longitude )
+				if( this.plant.latitude && this.plant.longitude )
 				{
 					return [
 						{
@@ -208,27 +208,27 @@
 								lat: Number( this.plant.latitude ),
 								lng: Number( this.plant.longitude )
 							},
-                            icon: 'leaf',
-                            background: '#313D76',
-                            shape: 'marker'
+							icon: 'leaf',
+							background: '#313D76',
+							shape: 'marker'
 						}
 					];
 				} else {
-            		return [];
-                }
-            }
-        },
+					return [];
+				}
+			}
+		},
 
-        methods: {
-    		plantShow()
-            {
-            	this.$store.dispatch( 'plantShow', this.$route.params.id );
-            }
-        },
+		methods: {
+			plantShow()
+			{
+				this.$store.dispatch( 'plantShow', this.$route.params.id );
+			}
+		},
 
-        mounted()
-        {
-        	this.plantShow();
-        }
-    }
+		mounted()
+		{
+			this.plantShow();
+		}
+	}
 </script>

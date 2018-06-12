@@ -21,7 +21,7 @@
                 :center="{ lat: 53.360787, lng: 6.465230 }"
                 :zoom="18"
                 name="plants"
-                style="width:100%;height:800px"
+                style="width:100%;height:800px;position:relative"
                 :markers="markers"
             />
        </v-flex>
@@ -60,8 +60,17 @@
 				return this.plants.map( plant => {
                     return {
                         background: plant.priority ? plant.priority.color : '#78B856',
-                        window: plant.id,
-                        position: { lat: 53.360787, lng: 6.465230 }
+                        position: plant.latitude.indexOf('.') > -1 ? { lat: plant.latitude, lng: plant.longitude } : { lat: 53.360787, lng: 6.465230 },
+                        window: `
+                            <h1 class="headline">${plant.latin_name}</h1>
+
+                            <img src="${plant.image ? plant.image : 'https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg'}" alt="${plant.latin_name}" width="100%">
+
+                            <ul style="list-style-type: none">
+                                <li><strong>Locatie</strong>: ${plant.place}</li>
+                                <li><strong>Url</strong>: <a href="/dashboard/plants/${plant.id}" >${plant.latin_name}</a></li>
+                            </ul>
+                        `
                     }
 				});
 			}

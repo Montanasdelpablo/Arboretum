@@ -35,7 +35,7 @@
 
         <v-layout row wrap>
             <v-flex sm12 md3 v-if="plantIndex.length > 0" v-for="plant in plantIndex" :key="plant.id">
-                <v-card hover :to="{ name: 'plantShow', params: { id: plant.id }}">
+                <v-card hover :to="{ name: 'webPlantShow', params: { id: plant.id }}">
                     <!-- Image -->
                     <v-card-media
                         :src="plant.image ? plant.image : 'https://www.haagplanten.net/media/catalog/category/Rhododendron.jpg'"
@@ -66,7 +66,7 @@
                         <v-btn
                             flat
                             color="secondary"
-                           :to="{ name: 'plantShow', params: { id: plant.id }}"
+                           :to="{ name: 'webPlantShow', params: { id: plant.id }}"
                         >
                             Lees meer
                         </v-btn>

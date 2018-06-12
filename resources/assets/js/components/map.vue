@@ -87,16 +87,36 @@
 			 */
 			addMarker( marker )
             {
-                L.marker( [ marker.position.lat, marker.position.lng ], {
-                	icon: L.BeautifyIcon.icon( {
-                        icon: marker.icon ? marker.icon : 'leaf',
-                        iconShape: marker.shape ? marker.shape : 'marker',
-                        borderWidth: 0,
-                        iconStyle: `width: 50px; height: 50px; background: ${marker.background ? marker.background : '#000'}`,
-                        innerIconStyle: 'color: white; margin-top: 14px; margin-left: -4px; font-size: 23px',
-                    })
-                })
-                    .addTo( this.map );
+            	if( L.BeautifyIcon )
+				{
+					if( !marker.window )
+					{
+						L.marker( [marker.position.lat, marker.position.lng], {
+							icon: L.BeautifyIcon.icon( {
+								icon: marker.icon ? marker.icon : 'leaf',
+								iconShape: marker.shape ? marker.shape : 'marker',
+								borderWidth: 0,
+								iconStyle: `width: 50px; height: 50px; background: ${marker.background ? marker.background : '#000'}`,
+								innerIconStyle: 'color: white; margin-top: 14px; margin-left: -4px; font-size: 23px',
+							} )
+						} )
+							.addTo( this.map );
+					} else
+					{
+
+						L.marker( [marker.position.lat, marker.position.lng], {
+							icon: L.BeautifyIcon.icon( {
+								icon: marker.icon ? marker.icon : 'leaf',
+								iconShape: marker.shape ? marker.shape : 'marker',
+								borderWidth: 0,
+								iconStyle: `width: 50px; height: 50px; background: ${marker.background ? marker.background : '#000'}`,
+								innerIconStyle: 'color: white; margin-top: 14px; margin-left: -4px; font-size: 23px',
+							} )
+						} )
+							.addTo( this.map )
+							.bindPopup( marker.window );
+					}
+				}
             },
 
 			/**
@@ -116,8 +136,7 @@
                          * Else give an error and set user position to the center of the map
                          */
 						( position ) => {
-							console.log('user', position);
-							this.userLocation = position;
+							this.userLocation = { lat: position.latitude, lng: position.longitude };
 						},
 						( error ) => {
 							console.error( error.message );

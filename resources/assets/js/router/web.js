@@ -19,7 +19,7 @@ const webRoutes = [
 	},
 	{
 		path: 'planten/:id',
-		name: 'plantShow',
+		name: 'webPlantShow',
 		meta: {
 			title: 'Plant'
 		},

@@ -3323,9 +3323,9 @@ Alle routes verwachten in ieder geval de volgende headers:
 		[
 			{
 				"id": 1,
-				"first_name": "Derkjan",
-				"last_name": "Super",
-				"email": "super.derkjan@gmail.com",
+				"first_name": "Voornaam",
+				"last_name": "Achternaam",
+				"email": "voorbeeld@gmail.com",
 				"created_at": null,
 				"updated_at": null
 			}
@@ -3342,9 +3342,9 @@ Alle routes verwachten in ieder geval de volgende headers:
 
 		{
             "id": 1,
-            "first_name": "Derkjan",
-            "last_name": "Super",
-            "email": "super.derkjan@gmail.com",
+            "first_name": "Voornaam",
+            "last_name": "Achternaam",
+            "email": "voorbeeld@gmail.com",
             "created_at": null,
             "updated_at": null
         }
@@ -3360,9 +3360,9 @@ Alle routes verwachten in ieder geval de volgende headers:
 
 		{
             "id": 1,
-            "first_name": "Derkjan",
-            "last_name": "Super",
-            "email": "super.derkjan@gmail.com",
+            "first_name": "Voornaam",
+            "last_name": "Achternaam",
+            "email": "voorbeeld@gmail.com",
             "created_at": null,
             "updated_at": null
         } 
@@ -3409,7 +3409,7 @@ Alle routes verwachten in ieder geval de volgende headers:
                 "id": 1,
                 "first_name": "Voornaam",
                 "last_name": "Achternaam",
-                "email": "super.derkjan@gmail.com",
+                "email": "voorbeeld@gmail.com",
                 "created_at": null,
                 "updated_at": "2018-06-11 11:03:02"
             }
@@ -3429,8 +3429,8 @@ Alle routes verwachten in ieder geval de volgende headers:
             "message": "User deleted",
             "result": {
                 "id": 3,
-                "first_name": "Derkjan",
-                "last_name": "Super",
+                "first_name": "Voornaam",
+                "last_name": "Achternaam",
                 "email": "sur.derkjan@gmail.com",
                 "created_at": "2018-06-11 11:10:21",
                 "updated_at": "2018-06-11 11:10:21"
@@ -3451,8 +3451,8 @@ Alle routes verwachten in ieder geval de volgende headers:
                 "success": true,
                 "message": "Created account succesfully",
                 "result": {
-                    "first_name": "Derkjan",
-                    "last_name": "Super",
+                    "first_name": "Voornaam",
+                    "last_name": "Achternaam",
                     "email": "sur.derkjan@gmail.com",
                     "created_at": "2018-06-11 11:10:21",
                     "updated_at": "2018-06-11 11:10:21",
@@ -3484,9 +3484,9 @@ Alle routes verwachten in ieder geval de volgende headers:
 				"token": "eyJ0eXAiOiJKV1QiWM5Y2RjODk1NGVjNWM1MzExNjdkYzBiNGJhNzdiNDNkMDQxMzJmYmQ3MWM1OTRjZDdmMjZiMmYwYWNlMjFhOTU1ODVlMjQyIn0.eyJhdWQiOiIxIiwianRpIjoiMzllYWE1N2NlYzljZGM4OTU0ZWM1YzUzMTE2N2RjMGI0YmE3N2I0M2QwNDEzMmZiZDcxYzU5NGNkN2YyNmIyZjBhY2UyMWE5NTU4NWUyNDIiLCJpYXQiOjE1Mjg3MTQwOTEsIm5iZiI6MTUyODcxNDA5MSwiZXhwIjoxNTYwMjUwMDkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.rDSz-w9Z-v9bVixn5o9SMuGvgTxX2igGGmcZn63O0os-GGLIGHfXyynZBYPiEIQrEWVdNrNp9-UB0XxoO4-MY9LvBZ1SKJ9aw355xRakrHQaGYT4GH6Uq5quSXRilmEclIVZISchLMpuHdlPYJVs8C1WEOUl_opaXBzRGV45whiqKVAl338aQiYS-odsAAjj5zS2QMq5lkyDSmT8njBr1aPIXMGnuW91AjKQIotop4OCsdKuo7MjKteCQuLXrvrBS6k6rMmfE8U9O3k6dJUH3818E0EHQlP9LJ2L9dZe8Zl_c_RCMQH8j7GfFux99j8oU2pf3MW6NXKsAVw_mwQlhnYPqyC-QRxEdsqJxj2cOwkY3xNJu2rBy1nT5ZXKBMChjHMsH8aIJArF7SJlrhvVPSo41aJU8h6OlDb426opSJWzl4U-LvHw3Zh3Z_TTiBAm_YeCMNW7HlYJIoYTksANeuidcgMt92JjtU-m86rBTmr-yujmTIzsyozWafoZ-eWFpfTRsdWK4JjkvvH9x7_9cJ4Pwo7u-pjIl_jeoOmfyvuiWIk6rQLR-lJyP8jS7YzV_pRUVS5Rq46gfcWBJxEGRTLDE3SXDSg_udz9WBMudwm5l4MfBFxNHo7Ye74Tj1dIIrD1I03rQzmUu9WfEqKvEhoEO4by-bgduUFEhDD4bxU",
 				"user": {
 					"id": 1,
-					"first_name": "Derkjan",
-					"last_name": "Super",
-					"email": "super.derkjan@gmail.com",
+					"first_name": "Voornaam",
+					"last_name": "Achternaam",
+					"email": "voorbeeld@gmail.com",
 					"created_at": null,
 					"updated_at": null
 				}
