@@ -38,7 +38,8 @@ const webRoutes = [
 		name: 'location',
 		meta: {
 			title: 'Locatie'
-		}
+		},
+		component: () => import('@/pages/web/plant/nearby')
 	},
 	{
 		path: 'login',

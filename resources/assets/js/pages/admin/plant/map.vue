@@ -68,7 +68,7 @@
 
                             <ul style="list-style-type: none">
                                 <li><strong>Locatie</strong>: ${plant.place}</li>
-                                <li><strong>Url</strong>: <a href="/dashboard/plants/${plant.id}" >${plant.latin_name}</a></li>
+                                <li><strong>Url</strong>: <a href="/dashboard/plants/${plant.id}" target="_blank">${plant.latin_name}</a></li>
                             </ul>
                         `
                     }

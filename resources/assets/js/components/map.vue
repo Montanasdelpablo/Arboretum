@@ -87,8 +87,7 @@
 			 */
 			addMarker( marker )
             {
-            	if( L.BeautifyIcon )
-				{
+
 					if( !marker.window )
 					{
 						L.marker( [marker.position.lat, marker.position.lng], {
@@ -116,7 +115,6 @@
 							.addTo( this.map )
 							.bindPopup( marker.window );
 					}
-				}
             },
 
 			/**
@@ -162,6 +160,16 @@
 
 				this.addMarker( user );
 			},
+
+			/**
+             * Go to url from click in a marker
+             *
+			 * @param url
+			 */
+			url( url )
+			{
+            	this.$router.push(url);
+            }
         },
 
         mounted()

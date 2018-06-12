@@ -112,7 +112,7 @@
                     {
                         title: 'In de buurt',
                         icon: 'explore',
-                        to: ''
+                        to: 'location'
                     },
                     {
                     	title: this.loggedIn ? 'Dashboard' : 'Aanmelden',
