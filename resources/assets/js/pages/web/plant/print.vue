@@ -107,10 +107,17 @@
 		},
 
 		methods: {
+			/**
+             * Print window
+			 */
 			print()
 			{
 				window.print();
 			},
+
+			/**
+             * Get all plants
+			 */
 			plantIndex()
 			{
 				this.$store.dispatch( 'plantIndex' );

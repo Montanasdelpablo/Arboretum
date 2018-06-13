@@ -12,10 +12,10 @@
             <v-flex xs12>
                 <leaflet
                     v-if="markers.length > 0"
-                    :center="center"
+                    :center="mapCenter"
                     :zoom="18"
                     name="plants"
-                    style="width:100%;height:800px;position:relative"
+                    style="width:100%;height:600px;position:relative"
                     :markers="markers"
                 />
                 <v-alert v-else :value="true" color="info">
@@ -40,8 +40,6 @@
 			return {
 				distance: 10,
                 distances: [10, 20, 50, 100, 200],
-				center: { lat: 53.360787, lng: 6.465230 },
-                userLocation: this.center,
 			}
 		},
 
@@ -93,35 +91,25 @@
 					}
 				});
 			},
+
+            /**
+             * Get users current location
+             */
+            userLocation()
+            {
+            	return this.$store.getters.userLocation;
+            },
+
+            /**
+             * Get map center
+             */
+            mapCenter()
+            {
+            	return this.$store.getters.mapCenter;
+            }
 		},
 
         methods: {
-			getUserLocation()
-			{
-                /*
-                 * If the browser supports geolocation
-                 * Else give an error
-                 */
-				if( navigator.geolocation )
-				{
-					navigator.geolocation.watchPosition(
-                        /*
-                         * If there is a position show the user position
-                         * Else give an error and set user position to the center of the map
-                         */
-						( position ) => {
-							this.userLocation = { lat: position.latitude, lng: position.longitude };
-						},
-						( error ) => {
-							console.error( error.message );
-							this.userLocation = this.center;
-						}
-					);
-				} else {
-					console.error('Browser doesn\'t support geolocation');
-				}
-			},
-
 			/**
              * Convert degrees to Radians
              *
@@ -158,7 +146,8 @@
         },
 
 		mounted() {
-			this.getUserLocation();
+			// Set all required data
+			this.$store.dispatch( 'userLocation' );
 
 			this.$store.dispatch( 'plantIndex' );
 		}

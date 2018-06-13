@@ -4,11 +4,11 @@ export default {
 		loggedIn: !!sessionStorage.getItem( 'token' ),
 		user: JSON.parse( sessionStorage.getItem( 'user' ) ),
 		search: {},
-		edit: {}
+		edit: {},
+		location: {},
 	},
 
 	mutations: {
-
 		/**
 		 * Set all users
 		 *
@@ -20,6 +20,11 @@ export default {
 			state.all = users;
 		},
 
+		/**
+		 * Login user
+		 *
+		 * @param state
+		 */
 		userLogin( state )
 		{
 			state.loggedIn = true;
@@ -36,6 +41,10 @@ export default {
 			state.edit = user;
 		},
 
+		/**
+		 * Logout user
+		 * @param state
+		 */
 		userLogout( state )
 		{
 			state.loggedIn = false;
@@ -52,7 +61,18 @@ export default {
 		userSearch( state, user )
 		{
 			state.search = user;
-		}
+		},
+
+		/**
+		 * Set a user location
+		 *
+		 * @param state
+		 * @param location
+		 */
+		userLocation( state, location )
+		{
+			state.location = location;
+		},
 	},
 
 	actions: {
@@ -112,10 +132,15 @@ export default {
 				.catch( error => console.error( 'userLogin', error ) );
 		},
 
+		/**
+		 * Forgot password functionality
+		 *
+		 * @param context
+		 * @param data
+		 * @returns {Promise<Response | void>}
+		 */
 		forgotPassword( context, data )
 		{
-			// This does not work yet
-
 			// Returns request
 			return fetch( '/api/forgotPassword', {
 				headers: {
@@ -353,6 +378,38 @@ export default {
 				.then( response => response.json() )
 				.then( response => context.commit( 'userSearch', response ) )
 				.catch( error => console.error( 'userSearch', error ) );
+		},
+
+		/**
+		 * Set user location
+		 *
+		 * @param context
+		 * @param rootState
+		 */
+		userLocation( { state, commit, rootState } )
+		{
+			/*
+			 * If the browser supports geolocation
+			 * Else give an error
+			 */
+			if( navigator.geolocation )
+			{
+				navigator.geolocation.watchPosition(
+					/*
+					 * If there is a position show the user position
+					 * Else give an error and set user position to the center of the map
+					 */
+					( position ) => {
+						commit( 'userLocation', { lat: position.latitude, lng: position.longitude });
+					},
+					( error ) => {
+						console.error( error.message );
+						commit( 'userLocation', rootState.mapCenter );
+					}
+				);
+			} else {
+				console.error('Browser doesn\'t support geolocation');
+			}
 		}
 	},
 
@@ -396,6 +453,12 @@ export default {
 			return user;
 		},
 
+		/**
+		 * Return user profile
+		 *
+		 * @param state
+		 * @returns {*}
+		 */
 		userProfile( state )
 		{
 			return state.user;
@@ -403,6 +466,7 @@ export default {
 
 		/**
 		 * Get the total amount of users
+		 *
 		 * @param state
 		 * @returns {*|number|PaymentItem}
 		 */
@@ -411,9 +475,26 @@ export default {
 			return state.all.total;
 		},
 
+		/**
+		 * Search for a specific user
+		 *
+		 * @param state
+		 * @returns {*}
+		 */
 		userSearch( state )
 		{
 			return state.search;
+		},
+
+		/**
+		 * Return user location
+		 *
+		 * @param state
+		 * @returns {*}
+		 */
+		userLocation( state )
+		{
+			return state.location;
 		}
 	}
 }

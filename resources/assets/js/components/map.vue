@@ -32,19 +32,24 @@
         {
         	return {
         		map: null,
-				userLocation: null,
             }
         },
 
         computed: {
-    	    zoomLevel()
-            {
-            	return this.zoom;
-            },
-
+            /**
+             * Id for unique maps
+             */
             id()
             {
             	return `map-${this.name}`;
+            },
+
+            /**
+             * Get use location
+             */
+            userLocation()
+            {
+            	return this.$store.getters.userLocation;
             }
         },
 
@@ -118,40 +123,10 @@
             },
 
 			/**
-			 * Set user location
-			 */
-			getUserLocation()
-			{
-                /*
-                 * If the browser supports geolocation
-                 * Else give an error
-                 */
-				if( navigator.geolocation )
-				{
-					navigator.geolocation.watchPosition(
-                        /*
-                         * If there is a position show the user position
-                         * Else give an error and set user position to the center of the map
-                         */
-						( position ) => {
-							this.userLocation = { lat: position.latitude, lng: position.longitude };
-						},
-						( error ) => {
-							console.error( error.message );
-							this.userLocation = this.center;
-						}
-					);
-				} else {
-					console.error('Browser doesn\'t support geolocation');
-				}
-			},
-
-			/**
 			 * Add user to map
 			 */
 			renderUserLocation()
 			{
-				this.getUserLocation();
 				let user = {
 					position: this.userLocation ? this.userLocation : this.center,
 					icon: 'male',
@@ -175,6 +150,8 @@
         mounted()
         {
         	this.render();
+
+        	this.$store.dispatch( 'userLocation' );
         },
 
         watch: {

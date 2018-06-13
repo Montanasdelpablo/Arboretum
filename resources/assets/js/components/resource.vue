@@ -368,11 +368,6 @@
 				this.cMenu.y = 0;
 				this.contextMenu = false;
 
-				// collect needed data
-				console.log( "Item:" + JSON.stringify( item ) );
-				console.log( "X Coordinate:" + e.clientX );
-				console.log( "Y Coordinate:" + e.clientY );
-
 				// set coordinates for context menu
 				this.cMenu.x = e.clientX;
 				this.cMenu.y = e.clientY;
@@ -417,9 +412,12 @@
 				} );
 			},
 
+            /**
+             * Edit an item
+             */
 			editItem( item )
 			{
-				if( item == 'context' )
+				if( item === 'context' )
 				{
 					// reset
 					this.contextMenu = false;
@@ -451,9 +449,13 @@
 					this.deleteItem = {};
 				} );
 			},
+
+            /**
+             * Delete item from context menu
+             */
 			deleteFromContext( test )
 			{
-				if( test == 'context' )
+				if( test === 'context' )
 				{
 					// reset
 					this.contextMenu = false;
@@ -464,8 +466,6 @@
 					// set newItem
 					this.deleteItem.id = newItem.id;
 					this.deleteItem.name = newItem.name;
-
-					console.log( this.deleteItem );
 				}
 			},
 

@@ -12,7 +12,14 @@ export default
 		state.alert = true;
 	},
 
-	hideAlert (state, alert) {
+	/**
+	 * Hide an alert
+	 *
+	 * @param state
+	 * @param alert
+	 */
+	hideAlert( state, alert )
+	{
 		state.alert = false;
 	},
 
@@ -45,7 +52,8 @@ export default
 	 * This makes sure a user can't search before this date
 	 * @param state
 	 */
-	currentDate( state ) {
+	currentDate( state )
+	{
 		let date = new Date(),
 			dd = date.getDate(),
 			mm = date.getMonth() + 1,
@@ -60,5 +68,15 @@ export default
 		}
 
 		state.currentDate = `${yy}-${mm}-${dd}`;
+	},
+
+	/**
+	 * Change map center if needed
+	 * @param state
+	 * @param center
+	 */
+	mapCenter( state, center )
+	{
+		state.mapCenter = center;
 	}
 }

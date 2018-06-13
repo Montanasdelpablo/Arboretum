@@ -533,6 +533,8 @@
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex';
+
 	export default {
 		data()
 		{
@@ -740,10 +742,12 @@
 				return this.$store.getters.plantTotal;
 			},
 
+			/**
+			 * Calculate the total amount of pages
+			 */
 			pages()
 			{
-				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
-				{
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null ) {
 					return 0;
 				}
 
@@ -826,6 +830,9 @@
 			}
 		},
 		methods: {
+			/**
+			 * Show context menu
+			 */
 			showContext( item, e )
 			{
 				// reset
@@ -856,6 +863,9 @@
 				} );
 			},
 
+			/**
+			 * Store/ update item
+			 */
 			store()
 			{
 				this.loading = true;
@@ -863,8 +873,7 @@
 				// Dispatch different function based for store or update
 				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () =>
 				{
-					if( this.errors.length === 0 )
-					{
+					if( this.errors.length === 0 ) {
 						this.data(); // Refresh data
 						this.form = this.defaultForm;
 						this.itemEdit = null;
@@ -873,10 +882,12 @@
 				} );
 			},
 
+			/**
+			 * Edit an item
+			 */
 			editItem( item )
 			{
-				if( item === 'context' )
-				{
+				if( item === 'context' ) {
 					// reset
 					this.contextMenu = false;
 					let newItem = {};
@@ -926,17 +937,19 @@
 					newItem.winner = this.selected.item.winner;
 
 					// find data for selected item
-					console.log( newItem );
 					item = newItem;
 				}
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog
 			},
+
+			/**
+			 * Delete item from context menu
+			 */
 			deleteFromContext( test )
 			{
-				if( test === 'context' )
-				{
+				if( test === 'context' ) {
 					// reset
 					this.contextMenu = false;
 					let newItem = {};
@@ -946,10 +959,9 @@
 					// set newItem
 					this.deleteItem.id = newItem.id;
 					this.deleteItem.name = "";
-
-					console.log( this.deleteItem );
 				}
 			},
+
 			/**
 			 * Delete item
 			 *
@@ -965,6 +977,9 @@
 				} );
 			},
 
+			/**
+			 * Close dialog
+			 */
 			close()
 			{
 				this.dialog = false;
@@ -1047,9 +1062,13 @@
 				this.$store.dispatch( 'monthIndex' );
 			},
 
+			/**
+             * Upload image
+			 * @param e
+			 */
 			getImage( e )
 			{
-				let image = e.target.files[0];
+				let image = e.target.files[ 0 ];
 				const reader = new FileReader();
 
 				reader.readAsDataURL( image );
@@ -1057,7 +1076,7 @@
 				{
 					this.form.image = e.target.result;
 				}
-			}
+			},
 		},
 
 		watch: {

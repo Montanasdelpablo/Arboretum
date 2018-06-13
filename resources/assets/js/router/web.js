@@ -1,3 +1,7 @@
+/*
+ * All routes under admin/ dashboard are listed here
+ */
+
 import { store } from '@/store/store';
 
 const webRoutes = [

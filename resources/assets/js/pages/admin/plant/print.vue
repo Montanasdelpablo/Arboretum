@@ -107,19 +107,18 @@
         },
 
     	methods: {
-    		print()
+			/**
+             * Print the current window
+			 */
+			print()
             {
     		    window.print();
             },
-    		plantIndex()
-            {
-            	this.$store.dispatch( 'plantIndex' );
-            }
         },
 
         mounted()
         {
-        	this.plantIndex();
+			this.$store.dispatch( 'plantIndex' );
         }
     }
 </script>

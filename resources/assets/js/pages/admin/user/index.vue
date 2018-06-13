@@ -1,8 +1,5 @@
 <template>
     <div>
-
-
-
         <!-- Create/ edit dialog -->
         <v-dialog v-model="dialog" max-width="500px">
             <v-btn slot="activator" color="primary">
@@ -55,8 +52,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' :
-                                                                  'toevoegen' }}
+                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
                         </v-btn>
                     </v-card-actions>
                 </form>
@@ -85,16 +81,16 @@
                 offset-y
                 absolute
             >
-            <v-list>
-                 <v-list-tile @click.nativ="editItem( 'context' )">
-                   <v-list-tile-title> Bewerken </v-list-tile-title>
-                 </v-list-tile>
-                 <v-list-tile @click="deleteFromContext( 'context' )">
-                   <v-list-tile-title > Verwijderen </v-list-tile-title>
-                 </v-list-tile>
-            </v-list>
+                <v-list>
+                    <v-list-tile @click.nativ="editItem( 'context' )">
+                        <v-list-tile-title> Bewerken</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile @click="deleteFromContext( 'context' )">
+                        <v-list-tile-title> Verwijderen</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
 
-          </v-menu>
+            </v-menu>
 
             <!-- Data table -->
             <v-data-table
@@ -158,7 +154,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
     </div>
 </template>
 
@@ -175,20 +170,20 @@
 				deleteItem: {},
 				itemEdit: null,
 				dialog: false,
-        contextMenu: false,
-        selected: {
-          item: {},
-        },
-        cMenu: {
-          x: 0,
-          y: 0,
-        },
+				contextMenu: false,
+				selected: {
+					item: {},
+				},
+				cMenu: {
+					x: 0,
+					y: 0,
+				},
 				form: {},
 				headers: [
 					{
 						text: 'Email',
 						align: 'left',
-						value: 'name'
+						value: 'email'
 					},
 					{
 						text: 'Voornaam',
@@ -236,8 +231,7 @@
 
 			pages()
 			{
-				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
-				{
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null ) {
 					return 0;
 				}
 
@@ -267,31 +261,32 @@
 			},
 		},
 		methods: {
-      showContext(item, e){
-        // reset
-        this.cMenu.x = 0;
-        this.cMenu.y = 0;
-        this.contextMenu = false;
+			showContext( item, e )
+			{
+				// reset
+				this.cMenu.x = 0;
+				this.cMenu.y = 0;
+				this.contextMenu = false;
 
-        // collect needed data
-        console.log("Item:" + JSON.stringify(item));
-        console.log("X Coordinate:" + e.clientX);
-        console.log("Y Coordinate:" + e.clientY);
+				// collect needed data
+				console.log( "Item:" + JSON.stringify( item ) );
+				console.log( "X Coordinate:" + e.clientX );
+				console.log( "Y Coordinate:" + e.clientY );
 
-        // set coordinates for context menu
-        this.cMenu.x = e.clientX;
-        this.cMenu.y = e.clientY;
+				// set coordinates for context menu
+				this.cMenu.x = e.clientX;
+				this.cMenu.y = e.clientY;
 
-        // set selected id
-        this.selected.item = item;
+				// set selected id
+				this.selected.item = item;
 
-        // set context menu to visible
-        this.contextMenu = true;
-      },
-      /**
+				// set context menu to visible
+				this.contextMenu = true;
+			},
+			/**
 			 * Fetch items
 			 */
-       data()
+			data()
 			{
 				// Grab data
 				this.loading = true;
@@ -301,14 +296,17 @@
 				} );
 			},
 
+			/**
+			 * Store item
+			 */
 			store()
 			{
 				this.loading = true;
 
 				// Dispatch different function based for store or update
-				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () => {
-					if( this.errors.length === 0 )
-					{
+				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () =>
+				{
+					if( this.errors.length === 0 ) {
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
@@ -319,19 +317,19 @@
 
 			editItem( item )
 			{
-        if(item == 'context'){
-          // reset
-          this.contextMenu = false;
-          let newItem = {};
-          newItem.id = this.selected.item.id;
-          newItem.email = this.selected.item.email;
-          newItem.first_name = this.selected.item.first_name;
-          newItem.last_name = this.selected.item.last_name;
-          newItem.password = this.selected.item.password;
-          // find data for selected item
-          console.log(newItem);
-          item = newItem;
-        }
+				if( item === 'context' ) {
+					// reset
+					this.contextMenu = false;
+					let newItem = {};
+					newItem.id = this.selected.item.id;
+					newItem.email = this.selected.item.email;
+					newItem.first_name = this.selected.item.first_name;
+					newItem.last_name = this.selected.item.last_name;
+					newItem.password = this.selected.item.password;
+					// find data for selected item
+					console.log( newItem );
+					item = newItem;
+				}
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
 				this.dialog = true; // Open dialog
@@ -342,21 +340,23 @@
 			 *
 			 * @param id
 			 */
-      deleteFromContext(test){
-        if(test == 'context'){
-          // reset
-          this.contextMenu = false;
-          let newItem = {};
-          newItem.id = this.selected.item.id;
-          newItem.name = this.selected.item.email;
+			deleteFromContext( test )
+			{
+				if( test === 'context' ) {
+					// reset
+					this.contextMenu = false;
+					let newItem = {};
+					newItem.id = this.selected.item.id;
+					newItem.name = this.selected.item.email;
 
-          // set newItem
-          this.deleteItem.id = newItem.id;
-          this.deleteItem.name = newItem.name;
+					// set newItem
+					this.deleteItem.id = newItem.id;
+					this.deleteItem.name = newItem.name;
 
-          console.log(this.deleteItem);
-        }
-      },
+					console.log( this.deleteItem );
+				}
+			},
+
 			destroy( id )
 			{
 				this.loading = true;
@@ -374,6 +374,7 @@
 				this.itemEdit = null;
 			}
 		},
+
 		watch: {
 			pagination: {
 				handler()

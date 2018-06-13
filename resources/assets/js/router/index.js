@@ -11,7 +11,7 @@ const routes = [
 	{
 		path: '/',
 		component: () => import('@/layouts/web'),
-		children: webRoutes
+		children: webRoutes // All web routes
 	},
 	{
 		path: '/dashboard',
@@ -19,9 +19,9 @@ const routes = [
 		props: true,
 		meta: {
 			title: 'Dashboard',
-			auth: true
+			auth: true // Make sure user is logged in
 		},
-		children: adminRoutes 
+		children: adminRoutes  // All admin routes
 	}
 ];
 
@@ -32,7 +32,7 @@ const router = new Router({
 
 router.beforeEach( ( to, from, next ) =>
 {
-
+	// Check if a user is logged in before continuing
 	if( to && to.matched[0] && to.matched[0].meta.auth || to.meta.auth )
 	{
 		if( store.getters.userLoggedIn )

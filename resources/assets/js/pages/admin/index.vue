@@ -97,6 +97,7 @@
         },
 
     	computed: {
+    		// Get all required data
     		plants()
             {
                 return this.$store.getters.plantIndex;
@@ -179,6 +180,7 @@
         },
 
         methods: {
+    		// Request all required data
     		plantIndex()
             {
                 this.$store.dispatch( 'plantIndex' );
@@ -267,6 +269,7 @@
 
         mounted()
         {
+        	// Get all required data
         	this.plantIndex();
 
 			this.typeIndex();

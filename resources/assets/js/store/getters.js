@@ -22,6 +22,12 @@ export default
 		return state.success;
 	},
 
+	/**
+	 * Return alert
+	 *
+	 * @param state
+	 * @returns {boolean}
+	 */
 	alert( state )
 	{
 		return state.alert;
@@ -47,5 +53,16 @@ export default
 	currentDate( state )
 	{
 		return state.currentDate;
+	},
+
+	/**
+	 * Get map center point
+	 *
+	 * @param state
+	 * @returns {{lat: number, lng: number}|state.mapCenter|{lat, lng}}
+	 */
+	mapCenter( state )
+	{
+		return state.mapCenter;
 	}
 }

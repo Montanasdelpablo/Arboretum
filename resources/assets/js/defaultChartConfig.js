@@ -1,3 +1,6 @@
+/**
+ * Config as described in https://www.chartjs.org/
+ */
 const chartConfig = {
 	responsive: true,
 	maintainAspectRatio: false,

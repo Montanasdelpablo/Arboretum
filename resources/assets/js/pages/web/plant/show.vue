@@ -220,7 +220,10 @@
         },
 
         methods: {
-    		plantShow()
+			/**
+             * Get current plant info
+			 */
+			plantShow()
             {
             	this.$store.dispatch( 'plantShow', this.$route.params.id );
             }

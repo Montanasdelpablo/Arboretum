@@ -15,6 +15,9 @@ class Name extends Model
 	 */
     public $timestamps = false;
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 */
     public function plant()
 	{
 		return $this->hasOne( Plant::class );

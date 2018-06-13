@@ -1,3 +1,6 @@
+/*
+ * All routes under admin/ dashboard are listed here
+ */
 const adminRoutes = [
 	{
 		path: '',

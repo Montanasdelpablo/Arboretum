@@ -34,7 +34,8 @@ export const store = new Vuex.Store( {
 		success: '',
 		message: '',
 		alert: false,
-		errors: []
+		errors: [],
+		mapCenter: { lat: 53.360787, lng: 6.465230 },
 	},
 	getters,
 	mutations,

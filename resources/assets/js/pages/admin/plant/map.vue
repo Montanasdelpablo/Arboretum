@@ -45,16 +45,41 @@
         },
 
     	computed: {
-    		plants()
+			/**
+             * All plants
+             *
+			 * @returns {default.mutations.plantIndex|default.actions.plantIndex|default.getters.plantIndex|default.computed.plantIndex|default.methods.plantIndex}
+			 */
+			plants()
             {
             	return this.$store.getters.plantIndex;
             },
 
-            priorities()
+			/**
+             * All priorities
+             *
+			 * @returns {default.mutations.priorityIndex|default.actions.priorityIndex|default.getters.priorityIndex|default.methods.priorityIndex}
+			 */
+			priorities()
             {
             	return this.$store.getters.priorityIndex;
             },
 
+			/**
+             * Map center
+             *
+			 * @returns {default.computed.mapCenter|(function())|{lat: number, lng: number}|state.mapCenter|{lat, lng}|default.mapCenter|*}
+			 */
+			mapCenter()
+            {
+                return this.$store.getters.mapCenter;
+            },
+
+			/**
+             * All markers
+             *
+			 * @returns {*}
+			 */
 			markers()
 			{
 				return this.plants.map( plant => {

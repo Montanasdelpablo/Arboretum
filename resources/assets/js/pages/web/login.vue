@@ -15,7 +15,7 @@
                             v-model="loginForm.email"
                             type="email"
                             label="Email-adres"
-                            :error-messages="errors['email']"
+                            :error-messages="errors.email"
                             required
                         />
 
@@ -26,7 +26,7 @@
                             :append-icon-cb="() => (passwordVisible = !passwordVisible)"
                             :type="passwordVisible ? 'text' : 'password'"
                             minlength="6"
-                            :error-messages="errors['password']"
+                            :error-messages="errors.password"
                             :counter="15"
                             required
                         />
@@ -34,7 +34,7 @@
                         <v-btn color="primary" type="submit">Inloggen</v-btn>
                     </form>
 
-                    <v-dialog v-model="forgotpassword" max-width="500px">
+                    <!--<v-dialog v-model="forgotpassword" max-width="500px">
                         <v-btn
                             slot="activator"
                             flat
@@ -65,7 +65,7 @@
                                 </v-card-actions>
                             </form>
                         </v-card>
-                    </v-dialog>
+                    </v-dialog>-->
                 </v-flex>
             </v-container>
         </v-layout>
