@@ -499,7 +499,7 @@
                                 <v-icon color="green">edit</v-icon>
                             </v-btn>
 
-                            <v-btn icon @click="delete(props.item)">
+                            <v-btn icon @click="deleteItem = props.item">
                                 <v-icon color="red">delete</v-icon>
                             </v-btn>
                         </td>
