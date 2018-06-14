@@ -124,7 +124,7 @@
                                 <v-icon color="green">edit</v-icon>
                             </v-btn>
 
-                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id, email: props.item.email }">
                                 <v-icon color="red">delete</v-icon>
                             </v-btn>
                         </td>
@@ -144,7 +144,11 @@
                     <span class="headline">Gebruiker verwijderen</span>
                 </v-card-title>
 
-                <v-card-text>
+                <v-card-text v-if="!deleteItem.name">
+                    Weet je zeker dat je deze gebruiker wil verwijderen: <strong>{{ deleteItem.email }}</strong>?
+                </v-card-text>
+
+                <v-card-text v-if="deleteItem.name">
                     Weet je zeker dat je deze gebruiker wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
                 </v-card-text>
 
@@ -342,10 +346,11 @@
 					// reset
 					this.contextMenu = false;
 					let newItem = this.selected.item;
-				
+
 					// set newItem
 					this.deleteItem.id = newItem.id;
 					this.deleteItem.name = newItem.name;
+          this.deleteItem.email = newItem.email;
 
 					console.log( this.deleteItem );
 				}

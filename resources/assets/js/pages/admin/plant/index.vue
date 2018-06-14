@@ -499,7 +499,7 @@
                                 <v-icon color="green">edit</v-icon>
                             </v-btn>
 
-                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
+                            <v-btn icon @click="delete(props.item)">
                                 <v-icon color="red">delete</v-icon>
                             </v-btn>
                         </td>
@@ -520,7 +520,11 @@
                 </v-card-title>
 
                 <v-card-text v-if="deleteItem.name">
-                    Weet je zeker dat je de volgende plant wil verwijderen: <strong>{{ deleteItem.name.name }}</strong>?
+                    Weet je zeker dat je de volgende plant wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                </v-card-text>
+
+                <v-card-text v-if="!deleteItem.name">
+                    Weet je zeker dat je de plant met het volgnummer <strong>{{ deleteItem.follow_number }} </strong> wilt verwijderen?
                 </v-card-text>
 
                 <v-card-actions>
@@ -830,6 +834,10 @@
 			}
 		},
 		methods: {
+      delete( item ) {
+        console.log(item);
+        this.deleteItem = item;
+      },
 			/**
 			 * Show context menu
 			 */
@@ -846,7 +854,7 @@
 
 				// set selected id
 				this.selected.item = item;
-
+        console.log(this.selected.item);
 				// set context menu to visible
 				this.contextMenu = true;
 			},
@@ -913,7 +921,8 @@
 
 					// set newItem
 					this.deleteItem.id = newItem.id;
-					this.deleteItem.name = "";
+          this.deleteItem.follow_number = newItem.follow_number;
+					this.deleteItem.name = newItem.name;
 				}
 			},
 
