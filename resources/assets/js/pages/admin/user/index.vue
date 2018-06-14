@@ -52,7 +52,8 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
+                        <v-btn color="primary" flat type="submit">Gebruiker {{ this.itemEdit !== null ? 'opslaan' :
+                                                                  'toevoegen' }}
                         </v-btn>
                     </v-card-actions>
                 </form>
@@ -94,6 +95,7 @@
 
             <!-- Data table -->
             <v-data-table
+                :search="search"
                 :headers="headers"
                 :items="items"
                 :totalItems="totalItems"
@@ -124,7 +126,8 @@
                                 <v-icon color="green">edit</v-icon>
                             </v-btn>
 
-                            <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id, email: props.item.email }">
+                            <v-btn icon
+                                   @click="deleteItem={ name: props.item.name, id: props.item.id, email: props.item.email }">
                                 <v-icon color="red">delete</v-icon>
                             </v-btn>
                         </td>
@@ -169,6 +172,7 @@
 		data()
 		{
 			return {
+				search: '',
 				pagination: {},
 				loading: false,
 				deleteItem: {},
@@ -235,7 +239,8 @@
 
 			pages()
 			{
-				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null ) {
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
+				{
 					return 0;
 				}
 
@@ -310,7 +315,8 @@
 				// Dispatch different function based for store or update
 				this.$store.dispatch( this.itemEdit !== null ? 'userUpdate' : 'userRegister', this.form ).then( () =>
 				{
-					if( this.errors.length === 0 ) {
+					if( this.errors.length === 0 )
+					{
 						this.data(); // Refresh data
 						this.form = {};
 						this.itemEdit = null;
@@ -321,13 +327,13 @@
 
 			editItem( item )
 			{
-				if( item === 'context' ) {
+				if( item === 'context' )
+				{
 					// reset
 					this.contextMenu = false;
-					let newItem = this.selected.id;
+					let newItem = this.selected.itemId;
 
 					// find data for selected item
-					console.log( newItem );
 					item = newItem;
 				}
 				this.itemEdit = item.id;
@@ -342,7 +348,8 @@
 			 */
 			deleteFromContext( test )
 			{
-				if( test === 'context' ) {
+				if( test === 'context' )
+				{
 					// reset
 					this.contextMenu = false;
 					let newItem = this.selected.item;
@@ -350,9 +357,7 @@
 					// set newItem
 					this.deleteItem.id = newItem.id;
 					this.deleteItem.name = newItem.name;
-          this.deleteItem.email = newItem.email;
-
-					console.log( this.deleteItem );
+					this.deleteItem.email = newItem.email;
 				}
 			},
 

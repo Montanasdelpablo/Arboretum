@@ -381,8 +381,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' :
-                                                                  'toevoegen' }}
+                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
                         </v-btn>
                     </v-card-actions>
                 </form>
@@ -524,7 +523,8 @@
                 </v-card-text>
 
                 <v-card-text v-if="!deleteItem.name">
-                    Weet je zeker dat je de plant met het volgnummer <strong>{{ deleteItem.follow_number }} </strong> wilt verwijderen?
+                    Weet je zeker dat je de plant met het volgnummer <strong>{{ deleteItem.follow_number }} </strong>
+                    wilt verwijderen?
                 </v-card-text>
 
                 <v-card-actions>
@@ -537,189 +537,207 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
+	import {mapGetters, mapActions} from 'vuex';
 
 	export default {
-		data()
-		{
-			return {
-				search: '',
-				pagination: {},
-				loading: false,
-				deleteItem: {},
-				itemEdit: null,
-				dialog: false,
-				contextMenu: false,
-				selected: {
-					item: {},
-				},
-				cMenu: {
-					x: 0,
-					y: 0,
-				},
-				defaultForm: {
-					dead: false,
-					replant: false,
-					image: null,
-					bloom_colors: [],
-					months: [],
-					macule_colors: []
-				},
-				form: {},
-				headers: [
-					{
-						text: 'Volgnummer',
-						align: 'right',
-						value: 'follow_number'
-					},
-					{
-						text: 'Aankoopnummer',
-						align: 'right',
-						value: 'purchase_number'
-					},
-					{
-						text: 'Bloemtype',
-						align: 'left',
-						value: 'type.name'
-					},
-					{
-						text: 'Geslacht',
-						align: 'left',
-						value: 'sex.name'
-					},
-					{
-						text: 'Soortnaam',
-						align: 'left',
-						value: 'specie.name'
-					},
-					{
-						text: 'Variëteitsnaam',
-						align: 'right',
-						value: 'subspecie.name'
-					},
-					{
-						text: 'Groep',
-						align: 'right',
-						value: 'group.name'
-					},
-					{
-						text: 'Naam',
-						align: 'right',
-						value: 'name.name'
-					},
-					{
-						text: 'Synoniem',
-						align: 'right',
-						value: 'synonym.name'
-					},
-					{
-						text: 'Kruising ouders',
-						align: 'right',
-						value: 'crossing.name'
-					},
-					{
-						text: 'Winner',
-						align: 'right',
-						value: 'winner.name'
-					},
-					{
-						text: 'Boomtype',
-						align: 'right',
-						value: 'treetype.name'
-					},
-					{
-						text: 'Belang',
-						align: 'right',
-						value: 'priority.name'
-					},
-					{
-						text: 'Plaats',
-						align: 'right',
-						value: 'place'
-					},
-					{
-						text: 'Latitude',
-						align: 'right',
-						value: 'latitude'
-					},
-					{
-						text: 'Longitude',
-						align: 'right',
-						value: 'longitude'
-					},
-					{
-						text: 'Herplant',
-						align: 'right',
-						value: 'replant'
-					},
-					{
-						text: 'Verplaatst',
-						align: 'right',
-						value: 'moved'
-					},
-					{
-						text: 'Dood',
-						align: 'right',
-						value: 'dead'
-					},
-					{
-						text: 'Leverancier',
-						align: 'right',
-						value: 'supplier.name'
-					},
-					{
-						text: 'Poot datum',
-						align: 'right',
-						value: 'planted'
-					},
-					{
-						text: 'Bloeikleur',
-						align: 'right',
-						value: '',
-						sortable: false
-					},
-					{
-						text: 'Bloeitijd',
-						align: 'right',
-						value: '',
-						sortable: false
-					},
-					{
-						text: 'Maculekleur',
-						align: 'right',
-						value: '',
-						sortable: false
-					},
-					{
-						text: 'Grootte',
-						align: 'right',
-						value: 'size.name'
-					},
+		data: () => ({
+            search: '',
+            pagination: {},
+            loading: false,
+            deleteItem: {},
+            itemEdit: null,
+            dialog: false,
+            contextMenu: false,
+            selected: {
+                item: {},
+            },
+            cMenu: {
+                x: 0,
+                y: 0,
+            },
+            defaultForm: {
+                follow_number: null,
+                purchase_number: null,
+                type_id: null,
+                sex_id: null,
+                specie_id: null,
+                subspecie_id: null,
+                group_id: null,
+                name_id: null,
+                synonym_id: null,
+                crossing_id: null,
+                winner_id: null,
+                treetype_id: null,
+                priority_id: null,
+                supplier_id: null,
+                size_id: null,
+                place: null,
+                longitude: null,
+                latitude: null,
+                dead: false,
+                replant: false,
+                image: null,
+                planted: null,
+                note: null,
+                description: null,
+                bloom_colors: [],
+                months: [],
+                macule_colors: []
+            },
+            form: {},
+            headers: [
+                {
+                    text: 'Volgnummer',
+                    align: 'right',
+                    value: 'follow_number'
+                },
+                {
+                    text: 'Aankoopnummer',
+                    align: 'right',
+                    value: 'purchase_number'
+                },
+                {
+                    text: 'Bloemtype',
+                    align: 'left',
+                    value: 'type.name'
+                },
+                {
+                    text: 'Geslacht',
+                    align: 'left',
+                    value: 'sex.name'
+                },
+                {
+                    text: 'Soortnaam',
+                    align: 'left',
+                    value: 'specie.name'
+                },
+                {
+                    text: 'Variëteitsnaam',
+                    align: 'right',
+                    value: 'subspecie.name'
+                },
+                {
+                    text: 'Groep',
+                    align: 'right',
+                    value: 'group.name'
+                },
+                {
+                    text: 'Naam',
+                    align: 'right',
+                    value: 'name.name'
+                },
+                {
+                    text: 'Synoniem',
+                    align: 'right',
+                    value: 'synonym.name'
+                },
+                {
+                    text: 'Kruising ouders',
+                    align: 'right',
+                    value: 'crossing.name'
+                },
+                {
+                    text: 'Winner',
+                    align: 'right',
+                    value: 'winner.name'
+                },
+                {
+                    text: 'Boomtype',
+                    align: 'right',
+                    value: 'treetype.name'
+                },
+                {
+                    text: 'Belang',
+                    align: 'right',
+                    value: 'priority.name'
+                },
+                {
+                    text: 'Plaats',
+                    align: 'right',
+                    value: 'place'
+                },
+                {
+                    text: 'Latitude',
+                    align: 'right',
+                    value: 'latitude'
+                },
+                {
+                    text: 'Longitude',
+                    align: 'right',
+                    value: 'longitude'
+                },
+                {
+                    text: 'Herplant',
+                    align: 'right',
+                    value: 'replant'
+                },
+                {
+                    text: 'Verplaatst',
+                    align: 'right',
+                    value: 'moved'
+                },
+                {
+                    text: 'Dood',
+                    align: 'right',
+                    value: 'dead'
+                },
+                {
+                    text: 'Leverancier',
+                    align: 'right',
+                    value: 'supplier.name'
+                },
+                {
+                    text: 'Poot datum',
+                    align: 'right',
+                    value: 'planted'
+                },
+                {
+                    text: 'Bloeikleur',
+                    align: 'right',
+                    value: '',
+                    sortable: false
+                },
+                {
+                    text: 'Bloeitijd',
+                    align: 'right',
+                    value: '',
+                    sortable: false
+                },
+                {
+                    text: 'Maculekleur',
+                    align: 'right',
+                    value: '',
+                    sortable: false
+                },
+                {
+                    text: 'Grootte',
+                    align: 'right',
+                    value: 'size.name'
+                },
 
-					{
-						text: 'Aantekening',
-						align: 'right',
-						value: 'note'
-					},
-					{
-						text: 'Beschrijving',
-						align: 'right',
-						value: 'description'
-					},
-					{
-						text: 'Afbeelding',
-						align: 'right',
-						value: 'image'
-					},
-					{
-						text: 'Acties',
-						align: 'left',
-						value: '',
-						sortable: false,
-					}
-				],
-			}
-		},
+                {
+                    text: 'Aantekening',
+                    align: 'right',
+                    value: 'note'
+                },
+                {
+                    text: 'Beschrijving',
+                    align: 'right',
+                    value: 'description'
+                },
+                {
+                    text: 'Afbeelding',
+                    align: 'right',
+                    value: 'image'
+                },
+                {
+                    text: 'Acties',
+                    align: 'left',
+                    value: '',
+                    sortable: false,
+                }
+            ],
+        }),
 
 		computed: {
 			errors()
@@ -751,7 +769,8 @@
 			 */
 			pages()
 			{
-				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null ) {
+				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
+				{
 					return 0;
 				}
 
@@ -834,10 +853,10 @@
 			}
 		},
 		methods: {
-      delete( item ) {
-        console.log(item);
-        this.deleteItem = item;
-      },
+			delete( item )
+			{
+				this.deleteItem = item;
+			},
 			/**
 			 * Show context menu
 			 */
@@ -854,7 +873,6 @@
 
 				// set selected id
 				this.selected.item = item;
-        console.log(this.selected.item);
 				// set context menu to visible
 				this.contextMenu = true;
 			},
@@ -881,9 +899,12 @@
 				// Dispatch different function based for store or update
 				this.$store.dispatch( this.itemEdit !== null ? 'plantUpdate' : 'plantStore', this.form ).then( () =>
 				{
-					if( this.errors.length === 0 ) {
+					if( this.errors.length === 0 )
+					{
 						this.data(); // Refresh data
+                        console.log(this.form);
 						this.form = this.defaultForm;
+						console.log(this.form);
 						this.itemEdit = null;
 						this.dialog = false; // Close dialog
 					}
@@ -895,14 +916,14 @@
 			 */
 			editItem( item )
 			{
-				if( item === 'context' ) {
+				if( item === 'context' )
+				{
 					// reset
 					this.contextMenu = false;
 					let newItem = this.selected.item;
 
 					// find data for selected item
 					item = newItem;
-          console.log(item);
 				}
 				this.itemEdit = item.id;
 				this.form = Object.assign( this.form, item );
@@ -914,14 +935,15 @@
 			 */
 			deleteFromContext( test )
 			{
-				if( test === 'context' ) {
+				if( test === 'context' )
+				{
 					// reset
 					this.contextMenu = false;
 					let newItem = this.selected.item;
 
 					// set newItem
 					this.deleteItem.id = newItem.id;
-          this.deleteItem.follow_number = newItem.follow_number;
+					this.deleteItem.follow_number = newItem.follow_number;
 					this.deleteItem.name = newItem.name;
 				}
 			},
@@ -947,7 +969,9 @@
 			close()
 			{
 				this.dialog = false;
+				console.log(this.form);
 				this.form = this.defaultForm;
+				console.log(this.form);
 				this.itemEdit = null;
 			},
 
@@ -1027,12 +1051,12 @@
 			},
 
 			/**
-             * Upload image
+			 * Upload image
 			 * @param e
 			 */
 			getImage( e )
 			{
-				let image = e.target.files[ 0 ];
+				let image = e.target.files[0];
 				const reader = new FileReader();
 
 				reader.readAsDataURL( image );
@@ -1050,6 +1074,15 @@
 					this.data();
 				}
 			},
+
+            dialog( value )
+            {
+                if( !value )
+                {
+                	this.form = this.defaultForm;
+                	this.itemEdit = null;
+                }
+            },
 		},
 
 		mounted()

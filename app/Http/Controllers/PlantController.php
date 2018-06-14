@@ -38,8 +38,7 @@ class PlantController extends Controller
 	public function store( Request $request )
 	{
 		// Convert base64 image into file
-		if( $request->filled( 'image' ) )
-		{
+		if( $request->filled( 'image' ) ) {
 			$request->merge( [ 'image' => $this->convertImage( $request->input( 'image' ) ) ] );
 		}
 
@@ -61,7 +60,7 @@ class PlantController extends Controller
 			'planted'         => $request->input( 'planted' ),
 			'note'            => $request->input( 'note' ),
 			'description'     => $request->input( 'description' ),
-			'image' 		  => $request->input( 'image' ),
+			'image'           => $request->input( 'image' ),
 			'name_id'         => $request->input( 'name_id' ),
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
@@ -80,8 +79,7 @@ class PlantController extends Controller
 		] );
 
 		// Add bloom colors
-		if( $request->filled( 'bloom_colors' ) )
-		{
+		if( $request->filled( 'bloom_colors' ) ) {
 			$colors = [];
 
 			/*
@@ -101,8 +99,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'months' ) )
-		{
+		if( $request->filled( 'months' ) ) {
 			$months = [];
 
 			/*
@@ -122,8 +119,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'macule_colors' ) )
-		{
+		if( $request->filled( 'macule_colors' ) ) {
 			$colors = [];
 
 			/*
@@ -183,9 +179,8 @@ class PlantController extends Controller
 	 */
 	public function update( Request $request, Plant $plant )
 	{
-		// Convert base64 image into file
-		if( $request->filled( 'image' ) )
-		{
+		// Convert base64 image into file but only if it has not changed
+		if( $request->filled( 'image' ) && strpos( $request->input( 'image' ), '/image' ) === false ) {
 			// Delete old file
 			File::delete( public_path().$plant->image );
 			$request->merge( [ 'image' => $this->convertImage( $request->input( 'image' ) ) ] );
@@ -211,7 +206,7 @@ class PlantController extends Controller
 			'planted'         => $request->input( 'planted' ),
 			'note'            => $request->input( 'note' ),
 			'description'     => $request->input( 'description' ),
-			'image' 		  => $request->input('image'),
+			'image'           => $request->input( 'image' ),
 			'name_id'         => $request->input( 'name_id' ),
 			'type_id'         => $request->input( 'type_id' ),
 			'sex_id'          => $request->input( 'sex_id' ),
@@ -229,8 +224,7 @@ class PlantController extends Controller
 		] );
 
 		// Add bloom colors
-		if( $request->filled( 'bloom_colors' ) )
-		{
+		if( $request->filled( 'bloom_colors' ) ) {
 			$colors = [];
 
 			/*
@@ -250,8 +244,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'months' ) )
-		{
+		if( $request->filled( 'months' ) ) {
 			$months = [];
 
 			/*
@@ -271,8 +264,7 @@ class PlantController extends Controller
 		}
 
 		// Add bloom date
-		if( $request->filled( 'macule_colors' ) )
-		{
+		if( $request->filled( 'macule_colors' ) ) {
 			$colors = [];
 
 			/*
@@ -309,8 +301,7 @@ class PlantController extends Controller
 	public function destroy( Plant $plant )
 	{
 		// Delete image
-		if( !empty( $plant->image ) )
-		{
+		if( !empty( $plant->image ) ) {
 			File::delete( public_path().$plant->image );
 		}
 
@@ -348,9 +339,9 @@ class PlantController extends Controller
 	{
 		$request->validate( [
 			'name_id'         => 'nullable|integer|exists:names,id',
-			'follow_number' 	=> $request->input( 'id' ) ? [ 'required', 'integer', Rule::unique( 'plants' )->ignore( $request->input( 'id' ) ) ] : 'required|integer|unique:plants,follow_number',
-			'purchase_number' => $request->input( 'id' ) ? [ 'required', 'integer', Rule::unique( 'plants' )->ignore ( $request->input( 'id' ) ) ] : 'required|integer|unique:plants,purchase_number',
-		  'control'         => 'nullable|string|date',
+			'follow_number'   => $request->input( 'id' ) ? [ 'required', 'integer', Rule::unique( 'plants', 'follow_number' )->ignore( $request->input( 'id' ) ) ] : 'required|integer|unique:plants,follow_number',
+			'purchase_number' => $request->input( 'id' ) ? [ 'required', 'integer', Rule::unique( 'plants', 'purchase_number' )->ignore( $request->input( 'id' ) ) ] : 'required|integer|unique:plants,purchase_number',
+			'control'         => 'nullable|string|date',
 			'place'           => 'string',
 			'latitude'        => 'string',
 			'longitude'       => 'string',
@@ -392,6 +383,7 @@ class PlantController extends Controller
 		$path = public_path().$pngUrl;
 
 		$uploaded = Image::make( file_get_contents( $image ) )->save( $path );
+
 		return $pngUrl;
 	}
 
@@ -405,20 +397,17 @@ class PlantController extends Controller
 	public function latinName( Request $request )
 	{
 		$sex = null;
-		if( !empty( $request->input( 'sex_id' ) ) )
-		{
+		if( !empty( $request->input( 'sex_id' ) ) ) {
 			$sex = \App\Sex::find( $request->input( 'sex_id' ) )->name;
 		}
 
 		$specie = null;
-		if( !empty( $request->input( 'specie_id' ) ) )
-		{
+		if( !empty( $request->input( 'specie_id' ) ) ) {
 			$specie = \App\Specie::find( $request->input( 'specie_id' ) )->name;
 		}
 
 		$subspecie = null;
-		if( !empty( $request->input( 'subspecie_id' ) ) )
-		{
+		if( !empty( $request->input( 'subspecie_id' ) ) ) {
 			$subspecie = \App\Subspecie::find( $request->input( 'subspecie_id' ) )->name;
 		}
 
