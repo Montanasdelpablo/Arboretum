@@ -422,7 +422,7 @@
                 absolute
             >
                 <v-list>
-                    <v-list-tile @click.native="editItem( 'context' )">
+                    <v-list-tile @click="editItem( 'context' )">
                         <v-list-tile-title> Bewerken</v-list-tile-title>
                     </v-list-tile>
                     <v-list-tile @click="deleteFromContext( 'context' )">
