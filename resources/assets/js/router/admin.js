@@ -50,14 +50,7 @@ const adminRoutes = [
 		},
 		component: () => import( '@/pages/admin/plant' )
 	},
-	{
-		path: 'plants/:id',
-		name: 'plantShow',
-		meta: {
-			title: 'Plant'
-		},
-		component: () => import( '@/pages/admin/plant/show' )
-	},
+
 	{
 		path: 'plants/print',
 		name: 'plantPrint',
@@ -73,6 +66,15 @@ const adminRoutes = [
 			title: 'Planten op de kaart'
 		},
 		component: () => import( '@/pages/admin/plant/map' )
+	},
+	{
+		path: 'plants/:id',
+		params: true,
+		name: 'plantShow',
+		meta: {
+			title: 'Plant'
+		},
+		component: () => import( '@/pages/admin/plant/show' )
 	},
 	{
 		path: 'priorities',
@@ -186,14 +188,6 @@ const adminRoutes = [
 		},
 		component: () => import( '@/pages/admin/manual' )
 	},
-	{
-		path: 'test',
-		name: 'test',
-		meta: {
-			title: 'Test'
-		},
-		component: () => import('@/pages/admin/test')
-	}
 ];
 
 export default adminRoutes;
