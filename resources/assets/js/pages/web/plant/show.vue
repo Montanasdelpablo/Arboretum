@@ -152,7 +152,8 @@
                         <leaflet
                             name="plantShow"
                             style="height: 500px; width: 100%; position: relative"
-                            :center="{ lat: 53.360787, lng: 6.465230 }"
+                            :center="mapCenter"
+                            :userLocation="userLocation"
                             :zoom="18"
                             :markers="marker"
                         />
@@ -216,7 +217,23 @@
 				} else {
             		return [];
                 }
-            }
+            },
+
+            /**
+             * Map center
+             */
+            mapCenter()
+            {
+                return this.$store.getters.mapCenter;
+            },
+
+            /**
+             * Get user location
+             */
+            userLocation()
+            {
+            	return this.$store.getters.userLocation;
+            },
         },
 
         methods: {
@@ -232,6 +249,7 @@
         mounted()
         {
         	this.plantShow();
+			this.$store.dispatch( 'userLocation' );
         }
     }
 </script>

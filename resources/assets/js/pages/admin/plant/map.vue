@@ -1,7 +1,7 @@
 <template>
    <v-layout row wrap>
        <v-flex xs12>
-            <v-btn flat :to="{ name: 'plantIndex' }">
+            <v-btn color="primary" :to="{ name: 'plantIndex' }">
                 <v-icon>arrow_back</v-icon>
                 Terug
             </v-btn>
@@ -18,7 +18,8 @@
             </v-layout>
 
             <leaflet
-                :center="{ lat: 53.360787, lng: 6.465230 }"
+                :center="mapCenter"
+                :userLocation="userLocation"
                 :zoom="18"
                 name="plants"
                 style="width:100%;height:800px;position:relative"
@@ -75,6 +76,14 @@
                 return this.$store.getters.mapCenter;
             },
 
+            /**
+             * Get user location
+             */
+            userLocation()
+            {
+            	return this.$store.getters.userLocation;
+            },
+
 			/**
              * All markers
              *
@@ -103,6 +112,8 @@
 
     	mounted() {
     		this.$store.dispatch( 'plantIndex' );
+
+    		this.$store.dispatch( 'userLocation' );
 
     		this.$store.dispatch( 'priorityIndex' );
         }

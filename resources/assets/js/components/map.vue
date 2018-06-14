@@ -18,6 +18,10 @@
     			type: Object,
                 required: true,
             },
+            userLocation: {
+            	type: Object,
+                required: true,
+            },
             zoom: {
     			type: Number,
                 required: true,
@@ -43,14 +47,6 @@
             {
             	return `map-${this.name}`;
             },
-
-            /**
-             * Get use location
-             */
-            userLocation()
-            {
-            	return this.$store.getters.userLocation;
-            }
         },
 
         methods: {
@@ -63,16 +59,27 @@
                 	this.map.remove();
                 }
 
-            	// Initialise map
-				this.map = L.map( this.id, {
-					center: [ this.center.lat, this.center.lng ],
-                    zoom: this.zoomLevel
-                } );
+				this.map = L.map( this.id ).setView([ this.center.lat, this.center.lng ]);
+
+				if( this.markers.length > 0 )
+				{
+					let bounds = this.markers.map( marker => {
+						return [
+							marker.position.lat, marker.position.lng
+						]
+					});
+
+					this.map.fitBounds(bounds);
+				} else {
+					this.map.fitBounds([[this.center.lat, this.center.lng]]);
+                }
 
 				// Add tile image provider
-				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-				}).addTo( this.map );
+				new L.TileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors",
+                    zoom: this.zoomLevel
+				}).addTo(this.map);
 
 				// Add user to map
 				this.renderUserLocation();
@@ -92,7 +99,8 @@
 			 */
 			addMarker( marker )
             {
-
+                if( L.BeautifyIcon )
+				{
 					if( !marker.window )
 					{
 						L.marker( [marker.position.lat, marker.position.lng], {
@@ -107,7 +115,6 @@
 							.addTo( this.map );
 					} else
 					{
-
 						L.marker( [marker.position.lat, marker.position.lng], {
 							icon: L.BeautifyIcon.icon( {
 								icon: marker.icon ? marker.icon : 'leaf',
@@ -120,6 +127,7 @@
 							.addTo( this.map )
 							.bindPopup( marker.window );
 					}
+				}
             },
 
 			/**
@@ -135,27 +143,23 @@
 
 				this.addMarker( user );
 			},
-
-			/**
-             * Go to url from click in a marker
-             *
-			 * @param url
-			 */
-			url( url )
-			{
-            	this.$router.push(url);
-            }
         },
 
         mounted()
         {
         	this.render();
-
-        	this.$store.dispatch( 'userLocation' );
         },
 
         watch: {
             markers()
+            {
+            	this.render();
+            },
+            mapCenter()
+            {
+            	this.render();
+            },
+            userLocation()
             {
             	this.render();
             }
