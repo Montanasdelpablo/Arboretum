@@ -320,12 +320,8 @@
 				if( item === 'context' ) {
 					// reset
 					this.contextMenu = false;
-					let newItem = {};
-					newItem.id = this.selected.item.id;
-					newItem.email = this.selected.item.email;
-					newItem.first_name = this.selected.item.first_name;
-					newItem.last_name = this.selected.item.last_name;
-					newItem.password = this.selected.item.password;
+					let newItem = this.selected.id;
+
 					// find data for selected item
 					console.log( newItem );
 					item = newItem;
@@ -345,10 +341,8 @@
 				if( test === 'context' ) {
 					// reset
 					this.contextMenu = false;
-					let newItem = {};
-					newItem.id = this.selected.item.id;
-					newItem.name = this.selected.item.email;
-
+					let newItem = this.selected.item;
+				
 					// set newItem
 					this.deleteItem.id = newItem.id;
 					this.deleteItem.name = newItem.name;
