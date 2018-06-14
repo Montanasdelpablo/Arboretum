@@ -520,7 +520,7 @@
                 </v-card-title>
 
                 <v-card-text v-if="deleteItem.name">
-                    Weet je zeker dat je de volgende plant wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                    Weet je zeker dat je de volgende plant wil verwijderen: <strong>{{ deleteItem.name.name }}</strong>?
                 </v-card-text>
 
                 <v-card-text v-if="!deleteItem.name">
