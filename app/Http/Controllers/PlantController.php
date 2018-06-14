@@ -6,6 +6,7 @@ use App\Plant;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Validation\Rule;
 
 class PlantController extends Controller
 {
@@ -347,9 +348,9 @@ class PlantController extends Controller
 	{
 		$request->validate( [
 			'name_id'         => 'nullable|integer|exists:names,id',
-			'follow_number'   => 'integer|unique:plants,follow_number',
-			'purchase_number' => 'integer|unique:plants,purchase_number',
-			'control'         => 'nullable|string|date',
+			'follow_number' 	=> $request->input( 'id' ) ? [ 'required', 'integer', Rule::unique( 'plants' )->ignore( $request->input( 'id' ) ) ] : 'required|integer|unique:plants,follow_number',
+			'purchase_number' => $request->input( 'id' ) ? [ 'required', 'integer', Rule::unique( 'plants' )->ignore ( $request->input( 'id' ) ) ] : 'required|integer|unique:plants,purchase_number',
+		  'control'         => 'nullable|string|date',
 			'place'           => 'string',
 			'latitude'        => 'string',
 			'longitude'       => 'string',
