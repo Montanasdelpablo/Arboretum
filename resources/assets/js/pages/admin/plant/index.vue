@@ -380,9 +380,8 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" flat @click.native="close">Annuleren</v-btn>
-                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}
-                        </v-btn>
+                        <v-btn color="primary" flat @click.native="dialog = false">Annuleren</v-btn>
+                        <v-btn color="primary" flat type="submit">Plant {{ this.itemEdit !== null ? 'opslaan' : 'toevoegen' }}</v-btn>
                     </v-card-actions>
                 </form>
             </v-card>
@@ -537,7 +536,6 @@
 </template>
 
 <script>
-	import {mapGetters, mapActions} from 'vuex';
 
 	export default {
 		data: () => ({
@@ -554,35 +552,6 @@
             cMenu: {
                 x: 0,
                 y: 0,
-            },
-            defaultForm: {
-                follow_number: null,
-                purchase_number: null,
-                type_id: null,
-                sex_id: null,
-                specie_id: null,
-                subspecie_id: null,
-                group_id: null,
-                name_id: null,
-                synonym_id: null,
-                crossing_id: null,
-                winner_id: null,
-                treetype_id: null,
-                priority_id: null,
-                supplier_id: null,
-                size_id: null,
-                place: null,
-                longitude: null,
-                latitude: null,
-                dead: false,
-                replant: false,
-                image: null,
-                planted: null,
-                note: null,
-                description: null,
-                bloom_colors: [],
-                months: [],
-                macule_colors: []
             },
             form: {},
             headers: [
@@ -902,10 +871,6 @@
 					if( this.errors.length === 0 )
 					{
 						this.data(); // Refresh data
-                        console.log(this.form);
-						this.form = this.defaultForm;
-						console.log(this.form);
-						this.itemEdit = null;
 						this.dialog = false; // Close dialog
 					}
 				} );
@@ -942,9 +907,11 @@
 					let newItem = this.selected.item;
 
 					// set newItem
-					this.deleteItem.id = newItem.id;
-					this.deleteItem.follow_number = newItem.follow_number;
-					this.deleteItem.name = newItem.name;
+					this.deleteItem = {
+						id: newItem.id,
+                        follow_number: newItem.follow_number,
+                        name: newItem.name
+					};
 				}
 			},
 
@@ -969,9 +936,7 @@
 			close()
 			{
 				this.dialog = false;
-				console.log(this.form);
 				this.form = this.defaultForm;
-				console.log(this.form);
 				this.itemEdit = null;
 			},
 
@@ -1079,7 +1044,21 @@
             {
                 if( !value )
                 {
-                	this.form = this.defaultForm;
+                    let props = Object.getOwnPropertyNames(this.form);
+                    for( let i = 0; i < props.length; i++ )
+                    {
+                    	delete this.form[props[i]];
+                    }
+
+                    // Reset form
+                	this.form = {
+						dead: false,
+						replant: false,
+						bloom_colors: [],
+						months: [],
+						macule_colors: []
+					};
+
                 	this.itemEdit = null;
                 }
             },

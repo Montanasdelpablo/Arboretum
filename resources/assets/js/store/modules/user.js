@@ -71,7 +71,6 @@ export default {
 		 */
 		userLocation( state, location )
 		{
-			console.log(6);
 			state.location = location;
 		},
 	},
@@ -389,25 +388,21 @@ export default {
 		 */
 		userLocation( { state, commit, rootState } )
 		{
-			console.log(2);
 			/*
 			 * If the browser supports geolocation
 			 * Else give an error
 			 */
 			if( navigator.geolocation )
 			{
-				console.log(3);
 				navigator.geolocation.watchPosition(
 					/*
 					 * If there is a position show the user position
 					 * Else give an error and set user position to the center of the map
 					 */
 					( position ) => {
-						console.log(4);
 						commit( 'userLocation', { lat: position.latitude, lng: position.longitude });
 					},
 					( error ) => {
-						console.log(5);
 						console.error( error.message );
 						commit( 'userLocation', rootState.mapCenter );
 					}
@@ -499,7 +494,6 @@ export default {
 		 */
 		userLocation( state )
 		{
-			console.log(7);
 			return state.location;
 		}
 	}

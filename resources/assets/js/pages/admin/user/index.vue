@@ -237,6 +237,9 @@
 				return this.$store.getters.userTotal;
 			},
 
+            /**
+             * Calculate total page numbers
+             */
 			pages()
 			{
 				if( this.pagination.rowsPerPage == null || this.pagination.totalItems == null )
@@ -247,6 +250,9 @@
 				return Math.ceil( this.items.length / this.pagination.rowsPerPage );
 			},
 
+            /**
+             * Generate labels
+             */
 			labels()
 			{
 				return this.items.map( item =>
@@ -255,6 +261,9 @@
 				} )
 			},
 
+            /**
+             * Generate dataset
+             */
 			datasets()
 			{
 				return [
@@ -270,17 +279,15 @@
 			},
 		},
 		methods: {
+			/**
+             * Show a context menu
+             */
 			showContext( item, e )
 			{
 				// reset
 				this.cMenu.x = 0;
 				this.cMenu.y = 0;
 				this.contextMenu = false;
-
-				// collect needed data
-				console.log( "Item:" + JSON.stringify( item ) );
-				console.log( "X Coordinate:" + e.clientX );
-				console.log( "Y Coordinate:" + e.clientY );
 
 				// set coordinates for context menu
 				this.cMenu.x = e.clientX;
@@ -292,6 +299,7 @@
 				// set context menu to visible
 				this.contextMenu = true;
 			},
+
 			/**
 			 * Fetch items
 			 */
@@ -325,6 +333,9 @@
 				} );
 			},
 
+            /**
+             * Edit an item
+             */
 			editItem( item )
 			{
 				if( item === 'context' )
@@ -355,12 +366,19 @@
 					let newItem = this.selected.item;
 
 					// set newItem
-					this.deleteItem.id = newItem.id;
-					this.deleteItem.name = newItem.name;
-					this.deleteItem.email = newItem.email;
+                    this.deleteItem = {
+                    	id: newItem.id,
+                        name: newItem.name,
+                        email: newItem.email,
+                    };
 				}
 			},
 
+			/**
+             * Delete item
+             *
+			 * @param id
+			 */
 			destroy( id )
 			{
 				this.loading = true;
@@ -371,6 +389,9 @@
 				} );
 			},
 
+			/**
+             * Close dialog
+			 */
 			close()
 			{
 				this.dialog = false;
