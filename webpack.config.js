@@ -127,7 +127,7 @@ module.exports = env => {
 				},
 				{
 					test: /\.(jpg|jpeg|gif|png|svg)$/,
-					exclude: ['/node_modules/', '/public/'],
+					exclude: ['/node_modules/', '/public/', '*.ico'],
 					use: [
 						/*{
 							loader: 'responsive-loader',

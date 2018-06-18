@@ -175,14 +175,20 @@
                         <span v-else>{{ props.item[header.value] }}</span>
                     </td>
 
-                    <td v-else>
-                        <v-btn icon @click.native="editItem( props.item )">
-                            <v-icon color="green">edit</v-icon>
-                        </v-btn>
+                    <td class="justify-center layout px-0" v-else>
+                        <v-tooltip bottom>
+                            <v-btn class="mx-0" slot="activator" icon @click.native="editItem( props.item )">
+                                <v-icon color="green">edit</v-icon>
+                            </v-btn>
+                            <span>{{ name }} bewerken</span>
+                        </v-tooltip>
 
-                        <v-btn icon @click="deleteItem={ name: props.item.name, id: props.item.id }">
-                            <v-icon color="red">delete</v-icon>
-                        </v-btn>
+                        <v-tooltip bottom>
+                            <v-btn class="mx-0" slot="activator" icon @click="deleteItem = props.item">
+                                <v-icon color="red">delete</v-icon>
+                            </v-btn>
+                            <span>{{ name }} verwijderen</span>
+                        </v-tooltip>
                     </td>
                 </template>
             </v-data-table>

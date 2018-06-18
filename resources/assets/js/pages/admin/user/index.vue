@@ -119,17 +119,22 @@
                 <template slot="items" slot-scope="props">
                     <tr @contextmenu.prevent="showContext(props.item, $event)">
                         <td>{{ props.item.email }}</td>
-                        <td class="text-xs-left">{{ props.item.first_name }}</td>
-                        <td class="text-xs-left">{{ props.item.last_name }}</td>
-                        <td>
-                            <v-btn icon @click.nativ="editItem( props.item )">
-                                <v-icon color="green">edit</v-icon>
-                            </v-btn>
+                        <td>{{ props.item.first_name }}</td>
+                        <td>{{ props.item.last_name }}</td>
+                        <td class="justify-center layout px-0">
+                            <v-tooltip bottom>
+                                <v-btn class="mx-0" slot="activator" icon @click.native="editItem( props.item )">
+                                    <v-icon color="green">edit</v-icon>
+                                </v-btn>
+                                <span>Gebruiker bewerken</span>
+                            </v-tooltip>
 
-                            <v-btn icon
-                                   @click="deleteItem={ name: props.item.name, id: props.item.id, email: props.item.email }">
-                                <v-icon color="red">delete</v-icon>
-                            </v-btn>
+                            <v-tooltip bottom>
+                                <v-btn class="mx-0" slot="activator" icon @click="deleteItem = props.item">
+                                    <v-icon color="red">delete</v-icon>
+                                </v-btn>
+                                <span>Gebruiker verwijderen</span>
+                            </v-tooltip>
                         </td>
                     </tr>
                 </template>
@@ -147,12 +152,11 @@
                     <span class="headline">Gebruiker verwijderen</span>
                 </v-card-title>
 
-                <v-card-text v-if="!deleteItem.name">
-                    Weet je zeker dat je deze gebruiker wil verwijderen: <strong>{{ deleteItem.email }}</strong>?
-                </v-card-text>
-
-                <v-card-text v-if="deleteItem.name">
-                    Weet je zeker dat je deze gebruiker wil verwijderen: <strong>{{ deleteItem.name }}</strong>?
+                <v-card-text >
+                    Weet je zeker dat je deze gebruiker wil verwijderen:
+                    <strong v-if="!deleteItem.first_name && !deleteItem.last_name">{{ deleteItem.email }}</strong>
+                    <strong v-else>{{ deleteItem.first_name }} {{ deleteItem.last_name }}</strong>
+                    ?
                 </v-card-text>
 
                 <v-card-actions>

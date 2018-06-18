@@ -40,7 +40,7 @@ const adminRoutes = [
 		meta: {
 			title: 'Maanden'
 		},
-		component: () => import( '@/pages/admin/color' )
+		component: () => import( '@/pages/admin/month' )
 	},
 	{
 		path: 'plants',

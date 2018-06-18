@@ -20,6 +20,14 @@
                         <v-flex xs12>
                             {{ plant.description }}
                         </v-flex>
+
+                        <v-flex xs12>
+                            <h5 class="headline">Notitie</h5>
+                        </v-flex>
+
+                        <v-flex xs12>
+                            {{ plant.note }}
+                        </v-flex>
                     </v-flex>
 
                     <v-flex xs12 md6>
@@ -45,6 +53,35 @@
                                 <v-layout row wrap>
                                     <v-flex xs12 md6>
                                         <v-list two-line>
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Volgnummer</v-list-tile-title>
+                                                    <v-list-tile-sub-title>
+                                                        {{ plant.follow_number }}
+                                                    </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Aankoopnummer</v-list-tile-title>
+                                                    <v-list-tile-sub-title>
+                                                        {{ plant.purchase_number }}
+                                                    </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Controle</v-list-tile-title>
+                                                    <v-list-tile-sub-title>
+                                                        {{ plant.control }}
+                                                    </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
                                             <v-list-tile>
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Latijnse naam</v-list-tile-title>
@@ -95,11 +132,7 @@
                                                     <v-list-tile-sub-title>{{ plant.planted }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
-                                        </v-list>
-                                    </v-flex>
 
-                                    <v-flex xs12 md6>
-                                        <v-list two-line>
                                             <v-list-tile v-if="plant.supplier">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Leverancier</v-list-tile-title>
@@ -117,7 +150,41 @@
                                             <v-list-tile v-if="plant.place">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Locatie</v-list-tile-title>
-                                                    <v-list-tile-sub-title>{{ plant.place }}</v-list-tile-sub-title>
+                                                    <v-list-tile-sub-title>
+                                                        {{ plant.place }}
+                                                        <em>{{ plant.latitude }}, {{ plant.longitude }}</em>
+                                                    </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+                                        </v-list>
+                                    </v-flex>
+
+                                    <v-flex xs12 md6>
+                                        <v-list two-line>
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Herplant</v-list-tile-title>
+                                                    <v-list-tile-sub-title>
+                                                        <v-icon v-if="plant.replant" class="green--text">check_box</v-icon>
+                                                        <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
+                                                    </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Dood</v-list-tile-title>
+                                                    <v-list-tile-sub-title>
+                                                        <v-icon v-if="plant.dead" class="green--text">check_box</v-icon>
+                                                        <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
+                                                    </v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Verplaatst</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.moved }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
@@ -128,6 +195,13 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
+                                            <v-list-tile v-if="plant.specie">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Soort</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.specie.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
                                             <v-list-tile v-if="plant.subspecie">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Variëteit</v-list-tile-title>
@@ -135,10 +209,45 @@
                                                 </v-list-tile-content>
                                             </v-list-tile>
 
+                                            <v-list-tile v-if="plant.sex">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Geslacht</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.sex.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
                                             <v-list-tile v-if="plant.size">
                                                 <v-list-tile-content>
                                                     <v-list-tile-title>Grootte</v-list-tile-title>
                                                     <v-list-tile-sub-title>{{ plant.size.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.synonym">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Synoniem</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.synonym.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.winner">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Winner</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.winner.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.treetype">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Boomtype</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.treetype.name }}</v-list-tile-sub-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+
+                                            <v-list-tile v-if="plant.priority">
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>Belang</v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{ plant.priority.name }}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
                                         </v-list>

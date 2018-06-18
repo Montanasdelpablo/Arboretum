@@ -152,13 +152,13 @@ Route::group( [ 'middleware' => 'auth:api' ], function()
 	Route::get( '/users/{user}/search', 'UserController@search' );
 	Route::delete( '/users/{user}', 'UserController@destroy' );
 	Route::post( '/register', 'UserController@register' );
-	Route::get( '/logout', 'UserController@logout' );
+	//Route::get( '/logout', 'UserController@logout' );
 });
 
 // Unprotected routes here
 Route::get( '/plants', 'PlantController@index' );
 
 Route::post( '/login', 'UserController@login' );
-Route::post( '/forgotpassword', 'UserController@forgotpw' );
+//Route::post( '/forgotpassword', 'UserController@forgotpw' );
 Route::get( '/plants/{plant}', 'PlantController@show' );
 //Route::post( '/plants/import', 'PlantController@import' );

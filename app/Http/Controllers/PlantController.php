@@ -52,8 +52,8 @@ class PlantController extends Controller
 			'purchase_number' => $request->input( 'purchase_number' ),
 			'control'         => $request->input( 'control' ),
 			'place'           => $request->input( 'place' ),
-			'latitude'        => $request->input( 'latitude' ),
-			'longitude'       => $request->input( 'longitude' ),
+			'latitude'        => str_replace( ',', '.', $request->input( 'latitude' ) ), // Make sure a latitude is with a dot notation
+			'longitude'       => str_replace( ',', '.', $request->input( 'longitude' ) ), // Make sure a longitude is with a dot notation
 			'replant'         => $request->input( 'replant' ),
 			'moved'           => $request->input( 'moved' ),
 			'dead'            => $request->input( 'dead' ),
@@ -198,8 +198,8 @@ class PlantController extends Controller
 			'purchase_number' => $request->input( 'purchase_number' ),
 			'control'         => $request->input( 'control' ),
 			'place'           => $request->input( 'place' ),
-			'latitude'        => $request->input( 'latitude' ),
-			'longitude'       => $request->input( 'longitude' ),
+			'latitude'        => str_replace( ',', '.', $request->input( 'latitude' ) ), // Make sure a latitude is with a dot notation
+			'longitude'       => str_replace( ',', '.', $request->input( 'longitude' ) ), // Make sure a longitude is with a dot notation
 			'replant'         => $request->input( 'replant' ),
 			'moved'           => $request->input( 'moved' ),
 			'dead'            => $request->input( 'dead' ),
@@ -440,7 +440,7 @@ class PlantController extends Controller
 			$winner = !is_null( $plant[ 'winner' ] ) ? \App\Winner::firstOrCreate( [ 'name' => $plant[ 'winner' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
 			$treetypes = [ '=' => 'Loofboom', 'x' => 'Naaldboom', 'X' => 'Naaldboom', '+' => 'Boom', 'R' => 'Rhododendron' ];
 			$treetype = !is_null( $plant[ 'boomtype' ] ) ? \App\Treetype::firstOrCreate( [ 'name' => $treetypes[ $plant[ 'boomtype' ] ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
-			$priority = !is_null( $plant[ 'belang' ] ) ? \App\Priority::firstOrCreate( [ 'name' => $plant[ 'belang' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
+			$priority = !is_null( $plant[ 'belang' ] ) ? \App\Priority::firstOrCreate( [ 'name' => $plant[ 'belang' ], 'color' => '#ffffff', 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
 			$supplier = !is_null( $plant[ 'leverancier' ] ) ? \App\Supplier::firstOrCreate( [ 'name' => $plant[ 'leverancier' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
 			$size = !is_null( $plant[ 'grootte' ] ) ? \App\Size::firstOrCreate( [ 'name' => ucfirst( $plant[ 'grootte' ] ), 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
 			$name = !is_null( $plant[ 'neder naam' ] ) ? \App\Name::firstOrCreate( [ 'name' => $plant[ 'neder naam' ], 'created_at' => $date, 'updated_at' => $date ] )[ 'id' ] : null;
@@ -452,8 +452,8 @@ class PlantController extends Controller
 				'latin_name'      => $latin ? $latin : null,
 				'control'         => !is_null( $plant[ 'controle' ] ) ? explode( ' ', $plant[ 'controle' ] )[ 0 ] : null,
 				'place'           => !is_null( $plant[ 'plaats' ] ) ? $plant[ 'plaats' ] : null,
-				'latitude'        => !is_null( $plant[ 'xcoor' ] ) ? $plant[ 'xcoor' ] : null,
-				'longitude'       => !is_null( $plant[ 'ycoor' ] ) ? $plant[ 'ycoor' ] : null,
+				'latitude'        => !is_null( $plant[ 'xcoor' ] ) && strpos( $plant[ 'xcoor' ], '.' ) !== false ? $plant[ 'xcoor' ] : null,
+				'longitude'       => !is_null( $plant[ 'ycoor' ] ) && strpos( $plant[ 'ycoor' ], '.' ) !== false ? $plant[ 'ycoor' ] : null,
 				'replant'         => !is_null( $plant[ 'verplanten' ] ) ? $plant[ 'verplanten' ] : null,
 				'moved'           => !is_null( $plant[ 'verzet' ] ) ? $plant[ 'verzet' ] : null,
 				'dead'            => !is_null( $plant[ 'dood' ] ) ? $plant[ 'dood' ] : null,
@@ -598,6 +598,8 @@ class PlantController extends Controller
 			}
 
 			$i++;
+
+			echo 'Plant: '.$i.' van '.count( $request->all() ).' toegevoegd<br>';
 		}
 
 		return response()->json( $plants );

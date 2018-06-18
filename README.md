@@ -53,10 +53,12 @@ Download of clone vervolgens alle bestanden van de [repository](https://github.c
 7. In `.env` moet je vervolgens de gegevens voor de database invullen. Dit zijn de alle waarden waar `DB_` voor staat **behalve** `DB_CONNECTION`. Voor het testen van de API zullen dit andere gegevens zijn dan wanneer de API online staat bij de hosting.
 8. Run command: `php artisan config:clear`.
 9. Run command: `php artisan config:cache`.
-10. Wanneer je klaar bent met testen moet je in `.env`, `APP_DEBUG` op false zetten, het command `npm run prod1` uitvoeren en stap 8 en 9 opnieuw uitvoeren.
-11. Je kunt nu alles online zetten.
+10. Daarna run je het command `php artisan migrate` om de database verder in te stellen.
+11. Run daarna het command `php artisan passport:install` om belangrijke extra bestanden voor de API te installeren.
+12. Wanneer je klaar bent met testen moet je in `.env`, `APP_DEBUG` op `false` zetten, het command `npm run prod1` uitvoeren en stap 8 en 9 opnieuw uitvoeren.
+13. Je kunt nu alles online zetten.
 
-Stap 8 en 9 zijn altijd nodig wanneer je gegevens wijzigd in het `.env` bestand.
+**Stap 8 en 9** zijn altijd nodig wanneer je gegevens wijzigd in het `.env` bestand.
 
 ### FTP
 

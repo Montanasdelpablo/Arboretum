@@ -492,14 +492,27 @@
                             <v-icon v-if="props.item.image" class="green--text">check_box</v-icon>
                             <v-icon v-else class="red--text">check_box_outline_blank</v-icon>
                         </td>
-                        <td>
-                            <v-btn icon @click.native="editItem( props.item )">
-                                <v-icon color="green">edit</v-icon>
-                            </v-btn>
+                        <td class="justify-center layout px-0">
+                            <v-tooltip bottom>
+                                <v-btn class="mx-0" slot="activator" icon :to="{ name: 'plantShow', params: { id: props.item.id} }">
+                                    <v-icon color="blue">help_outline</v-icon>
+                                </v-btn>
+                                <span>Plant bekijken</span>
+                            </v-tooltip>
 
-                            <v-btn icon @click="deleteItem = props.item">
-                                <v-icon color="red">delete</v-icon>
-                            </v-btn>
+                            <v-tooltip bottom>
+                                <v-btn class="mx-0" slot="activator" icon @click.native="editItem( props.item )">
+                                    <v-icon color="green">edit</v-icon>
+                                </v-btn>
+                                <span>Plant Bewerken</span>
+                            </v-tooltip>
+
+                            <v-tooltip bottom>
+                                <v-btn class="mx-0" slot="activator" icon @click="deleteItem = props.item">
+                                    <v-icon color="red">delete</v-icon>
+                                </v-btn>
+                                <span>plant verwijderen</span>
+                            </v-tooltip>
                         </td>
                     </tr>
                 </template>

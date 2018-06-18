@@ -19,6 +19,13 @@ class UserController extends Controller
 		return response()->json( User::all() );
 	}
 
+	/**
+	 * Login user
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function login( Request $request )
 	{
 		// Decode password for validation
@@ -43,36 +50,6 @@ class UserController extends Controller
 			return response()->json( [ 'success' => true, 'message' => 'You are logged in', 'token' => $token, 'user' => $user ], 200 );
 		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Email and password combination not found' ], 401 );
-		}
-	}
-
-	public function forgotpw( Request $request )
-	{
-		// Still todo!
-
-		// validate email
-		$request->validatie( [
-			'email' => 'required|email',
-		] );
-		// gather password from user using email above
-
-		// send mail to email with new/old password or link to make a new one
-	}
-
-	public function logout()
-	{
-		// No use of this function right now because we are just deleting session in frontend
-		Auth::logout(); // log the user out of our application
-
-		// Conditional check if there is not a current user
-		if( empty( $user = Auth::user() ) )
-		{
-			// Return response 201 with data
-			return response()->json( [ 'success' => true, 'message' => 'Logged out succesfully' ], 201 );
-		} else
-		{
-			// Return response 400 with data
-			return response()->json( [ 'success' => false, 'message' => 'Not logged out succesfully' ], 400 );
 		}
 	}
 
@@ -111,8 +88,7 @@ class UserController extends Controller
 		if( $user )
 		{
 			return response()->json( [ 'success' => true, 'message' => 'Created account succesfully', 'result' => $user ], 201 );
-		} else
-		{
+		} else {
 			return response()->json( [ 'success' => false, 'message' => 'Not created account' ], 400 );
 		}
 	}
@@ -147,8 +123,7 @@ class UserController extends Controller
 		{
 			// Return response 201 with data
 			return response()->json( [ 'success' => true, 'message' => 'User created', 'result' => $created ], 201 );
-		} else
-		{
+		} else {
 			// Return response 400 with data
 			return response()->json( [ 'success' => false, 'message' => 'User not created' ], 400 );
 		}
@@ -251,8 +226,7 @@ class UserController extends Controller
 		if( $destroyed )
 		{
 			return response()->json( [ 'success' => true, 'message' => 'User deleted', 'result' => $user ], 200 );
-		} else
-		{
+		} else {
 			return response()->json( [ 'success' => false, 'message' => 'User not deleted' ], 400 );
 		}
 	}
