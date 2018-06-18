@@ -71,6 +71,11 @@ Voor het online zetten/ uploaden van de API zijn er nog een aantal extra stappen
 7. Upload vervolgens de volgende mappen en bestanden naar de map `laravel`: <alle mappen en bestaden>.
 8. Upload de inhoud van de map `public` naar de map `public` op de server.
 
+**Note*** Tijdens het uploaden kan het voorkomen dat een bestand niet volledig wordt geupload. 
+Wanneer dit gebeurd zul je een foutmelding krijgen wat lijkt op `Class X could not be found`. 
+Wanneer je dit bestand opzoekt op de server dan zul je zien dat dit bestand 0kb groot is, het is dan dus leeg geupload.
+Zoek het bestand tussen de bestanden op je eigen PC op en upload het bestand appart. Als het goed is zou de foutmelding nu moeten verdwijnen. 
+
 ## API<a name="api"></a>
 
 Voor de RESTFUL API zijn er de onderstaande routes.

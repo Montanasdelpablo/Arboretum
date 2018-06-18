@@ -68,6 +68,14 @@ const adminRoutes = [
 		component: () => import( '@/pages/admin/plant/map' )
 	},
 	{
+		path: 'plants/print-qr',
+		name: 'plantPrintQR',
+		meta: {
+			title: 'Print QR-codes'
+		},
+		component: () => import( '@/pages/admin/plant/qrcode' )
+	},
+	{
 		path: 'plants/:id',
 		params: true,
 		name: 'plantShow',
