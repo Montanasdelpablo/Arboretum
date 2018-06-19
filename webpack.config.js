@@ -18,14 +18,14 @@ module.exports = env => {
 			rules: [
 				{
 					test: /\.js$/,
-					exclude: ['/vendor/', '/node_modules/', '/public/', '/resources/assets/scss/'],
+					exclude: ['/vendor/', '/node_modules/', '/public/', '/resources/assets/scss/', '*.ico', '*.ai'],
 					use: [
 						'babel-loader'
 					]
 				},
 				{
 					test: /\.vue$/,
-					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/'],
+					exclude: ['/vendor/', '/node_modules', '/public/', '/resources/assets/scss/', '*.ico', '*.ai'],
 					loader: 'vue-loader',
 				},
 				{
@@ -127,7 +127,7 @@ module.exports = env => {
 				},
 				{
 					test: /\.(jpg|jpeg|gif|png|svg)$/,
-					exclude: ['/node_modules/', '/public/', '*.ico'],
+					exclude: ['/node_modules/', '/public/', '*.ico', '*.ai'],
 					use: [
 						/*{
 							loader: 'responsive-loader',
