@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-parallax src="/images/4590ff48f1a9fed7ca8f47b32c90d799.jpg" height="600">
+        <v-parallax :src="require('@/images/jumbotron.jpg')" height="600">
             <v-layout
                 column
                 align-center
@@ -73,7 +73,7 @@
                                         <v-icon x-large class="green--text text--lighten-2">tag_faces</v-icon>
                                     </v-card-text>
 
-                                    <v-card-title style="margin-left:2px" primary-title class="layout text-xs-center">
+                                    <v-card-title style="margin-left:2px" primary-title class="layout text-xs-center justify-center">
                                         <div class="headline">
                                             <strong>Het groene levenswerk van notaris Smit</strong>
                                         </div>
@@ -113,16 +113,83 @@
                             </v-flex>
                         </v-layout>
                     </v-container>
+
+                    <v-container grid-list-xl>
+                        <v-layout row wrap align-center>
+                            <v-flex xs12 sm4>
+                                <v-card class="elevation-0 transparent">
+                                    <v-card-text class="text-xs-center">
+                                        <v-icon x-large class="green--text text--lighten-2">collections</v-icon>
+                                    </v-card-text>
+
+                                    <v-card-title primary-title class="layout justify-center">
+                                        <div class="headline">
+                                            <strong>Planten collectie</strong>
+                                        </div>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <p>
+                                            Voor een up-to-date overzicht van alle planten kunt u een kijkje nemen in het <router-link :to="{ name: 'webPlantIndex'}">plantenoverzicht</router-link>.
+                                            Voor het gemak is ook mogelijk om een lijst van alle planten te printen.
+                                            Op die manier weet u van te voren welke planten waar staan.
+                                        </p>
+                                    </v-card-text>
+                                </v-card>
+                            </v-flex>
+
+                            <v-flex xs12 sm4>
+                                <v-card class="elevation-0 transparent">
+                                    <v-card-text class="text-xs-center">
+                                        <v-icon x-large class="green--text text--lighten-2">my_location</v-icon>
+                                    </v-card-text>
+
+                                    <v-card-title primary-title class="layout justify-center">
+                                        <div class="headline">
+                                            <strong>Locatie</strong>
+                                        </div>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <p>
+                                            Het is mogelijk om gebruik te maken van GPS van uw smartphone of tablet om uw locatie te vinden ten opzichte van een plant.
+                                            Hiervoor kunt op vanuit het plantenoverzicht klikken op een specieke plant.
+                                            Daarnaast kunt u via de <router-link :to="{ name: 'location' }">kaart</router-link> zien waar alle planten zich bevinden.
+                                            Vanuit de kaart is het ook mogelijk om informatie van een specieke plant te krijgen.
+                                        </p>
+                                    </v-card-text>
+                                </v-card>
+                            </v-flex>
+
+                            <v-flex xs12 sm4>
+                                <v-card class="elevation-0 transparent">
+                                    <v-card-text class="text-xs-center">
+                                        <v-icon x-large class="green--text text--lighten-2">wallpaper</v-icon>
+                                    </v-card-text>
+
+                                    <v-card-title primary-title class="layout justify-center">
+                                        <div class="headline">
+                                            <strong>QR-code</strong>
+                                        </div>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <p>
+                                            Mocht de GPS-locatie niet werken dan zijn er op een aantal informatiebordjes zogenoemde QR-codes te vinden.
+                                            Deze code's kunt u scannen met een QR-code scanner app op een smartphone of tablet.
+                                            Wanneer de QR-code gescand is, is het mogelijk om meer informatie te krijgen van die specifieke plant.
+                                        </p>
+                                    </v-card-text>
+                                </v-card>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
                 </v-flex>
             </v-layout>
         </section>
 
         <section>
-            <v-jumbotron src="/images/62eeb91f09c4f997e814b3db4e0f7534.jpg">
-                <v-layout column align-center justify-center>
-
-                </v-layout>
-            </v-jumbotron>
+            <v-jumbotron :src="require('@/images/notaris_smit.jpg')" />
         </section>
 
         <section>

@@ -321,6 +321,12 @@
                     <p>
                         Voor de maanden, bloei- en maculekleur kunnen meerdere waarden geselecteerd worden.
                     </p>
+
+                    <p>
+                        Voor de latitude en longitude kunnen alleen nog getallen ingevuld worden waar een punt of komma in staat.
+                        De reden hiervoor is dat alle kaarten met GPS coordinaten werken.
+                        Wanneer je hier geen valide waarden invult heb je kans dat de kaart <strong>niet werkt maar ook dat de complete pagina niet werkt</strong>.
+                    </p>
                 </section>
 
                 <v-divider />
