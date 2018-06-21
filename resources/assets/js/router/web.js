@@ -11,7 +11,7 @@ const webRoutes = [
 		meta: {
 			title: 'Home'
 		},
-		component: () => import('@/pages/web/index')
+		component: () => import( '@/pages/web/index' )
 	},
 	{
 		path: 'planten',
@@ -19,7 +19,7 @@ const webRoutes = [
 		meta: {
 			title: 'Planten'
 		},
-		component: () => import('@/pages/web/plant'),
+		component: () => import( '@/pages/web/plant') ,
 	},
 	{
 		path: 'planten/:id',
@@ -27,7 +27,7 @@ const webRoutes = [
 		meta: {
 			title: 'Plant'
 		},
-		component: () => import('@/pages/web/plant/show')
+		component: () => import( '@/pages/web/plant/show' )
 	},
 	{
 		path: 'planten/print',
@@ -35,7 +35,7 @@ const webRoutes = [
 		meta: {
 			title: 'Planten afdrukken'
 		},
-		component: () => import('@/pages/web/plant/print')
+		component: () => import( '@/pages/web/plant/print' )
 	},
 	{
 		path: 'locatie',
@@ -43,7 +43,15 @@ const webRoutes = [
 		meta: {
 			title: 'Locatie'
 		},
-		component: () => import('@/pages/web/plant/nearby')
+		component: () => import( '@/pages/web/plant/nearby' )
+	},
+	{
+		path: 'over',
+		name: 'about',
+		meta: {
+			title: 'Over de website'
+		},
+		component: () => import( '@/pages/web/about' )
 	},
 	{
 		path: 'login',
@@ -60,7 +68,7 @@ const webRoutes = [
 				next();
 			}
 		},
-		component: () => import('@/pages/web/login')
+		component: () => import( '@/pages/web/login' )
 	},
 
 ];

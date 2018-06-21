@@ -131,16 +131,21 @@
                     <v-flex xs12 sm4>
                         <v-card class="elevation-0 transparent">
                             <v-card-title primary-title class="layout">
-                                <div class="headline" style="margin-left:12px"><strong> Dagelijks geopend </strong></div>
+                                <div class="headline" style="margin-left:12px">
+                                    <strong>Dagelijks geopend</strong>
+                                </div>
                             </v-card-title>
 
                             <v-card-text>
-                                Notoarestoen is gevestigd aan het Ernstheemsterpad in Eenrum. <br/> <br/>
+                                <p>
+                                    Notoarestoen is gevestigd aan het Ernstheemsterpad in Eenrum.
+                                </p>
 
+                                <p>
                                 <strong> Met de auto </strong> <br/>
                                 Komende vanuit Winsum, Mensingeweer, in Eenrum 2e straat rechts (Spoorlaan).
                                 Aan het eind van de Spoorlaan bevindt zich aan uw rechterhand het arboretum.
-                                <br/> <br/>
+                                </p>
                                 <strong> Met het openbaar vervoer </strong> <br/>
                                 Vanaf Groningen de trein naar Winsum. Vanaf Winsum bus 65 naar Zoutkamp.
                                 Uitstappen bij halte De Vennen in Eenrum. Daarna is het nog enkele minuten lopen.
@@ -161,13 +166,11 @@
             </v-container>
         </section>
 
-        <v-footer color="primary" style="background-color: #78b856">
+        <v-footer color="primary">
             <v-layout row wrap align-center>
                 <v-flex xs12>
                     <div class="white--text ml-3">
-                        Gemaakt door
-                        <a class="white--text" href="https://vuetifyjs.com" target="_blank">Derkjan Super</a>
-                        & <a class="white--text" href="https://github.com/vwxyzjn" target="_blank">Pablo Cleij</a>
+                        <router-link style="color:#fff" :to="{ name: 'about'}">Over deze website</router-link>.
                     </div>
                 </v-flex>
             </v-layout>
