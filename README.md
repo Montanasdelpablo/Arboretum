@@ -66,12 +66,37 @@ Voor het online zetten/ uploaden van de API zijn er nog een aantal extra stappen
 
 1. Maak vervolgens verbinding met de hosting.
 2. Ga naar de map waar je de API wil uploaden.
-3. Maak hier een nieuwe map aan voor `laravel` en `public`.
-4. Kopieer het volledige path van de net aangemaakt map `laravel`.
-5. Open het bestand `config.php` in `bootstrap` > `cache`.
-6. Wijzig alle paths die in dit bestand staan van bijvoorbeeld `C:\\xampp\\htdocs\\Arboretum\\storage\\framework/sessions` naar het `gekopieerde path` + `/framework/sessions`. Zorg er wel voor dat er overal maar **1** `/` staat.    
-7. Upload vervolgens de volgende mappen en bestanden naar de map `laravel`: <alle mappen en bestaden>.
-8. Upload de inhoud van de map `public` naar de map `public` op de server.
+3. In deze map upload je de volgende bestanden en mappen:
+	
+		public/js (map)
+		.htaccess (bestand)
+		public/index.php (bestand)
+		public/icon.png (bestand)
+		
+4. In de net geuploade bestanden open het `index.php` bestand.
+5. Wijzig de paths die hier staan, vervang `/../` door `/laravel/`.
+6. Maak hier een nieuwe map aan genaamd `laravel`.
+7. Upload de volgende mappen en bestanden naar de `laravel` map:
+
+		app (map)
+		booststrap (map)
+		config (map)
+		database (map)
+		framework (map)
+		logs (map)
+		public (map)
+		resources (map)
+		routes (map)
+		storage (map)
+		tests (map)
+		vendor (map)
+		.env (bestand)
+		server.php (bestand)
+			
+8. Kopieer het volledige path van de map `laravel`. In FileZilla zie je dit bovenaan staan in het overzicht van de server.
+9. Open het bestand `config.php` in `laravel/bootstrap/cache`.
+10. Wijzig alle paths die in dit bestand staan van bijvoorbeeld `C:\\xampp\\htdocs\\Arboretum\\storage\\framework/sessions` 
+	naar het `gekopieerde path` + `/framework/sessions`. Zorg er wel voor dat er overal maar **1** `/` staat.
 
 **Note*** Tijdens het uploaden kan het voorkomen dat een bestand niet volledig wordt geupload. 
 Wanneer dit gebeurd zul je een foutmelding krijgen wat lijkt op `Class X could not be found`. 
