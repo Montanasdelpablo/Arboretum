@@ -146,7 +146,7 @@
         </v-card>
 
         <!-- Delete dialog -->
-        <v-dialog v-model="Object.keys( deleteItem ).length > 1" style="max-width: 400px">
+        <v-dialog v-model="Object.keys( deleteItem ).length > 1" width="400px">
             <v-card>
                 <v-card-title>
                     <span class="headline">Gebruiker verwijderen</span>
