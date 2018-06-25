@@ -101,7 +101,16 @@ Voor het online zetten/ uploaden van de API zijn er nog een aantal extra stappen
 **Note*** Tijdens het uploaden kan het voorkomen dat een bestand niet volledig wordt geupload. 
 Wanneer dit gebeurd zul je een foutmelding krijgen wat lijkt op `Class X could not be found`. 
 Wanneer je dit bestand opzoekt op de server dan zul je zien dat dit bestand 0kb groot is, het is dan dus leeg geupload.
-Zoek het bestand tussen de bestanden op je eigen PC op en upload het bestand appart. Als het goed is zou de foutmelding nu moeten verdwijnen. 
+Zoek het bestand tussen de bestanden op je eigen PC op en upload het bestand appart. Als het goed is zou de foutmelding nu moeten verdwijnen.
+
+### Database
+
+Om de database ook werkend te krijgen op de hosting zijn er nog een aantal stappen:
+
+1. Vanuit de test omgeving exporteer de database;
+2. Bij de hosting database importeer je het geexporteerde bestand.
+
+Deze stappen zijn nodig doordat je geen commands kunt uitvoeren op de hosting. 
 
 ## API<a name="api"></a>
 
